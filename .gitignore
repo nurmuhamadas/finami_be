@@ -1,0 +1,7 @@
+# dependencies
+node_modules
+dist
+.env
+package-lock.json
+config/database/test.json
+coverage
