@@ -1,9 +1,9 @@
-import { RegisterCategoriesType } from './types'
+import { RegisterCategoryType } from './types'
 
 class RegisterCategories {
-  result: RegisterCategoriesType
+  result: RegisterCategoryType
 
-  constructor(payload: RegisterCategoriesType) {
+  constructor(payload: RegisterCategoryType) {
     this._verifyPayload(payload)
 
     this.result = payload
@@ -15,7 +15,7 @@ class RegisterCategories {
     icon_url,
     transaction_type,
     user_id,
-  }: RegisterCategoriesType) {
+  }: RegisterCategoryType) {
     if (id.startsWith('user-') || id.length !== 20)
       throw new Error('REGISTER_CATEGORY.INVALID_ID')
 
