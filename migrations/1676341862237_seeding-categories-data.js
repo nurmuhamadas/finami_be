@@ -18,5 +18,5 @@ exports.up = (pgm) => {
 }
 
 exports.down = (pgm) => {
-  pgm.sql('TRUNCATE TABLE categories')
+  pgm.sql('TRUNCATE TABLE categories CASCADE')
 }

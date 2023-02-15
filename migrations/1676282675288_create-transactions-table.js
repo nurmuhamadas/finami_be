@@ -4,12 +4,13 @@ exports.up = (pgm) => {
       type: 'VARCHAR(20)',
       primaryKey: true,
     },
+    amount: {
+      type: 'NUMERIC',
+      notNull: true,
+    },
     descriptions: {
       type: 'TEXT',
       notNull: true,
-    },
-    amount: {
-      type: 'NUMERIC',
     },
     transaction_type: {
       type: 'VARCHAR(20)',
