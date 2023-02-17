@@ -1,9 +1,9 @@
-import { RegisterWalletType } from './types'
+import { RegisterWalletPayload, RegisterWalletResult } from './types'
 
 class RegisterWallet {
-  values: RegisterWalletType
+  values: RegisterWalletResult
 
-  constructor(payload: RegisterWalletType) {
+  constructor(payload: RegisterWalletPayload) {
     this._verifyPayload(payload)
 
     const now = new Date()
@@ -15,7 +15,7 @@ class RegisterWallet {
     }
   }
 
-  _verifyPayload({ id, name, user_id, balance }: RegisterWalletType) {
+  _verifyPayload({ id, name, user_id, balance }: RegisterWalletPayload) {
     if (id.startsWith('user-') || id.length !== 20)
       throw new Error('REGISTER_WALLET.INVALID_ID')
 

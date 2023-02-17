@@ -3,7 +3,7 @@ import NotFoundError from 'Commons/exceptions/NotFoundError'
 import SettingRepository from 'Domains/settings/SettingRepository'
 import RegisterSetting from 'Domains/settings/entities/RegisterSetting'
 import UpdateDataSetting from 'Domains/settings/entities/UpdateDataSetting'
-import { SettingDataType } from 'Domains/settings/entities/types'
+import { GetSettingResult } from 'Domains/settings/types'
 import { Pool } from 'pg'
 
 class SettingRepositoryPostgres extends SettingRepository {
@@ -105,7 +105,7 @@ class SettingRepositoryPostgres extends SettingRepository {
     }
   }
 
-  async getSettingByUserId(userId: string): Promise<SettingDataType> {
+  async getSettingByUserId(userId: string): Promise<GetSettingResult> {
     const query = {
       text: 'SELECT * FROM plannings WHERE user_id = $1 AND deleted_at IS NULL',
       values: [userId],
@@ -122,7 +122,7 @@ class SettingRepositoryPostgres extends SettingRepository {
     }
   }
 
-  async getSettingById(id: string): Promise<SettingDataType> {
+  async getSettingById(id: string): Promise<GetSettingResult> {
     const query = {
       text: 'SELECT * FROM plannings WHERE id = $1 AND deleted_at IS NULL',
       values: [id],

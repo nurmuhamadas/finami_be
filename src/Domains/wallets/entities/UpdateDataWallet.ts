@@ -1,9 +1,9 @@
-import { UpdateDataWalletType } from './types'
+import { UpdateDataWalletPayload, UpdateDataWalletResult } from './types'
 
 class UpdateDataWallet {
-  values: UpdateDataWalletType
+  values: UpdateDataWalletResult
 
-  constructor(payload: UpdateDataWalletType) {
+  constructor(payload: UpdateDataWalletPayload) {
     this._verifyPayload(payload)
 
     this.values = {
@@ -12,7 +12,7 @@ class UpdateDataWallet {
     }
   }
 
-  _verifyPayload({ name, user_id, balance }: UpdateDataWalletType) {
+  _verifyPayload({ name, user_id, balance }: UpdateDataWalletPayload) {
     if (name.length > 30) throw new Error('UPDATE_DATA_WALLET.NAME_LIMIT_CHAR')
 
     if (user_id.startsWith('user-') || user_id.length !== 20)

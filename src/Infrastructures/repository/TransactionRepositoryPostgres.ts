@@ -5,11 +5,9 @@ import FilterTransaction from 'Domains/transactions/entities/FilterTransaction'
 import RegisterTransaction from 'Domains/transactions/entities/RegisterTransaction'
 import UpdateDataTransaction from 'Domains/transactions/entities/UpdateDataTransaction'
 import {
-  RegisterTransactionType,
-  TransactionDataType,
-  TransactionFilterType,
-  UpdateDataTransactionType,
-} from 'Domains/transactions/entities/types'
+  GetTransactionResult,
+  GetTransactionsResult,
+} from 'Domains/transactions/types'
 import { Pool } from 'pg'
 
 class TransactionRepositoryPostgres extends TransactionRepository {
@@ -148,7 +146,7 @@ class TransactionRepositoryPostgres extends TransactionRepository {
   async getTransactionsByUserId(
     userId: string,
     filter?: FilterTransaction | undefined,
-  ): Promise<TransactionDataType[]> {
+  ): Promise<GetTransactionsResult> {
     let _filter = ''
     let count = 1
     const values: any[] = [userId]
@@ -227,7 +225,7 @@ class TransactionRepositoryPostgres extends TransactionRepository {
     return result.rows
   }
 
-  async getTransactionById(id: string): Promise<TransactionDataType> {
+  async getTransactionById(id: string): Promise<GetTransactionResult> {
     const query = {
       text: `SELECT t.*, u.username FROM transactions t
             LEFT JOIN users u ON t.user_id = u.id

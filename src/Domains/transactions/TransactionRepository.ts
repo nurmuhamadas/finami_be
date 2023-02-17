@@ -2,6 +2,7 @@ import FilterTransaction from './entities/FilterTransaction'
 import RegisterTransaction from './entities/RegisterTransaction'
 import UpdateDataTransaction from './entities/UpdateDataTransaction'
 import { TransactionDataType } from './entities/types'
+import { GetTransactionResult, GetTransactionsResult } from './types'
 
 class TransactionRepository {
   async addTransaction(
@@ -28,11 +29,11 @@ class TransactionRepository {
   async getTransactionsByUserId(
     userId: string,
     filter?: FilterTransaction,
-  ): Promise<TransactionDataType[]> {
+  ): Promise<GetTransactionsResult> {
     throw new Error('TRANSACTION_REPOSITORY.METHOD_NOT_IMPLEMENTED')
   }
 
-  async getTransactionById(id: string): Promise<TransactionDataType> {
+  async getTransactionById(id: string): Promise<GetTransactionResult> {
     throw new Error('TRANSACTION_REPOSITORY.METHOD_NOT_IMPLEMENTED')
   }
 }

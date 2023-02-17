@@ -1,4 +1,11 @@
-export type RegisterWalletType = {
+export type RegisterWalletPayload = {
+  id: string
+  name: string
+  user_id: string
+  balance: number
+}
+
+export type RegisterWalletResult = {
   id: string
   name: string
   user_id: string
@@ -8,7 +15,13 @@ export type RegisterWalletType = {
   deleted_at?: Date | null
 }
 
-export type UpdateDataWalletType = {
+export type UpdateDataWalletPayload = {
+  name: string
+  user_id: string
+  balance: number
+}
+
+export type UpdateDataWalletResult = {
   name: string
   user_id: string
   balance: number

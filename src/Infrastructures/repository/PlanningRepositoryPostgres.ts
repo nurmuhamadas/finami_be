@@ -4,7 +4,7 @@ import PlanningRepository from 'Domains/plannings/PlanningRepository'
 import FilterPlanning from 'Domains/plannings/entities/FilterPlanning'
 import RegisterPlanning from 'Domains/plannings/entities/RegisterPlanning'
 import UpdateDataPlanning from 'Domains/plannings/entities/UpdateDataPlanning'
-import { PlanningDataType } from 'Domains/plannings/entities/types'
+import { GetPlanningResult, GetPlanningsResult } from 'Domains/plannings/types'
 import { Pool } from 'pg'
 
 class PlanningRepositoryPostgres extends PlanningRepository {
@@ -118,7 +118,7 @@ class PlanningRepositoryPostgres extends PlanningRepository {
   async getPlanningsByUserId(
     userId: string,
     filter?: FilterPlanning | undefined,
-  ): Promise<PlanningDataType[]> {
+  ): Promise<GetPlanningsResult> {
     let _filter = ''
     let count = 1
     const values: any = [userId]
@@ -152,7 +152,7 @@ class PlanningRepositoryPostgres extends PlanningRepository {
     return result.rows
   }
 
-  async getPlanningById(id: string): Promise<PlanningDataType> {
+  async getPlanningById(id: string): Promise<GetPlanningResult> {
     const query = {
       text: `SELECT p.*, u.username FROM plannings p
             LEFT JOIN users u ON p.user_id = u.id

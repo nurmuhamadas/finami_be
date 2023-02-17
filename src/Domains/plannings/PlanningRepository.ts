@@ -2,6 +2,7 @@ import FilterPlanning from './entities/FilterPlanning'
 import RegisterPlanning from './entities/RegisterPlanning'
 import UpdateDataPlanning from './entities/UpdateDataPlanning'
 import { PlanningDataType } from './entities/types'
+import { GetPlanningResult, GetPlanningsResult } from './types'
 
 class PlanningRepository {
   async addPlanning(
@@ -28,11 +29,11 @@ class PlanningRepository {
   async getPlanningsByUserId(
     userId: string,
     filter?: FilterPlanning,
-  ): Promise<PlanningDataType[]> {
+  ): Promise<GetPlanningsResult> {
     throw new Error('PLANNING_REPOSITORY.METHOD_NOT_IMPLEMENTED')
   }
 
-  async getPlanningById(id: string): Promise<PlanningDataType> {
+  async getPlanningById(id: string): Promise<GetPlanningResult> {
     throw new Error('PLANNING_REPOSITORY.METHOD_NOT_IMPLEMENTED')
   }
 }

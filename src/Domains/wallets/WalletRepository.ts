@@ -1,6 +1,7 @@
 import RegisterWallet from './entities/RegisterWallet'
 import UpdateDataWallet from './entities/UpdateDataWallet'
 import { WalletDataType } from './entities/types'
+import { GetWalletResult, GetWalletsResult } from './types'
 
 class WalletRepository {
   async addWallet(registerWallet: RegisterWallet): Promise<{ id: string }> {
@@ -22,11 +23,15 @@ class WalletRepository {
     throw new Error('WALLET_REPOSITORY.METHOD_NOT_IMPLEMENTED')
   }
 
-  async getWalletsByUserId(userId: string): Promise<WalletDataType[]> {
+  async verifyWalletOwner(id: string, userId: string): Promise<boolean> {
     throw new Error('WALLET_REPOSITORY.METHOD_NOT_IMPLEMENTED')
   }
 
-  async getWalletById(id: string): Promise<WalletDataType> {
+  async getWalletsByUserId(userId: string): Promise<GetWalletsResult> {
+    throw new Error('WALLET_REPOSITORY.METHOD_NOT_IMPLEMENTED')
+  }
+
+  async getWalletById(id: string): Promise<GetWalletResult> {
     throw new Error('WALLET_REPOSITORY.METHOD_NOT_IMPLEMENTED')
   }
 }

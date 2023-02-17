@@ -1,6 +1,7 @@
 import RegisterSetting from './entities/RegisterSetting'
 import UpdateDataSetting from './entities/UpdateDataSetting'
 import { SettingDataType } from './entities/types'
+import { GetSettingResult } from './types'
 
 class SettingRepository {
   async addSetting(registerSetting: RegisterSetting): Promise<{ id: string }> {
@@ -22,11 +23,11 @@ class SettingRepository {
     throw new Error('SETTING_REPOSITORY.METHOD_NOT_IMPLEMENTED')
   }
 
-  async getSettingByUserId(userId: string): Promise<SettingDataType> {
+  async getSettingByUserId(userId: string): Promise<GetSettingResult> {
     throw new Error('SETTING_REPOSITORY.METHOD_NOT_IMPLEMENTED')
   }
 
-  async getSettingById(id: string): Promise<SettingDataType> {
+  async getSettingById(id: string): Promise<GetSettingResult> {
     throw new Error('SETTING_REPOSITORY.METHOD_NOT_IMPLEMENTED')
   }
 }

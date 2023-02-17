@@ -3,7 +3,7 @@ import NotFoundError from 'Commons/exceptions/NotFoundError'
 import WalletRepository from 'Domains/wallets/WalletRepository'
 import RegisterWallet from 'Domains/wallets/entities/RegisterWallet'
 import UpdateDataWallet from 'Domains/wallets/entities/UpdateDataWallet'
-import { WalletDataType } from 'Domains/wallets/entities/types'
+import { GetWalletResult, GetWalletsResult } from 'Domains/wallets/types'
 import { Pool } from 'pg'
 
 class WalletRepositoryPostgres extends WalletRepository {
@@ -90,7 +90,26 @@ class WalletRepositoryPostgres extends WalletRepository {
     }
   }
 
-  async getWalletsByUserId(userId: string): Promise<WalletDataType[]> {
+  async verifyWalletOwner(id: string, userId: string): Promise<boolean> {
+    const query = {
+      text: `SELECT user_id FROM wallets
+            WHERE id = $1 AND deleted_at IS NULL`,
+      values: [id],
+    }
+
+    const result = await this._pool.query(query)
+
+    if (result.rowCount === 0) {
+      throw new NotFoundError('Wallet not found')
+    }
+    if (result.rows[0].user_id !== userId) {
+      throw new InvariantError('Not allowed to access this record')
+    }
+
+    return true
+  }
+
+  async getWalletsByUserId(userId: string): Promise<GetWalletsResult> {
     const query = {
       text: `SELECT w.*, u.username FROM wallets w
             LEFT JOIN users u ON w.user_id = u.id
@@ -102,7 +121,7 @@ class WalletRepositoryPostgres extends WalletRepository {
     return result.rows
   }
 
-  async getWalletById(id: string): Promise<WalletDataType> {
+  async getWalletById(id: string): Promise<GetWalletResult> {
     const query = {
       text: `SELECT w.*, u.username FROM wallets w
             LEFT JOIN users u ON w.user_id = u.id

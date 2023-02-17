@@ -1,6 +1,7 @@
 import RegisterUser from './entities/RegisterUser'
 import UpdateDataUser from './entities/UpdateDataUser'
 import { UserDataType } from './entities/types'
+import { GetUserResult, GetUsersResult } from './types'
 
 class UserRepository {
   async addUser(registerUser: RegisterUser): Promise<{ id: string }> {
@@ -34,11 +35,11 @@ class UserRepository {
     throw new Error('USER_REPOSITORY.METHOD_NOT_IMPLEMENTED')
   }
 
-  async getUserById(id: string): Promise<UserDataType> {
+  async getUserById(id: string): Promise<GetUserResult> {
     throw new Error('USER_REPOSITORY.METHOD_NOT_IMPLEMENTED')
   }
 
-  async getChildByParentId(parentId: string): Promise<UserDataType[]> {
+  async getChildByParentId(parentId: string): Promise<GetUsersResult> {
     throw new Error('USER_REPOSITORY.METHOD_NOT_IMPLEMENTED')
   }
 }
