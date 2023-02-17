@@ -5,7 +5,7 @@ export type RegisterWalletType = {
   balance: number
   created_at: Date
   updated_at: Date
-  deleted_at?: Date
+  deleted_at?: Date | null
 }
 
 export type UpdateDataWalletType = {
@@ -22,5 +22,5 @@ export type WalletDataType = {
   balance: number
   created_at: Date
   updated_at: Date
-  deleted_at: Date
+  deleted_at: Date | null
 }

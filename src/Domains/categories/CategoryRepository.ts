@@ -1,20 +1,18 @@
-import {
-  CategoryDataType,
-  CategoryFilter,
-  RegisterCategoryType,
-  UpdateDataCategoryType,
-} from './entities/types'
+import FilterCategory from './entities/FilterCategory'
+import RegisterCategory from './entities/RegisterCategory'
+import UpdateDataCategory from './entities/UpdateDataCategory'
+import { CategoryDataType } from './entities/types'
 
 class CategoryRepository {
   async addCategory(
-    registerCategory: RegisterCategoryType,
+    registerCategory: RegisterCategory,
   ): Promise<{ id: string }> {
     throw new Error('CATEGORY_REPOSITORY.METHOD_NOT_IMPLEMENTED')
   }
 
   async updateCategory(
     id: string,
-    updateDataCategory: UpdateDataCategoryType,
+    updateDataCategory: UpdateDataCategory,
   ): Promise<{ id: string }> {
     throw new Error('CATEGORY_REPOSITORY.METHOD_NOT_IMPLEMENTED')
   }
@@ -23,9 +21,13 @@ class CategoryRepository {
     throw new Error('CATEGORY_REPOSITORY.METHOD_NOT_IMPLEMENTED')
   }
 
+  async restoreCategoryById(id: string): Promise<{ id: string }> {
+    throw new Error('CATEGORY_REPOSITORY.METHOD_NOT_IMPLEMENTED')
+  }
+
   async getCategoriesByUserId(
     userId: string,
-    filter?: CategoryFilter,
+    filter?: FilterCategory,
   ): Promise<CategoryDataType[]> {
     throw new Error('CATEGORY_REPOSITORY.METHOD_NOT_IMPLEMENTED')
   }

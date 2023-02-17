@@ -1,20 +1,18 @@
-import {
-  RegisterPlanningType,
-  PlanningFilter,
-  UpdateDataPlanningType,
-  PlanningDataType,
-} from './entities/types'
+import FilterPlanning from './entities/FilterPlanning'
+import RegisterPlanning from './entities/RegisterPlanning'
+import UpdateDataPlanning from './entities/UpdateDataPlanning'
+import { PlanningDataType } from './entities/types'
 
 class PlanningRepository {
   async addPlanning(
-    registerPlanning: RegisterPlanningType,
+    registerPlanning: RegisterPlanning,
   ): Promise<{ id: string }> {
     throw new Error('PLANNING_REPOSITORY.METHOD_NOT_IMPLEMENTED')
   }
 
   async updatePlanning(
     id: string,
-    updateDataPlanning: UpdateDataPlanningType,
+    updateDataPlanning: UpdateDataPlanning,
   ): Promise<{ id: string }> {
     throw new Error('PLANNING_REPOSITORY.METHOD_NOT_IMPLEMENTED')
   }
@@ -23,9 +21,13 @@ class PlanningRepository {
     throw new Error('PLANNING_REPOSITORY.METHOD_NOT_IMPLEMENTED')
   }
 
+  async restorePlanningById(id: string): Promise<{ id: string }> {
+    throw new Error('PLANNING_REPOSITORY.METHOD_NOT_IMPLEMENTED')
+  }
+
   async getPlanningsByUserId(
     userId: string,
-    filter?: PlanningFilter,
+    filter?: FilterPlanning,
   ): Promise<PlanningDataType[]> {
     throw new Error('PLANNING_REPOSITORY.METHOD_NOT_IMPLEMENTED')
   }

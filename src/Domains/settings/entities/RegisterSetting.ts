@@ -1,12 +1,18 @@
 import { RegisterSettingType } from './types'
 
 class RegisterSetting {
-  result: RegisterSettingType
+  values: RegisterSettingType
 
   constructor(payload: RegisterSettingType) {
     this._verifyPayload(payload)
 
-    this.result = payload
+    const now = new Date()
+    this.values = {
+      ...payload,
+      created_at: now,
+      updated_at: now,
+      deleted_at: null,
+    }
   }
 
   _verifyPayload({

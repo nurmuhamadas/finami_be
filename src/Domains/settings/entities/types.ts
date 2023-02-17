@@ -13,7 +13,7 @@ export type RegisterSettingType = {
     | 'yyyy-dd-mm'
   created_at: Date
   updated_at: Date
-  deleted_at?: Date
+  deleted_at?: Date | null
 }
 
 export type UpdateDataSettingType = {
@@ -45,5 +45,5 @@ export type SettingDataType = {
     | 'yyyy-dd-mm'
   created_at: Date
   updated_at: Date
-  deleted_at: Date
+  deleted_at: Date | null
 }

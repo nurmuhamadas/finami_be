@@ -1,12 +1,15 @@
 import { UpdateDataCategoryType } from './types'
 
 class UpdateDataCategory {
-  result: UpdateDataCategoryType
+  values: UpdateDataCategoryType
 
   constructor(payload: UpdateDataCategoryType) {
     this._verifyPayload(payload)
 
-    this.result = payload
+    this.values = {
+      ...payload,
+      updated_at: new Date(),
+    }
   }
 
   _verifyPayload({

@@ -1,12 +1,18 @@
 import { RegisterTransactionType } from './types'
 
 class RegisterTransaction {
-  result: RegisterTransactionType
+  values: RegisterTransactionType
 
   constructor(payload: RegisterTransactionType) {
     this._verifyPayload(payload)
 
-    this.result = payload
+    const now = new Date()
+    this.values = {
+      ...payload,
+      created_at: now,
+      updated_at: now,
+      deleted_at: null,
+    }
   }
 
   _verifyPayload({

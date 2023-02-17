@@ -1,10 +1,10 @@
 import { UserLoginType } from './types'
 
 class UserLogin {
-  result: UserLoginType
+  values: UserLoginType
 
   constructor(payload: UserLoginType) {
-    this.result = payload
+    this.values = payload
   }
 }
 

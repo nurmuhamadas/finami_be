@@ -1,12 +1,15 @@
 import { UpdateDataPlanningType } from './types'
 
 class UpdateDataPlanning {
-  result: UpdateDataPlanningType
+  values: UpdateDataPlanningType
 
   constructor(payload: UpdateDataPlanningType) {
     this._verifyPayload(payload)
 
-    this.result = payload
+    this.values = {
+      ...payload,
+      updated_at: new Date(),
+    }
   }
 
   _verifyPayload({

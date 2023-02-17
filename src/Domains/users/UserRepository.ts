@@ -1,22 +1,24 @@
-import {
-  RegisterUserType,
-  UpdateDataUserType,
-  UserDataType,
-} from './entities/types'
+import RegisterUser from './entities/RegisterUser'
+import UpdateDataUser from './entities/UpdateDataUser'
+import { UserDataType } from './entities/types'
 
 class UserRepository {
-  async addUser(registerUser: RegisterUserType): Promise<{ id: string }> {
+  async addUser(registerUser: RegisterUser): Promise<{ id: string }> {
     throw new Error('USER_REPOSITORY.METHOD_NOT_IMPLEMENTED')
   }
 
   async updateUser(
     id: string,
-    updateUser: UpdateDataUserType,
+    updateUser: UpdateDataUser,
   ): Promise<{ id: string }> {
     throw new Error('USER_REPOSITORY.METHOD_NOT_IMPLEMENTED')
   }
 
   async softDeleteUserById(id: string): Promise<{ id: string }> {
+    throw new Error('USER_REPOSITORY.METHOD_NOT_IMPLEMENTED')
+  }
+
+  async restoreUserById(id: string): Promise<{ id: string }> {
     throw new Error('USER_REPOSITORY.METHOD_NOT_IMPLEMENTED')
   }
 

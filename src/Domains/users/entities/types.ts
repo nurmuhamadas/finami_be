@@ -13,7 +13,7 @@ export type RegisterUserType = {
   image_url?: string
   created_at: Date
   updated_at: Date
-  deleted_at?: Date
+  deleted_at?: Date | null
 }
 
 export type UpdateDataUserType = {
@@ -36,5 +36,5 @@ export type UserDataType = {
   image_url: string
   created_at: Date
   updated_at: Date
-  deleted_at: Date
+  deleted_at: Date | null
 }

@@ -1,20 +1,18 @@
-import {
-  RegisterTransactionType,
-  TransactionDataType,
-  TransactionFilter,
-  UpdateDataTransactionType,
-} from './entities/types'
+import FilterTransaction from './entities/FilterTransaction'
+import RegisterTransaction from './entities/RegisterTransaction'
+import UpdateDataTransaction from './entities/UpdateDataTransaction'
+import { TransactionDataType } from './entities/types'
 
 class TransactionRepository {
   async addTransaction(
-    registerTransaction: RegisterTransactionType,
+    registerTransaction: RegisterTransaction,
   ): Promise<{ id: string }> {
     throw new Error('TRANSACTION_REPOSITORY.METHOD_NOT_IMPLEMENTED')
   }
 
   async updateTransaction(
     id: string,
-    updateDataTransaction: UpdateDataTransactionType,
+    updateDataTransaction: UpdateDataTransaction,
   ): Promise<{ id: string }> {
     throw new Error('TRANSACTION_REPOSITORY.METHOD_NOT_IMPLEMENTED')
   }
@@ -23,9 +21,13 @@ class TransactionRepository {
     throw new Error('TRANSACTION_REPOSITORY.METHOD_NOT_IMPLEMENTED')
   }
 
+  async restoreTransactionById(id: string): Promise<{ id: string }> {
+    throw new Error('TRANSACTION_REPOSITORY.METHOD_NOT_IMPLEMENTED')
+  }
+
   async getTransactionsByUserId(
     userId: string,
-    filter?: TransactionFilter,
+    filter?: FilterTransaction,
   ): Promise<TransactionDataType[]> {
     throw new Error('TRANSACTION_REPOSITORY.METHOD_NOT_IMPLEMENTED')
   }

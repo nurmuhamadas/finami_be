@@ -1,12 +1,15 @@
 import { UpdateDataSettingType } from './types'
 
 class UpdateDataSetting {
-  result: UpdateDataSettingType
+  values: UpdateDataSettingType
 
   constructor(payload: UpdateDataSettingType) {
     this._verifyPayload(payload)
 
-    this.result = payload
+    this.values = {
+      ...payload,
+      updated_at: new Date(),
+    }
   }
 
   _verifyPayload({ currency_id, date_format }: UpdateDataSettingType) {

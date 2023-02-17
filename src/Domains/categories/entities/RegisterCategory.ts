@@ -1,12 +1,18 @@
 import { RegisterCategoryType } from './types'
 
-class RegisterCategories {
-  result: RegisterCategoryType
+class RegisterCategory {
+  values: RegisterCategoryType
 
   constructor(payload: RegisterCategoryType) {
     this._verifyPayload(payload)
 
-    this.result = payload
+    const now = new Date()
+    this.values = {
+      ...payload,
+      created_at: now,
+      updated_at: now,
+      deleted_at: null,
+    }
   }
 
   _verifyPayload({
@@ -37,4 +43,4 @@ class RegisterCategories {
   }
 }
 
-export default RegisterCategories
+export default RegisterCategory

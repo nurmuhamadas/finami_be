@@ -8,7 +8,7 @@ export type RegisterPlanningType = {
   month: Date
   created_at: Date
   updated_at: Date
-  deleted_at?: Date
+  deleted_at?: Date | null
 }
 
 export type UpdateDataPlanningType = {
@@ -35,5 +35,5 @@ export type PlanningDataType = {
   month: Date
   created_at: Date
   updated_at: Date
-  deleted_at: Date
+  deleted_at: Date | null
 }

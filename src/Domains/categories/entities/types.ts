@@ -1,4 +1,4 @@
-import { TransactionTypesType } from 'Commons/types'
+import { CategoryGroupsType, TransactionTypesType } from 'Commons/types'
 
 export type RegisterCategoryType = {
   id: string
@@ -6,9 +6,10 @@ export type RegisterCategoryType = {
   icon_url?: string
   transaction_type: TransactionTypesType
   user_id: string
+  group: CategoryGroupsType
   created_at: Date
   updated_at: Date
-  deleted_at?: Date
+  deleted_at?: Date | null
 }
 
 export type UpdateDataCategoryType = {
@@ -16,6 +17,7 @@ export type UpdateDataCategoryType = {
   icon_url?: string
   transaction_type: TransactionTypesType
   user_id: string
+  group: CategoryGroupsType
   updated_at: Date
 }
 
@@ -29,7 +31,8 @@ export type CategoryDataType = {
   icon_url: string
   transaction_type: TransactionTypesType
   user_id: string
+  group: CategoryGroupsType
   created_at: Date
   updated_at: Date
-  deleted_at?: Date
+  deleted_at?: Date | null
 }

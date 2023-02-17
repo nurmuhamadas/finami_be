@@ -1,12 +1,18 @@
 import { RegisterWalletType } from './types'
 
 class RegisterWallet {
-  result: RegisterWalletType
+  values: RegisterWalletType
 
   constructor(payload: RegisterWalletType) {
     this._verifyPayload(payload)
 
-    this.result = payload
+    const now = new Date()
+    this.values = {
+      ...payload,
+      created_at: now,
+      updated_at: now,
+      deleted_at: null,
+    }
   }
 
   _verifyPayload({ id, name, user_id, balance }: RegisterWalletType) {

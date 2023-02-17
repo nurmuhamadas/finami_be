@@ -12,7 +12,7 @@ export type RegisterTransactionType = {
   date: Date
   created_at: Date
   updated_at: Date
-  deleted_at?: Date
+  deleted_at?: Date | null
 }
 
 export type UpdateDataTransactionType = {
@@ -27,9 +27,10 @@ export type UpdateDataTransactionType = {
   updated_at: Date
 }
 
-export type TransactionFilter = {
+export type TransactionFilterType = {
   transaction_type?: TransactionTypesType
   limit?: number
+  offset?: number
   date_range?: Date[]
   category_id?: string
   search_key?: string
@@ -50,5 +51,5 @@ export type TransactionDataType = {
   date: Date
   created_at: Date
   updated_at: Date
-  deleted_at: Date
+  deleted_at: Date | null
 }

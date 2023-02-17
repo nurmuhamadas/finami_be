@@ -1,24 +1,24 @@
-import {
-  RegisterSettingType,
-  SettingDataType,
-  UpdateDataSettingType,
-} from './entities/types'
+import RegisterSetting from './entities/RegisterSetting'
+import UpdateDataSetting from './entities/UpdateDataSetting'
+import { SettingDataType } from './entities/types'
 
 class SettingRepository {
-  async addSetting(
-    registerSetting: RegisterSettingType,
-  ): Promise<{ id: string }> {
+  async addSetting(registerSetting: RegisterSetting): Promise<{ id: string }> {
     throw new Error('SETTING_REPOSITORY.METHOD_NOT_IMPLEMENTED')
   }
 
   async updateSetting(
     id: string,
-    updateDataSetting: UpdateDataSettingType,
+    updateDataSetting: UpdateDataSetting,
   ): Promise<{ id: string }> {
     throw new Error('SETTING_REPOSITORY.METHOD_NOT_IMPLEMENTED')
   }
 
   async softDeleteSettingById(id: string): Promise<{ id: string }> {
+    throw new Error('SETTING_REPOSITORY.METHOD_NOT_IMPLEMENTED')
+  }
+
+  async restoreSettingById(id: string): Promise<{ id: string }> {
     throw new Error('SETTING_REPOSITORY.METHOD_NOT_IMPLEMENTED')
   }
 
