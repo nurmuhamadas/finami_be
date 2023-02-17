@@ -141,9 +141,10 @@ class PlanningRepositoryPostgres extends PlanningRepository {
     }
 
     const query = {
-      text: `SELECT * FROM plannings
-              WHERE user_id = $1 AND deleted_at IS NULL
-              ${_filter}`,
+      text: `SELECT p.*, u.username FROM plannings p
+            LEFT JOIN users u ON p.user_id = u.id
+            WHERE (u.id = $1 OR u.parent_id = $1) AND deleted_at IS NULL
+            ${_filter}`,
       values,
     }
 
@@ -153,7 +154,9 @@ class PlanningRepositoryPostgres extends PlanningRepository {
 
   async getPlanningById(id: string): Promise<PlanningDataType> {
     const query = {
-      text: 'SELECT * FROM plannings WHERE id = $1 AND deleted_at IS NULL',
+      text: `SELECT p.*, u.username FROM plannings p
+            LEFT JOIN users u ON p.user_id = u.id
+            WHERE p.id = $1 AND deleted_at IS NULL`,
       values: [id],
     }
 

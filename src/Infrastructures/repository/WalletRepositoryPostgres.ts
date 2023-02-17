@@ -92,7 +92,9 @@ class WalletRepositoryPostgres extends WalletRepository {
 
   async getWalletsByUserId(userId: string): Promise<WalletDataType[]> {
     const query = {
-      text: `SELECT * FROM wallets WHERE user_id = $1 AND deleted_at IS NULL`,
+      text: `SELECT w.*, u.username FROM wallets w
+            LEFT JOIN users u ON w.user_id = u.id
+            WHERE (u.id = $1 OR u.parent_id = $1) AND deleted_at IS NULL`,
       values: [userId],
     }
 
@@ -102,7 +104,9 @@ class WalletRepositoryPostgres extends WalletRepository {
 
   async getWalletById(id: string): Promise<WalletDataType> {
     const query = {
-      text: 'SELECT * FROM wallets WHERE id = $1 AND deleted_at IS NULL',
+      text: `SELECT w.*, u.username FROM wallets w
+            LEFT JOIN users u ON w.user_id = u.id
+            WHERE w.id = $1 AND deleted_at IS NULL`,
       values: [id],
     }
 

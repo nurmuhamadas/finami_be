@@ -143,8 +143,8 @@ class CategoryRepositoryPostgres extends CategoryRepository {
 
     const query = {
       text: `SELECT * FROM categories
-              WHERE user_id = $1 AND deleted_at IS NULL
-              ${_filter}`,
+            WHERE user_id = $1 AND deleted_at IS NULL
+            ${_filter}`,
       values,
     }
 

@@ -216,9 +216,10 @@ class TransactionRepositoryPostgres extends TransactionRepository {
     }
 
     const query = {
-      text: `SELECT * FROM transactions
-              WHERE user_id = $1 AND deleted_at IS NULL
-              ${_filter}`,
+      text: `SELECT t.*, u.username FROM transactions t
+            LEFT JOIN users u ON t.user_id = u.id
+            WHERE (u.id = $1 OR u.parent_id = $1) AND deleted_at IS NULL
+            ${_filter}`,
       values,
     }
 
@@ -228,7 +229,9 @@ class TransactionRepositoryPostgres extends TransactionRepository {
 
   async getTransactionById(id: string): Promise<TransactionDataType> {
     const query = {
-      text: 'SELECT * FROM transactions WHERE id = $1 AND deleted_at IS NULL',
+      text: `SELECT t.*, u.username FROM transactions t
+            LEFT JOIN users u ON t.user_id = u.id
+            WHERE t.id = $1 AND deleted_at IS NULL`,
       values: [id],
     }
 
