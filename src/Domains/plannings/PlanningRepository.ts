@@ -36,6 +36,10 @@ class PlanningRepository {
   async getPlanningById(id: string): Promise<GetPlanningResult> {
     throw new Error('PLANNING_REPOSITORY.METHOD_NOT_IMPLEMENTED')
   }
+
+  async verifyPlanningOwner(id: string, userId: string): Promise<boolean> {
+    throw new Error('PLANNING_REPOSITORY.METHOD_NOT_IMPLEMENTED')
+  }
 }
 
 export default PlanningRepository

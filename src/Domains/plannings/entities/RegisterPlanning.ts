@@ -1,9 +1,9 @@
-import { RegisterPlanningType } from './types'
+import { RegisterPlanningResult, RegisterPlanningPayload } from './types'
 
 class RegisterPlanning {
-  values: RegisterPlanningType
+  values: RegisterPlanningResult
 
-  constructor(payload: RegisterPlanningType) {
+  constructor(payload: RegisterPlanningPayload) {
     this._verifyPayload(payload)
 
     const now = new Date()
@@ -22,7 +22,7 @@ class RegisterPlanning {
     user_id,
     category_id,
     wallet_id,
-  }: RegisterPlanningType) {
+  }: RegisterPlanningPayload) {
     if (id.startsWith('user-') || id.length !== 20)
       throw new Error('REGISTER_PLANNING.INVALID_ID')
 

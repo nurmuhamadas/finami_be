@@ -1,9 +1,9 @@
-import { UpdateDataPlanningType } from './types'
+import { UpdateDataPlanningResult, UpdateDataPlanningPayload } from './types'
 
 class UpdateDataPlanning {
-  values: UpdateDataPlanningType
+  values: UpdateDataPlanningResult
 
-  constructor(payload: UpdateDataPlanningType) {
+  constructor(payload: UpdateDataPlanningPayload) {
     this._verifyPayload(payload)
 
     this.values = {
@@ -18,7 +18,7 @@ class UpdateDataPlanning {
     user_id,
     category_id,
     wallet_id,
-  }: UpdateDataPlanningType) {
+  }: UpdateDataPlanningPayload) {
     if (name.length > 30)
       throw new Error('UPDATE_DATA_PLANNING.NAME_LIMIT_CHAR')
 
