@@ -1,9 +1,9 @@
-import { DateFormatType, IdGeneratorType } from 'Commons/types'
+import IdGenerator from 'Applications/common/IdGenerator'
 import SettingRepository from 'Domains/settings/SettingRepository'
 import UserRepository from 'Domains/users/UserRepository'
 
 export type UsersUseCaseType = {
-  idGenerator: IdGeneratorType
+  idGenerator: IdGenerator
   userRepository: UserRepository
   settingRepository: SettingRepository
 }

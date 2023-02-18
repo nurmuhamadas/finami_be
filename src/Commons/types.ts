@@ -9,8 +9,6 @@ export type CategoryGroupsType =
 
 export type OrderByType = 'asc' | 'desc'
 
-export type IdGeneratorType = (prefix: string, length?: number) => string
-
 export type DateFormatType =
   | 'yyyy/mm/dd'
   | 'dd/mm/yyyy'

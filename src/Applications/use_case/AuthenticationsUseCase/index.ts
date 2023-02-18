@@ -5,20 +5,20 @@ import {
   LogoutPayload,
   RefreshAuthPayload,
 } from './types'
-import { IdGeneratorType } from 'Commons/types'
 import UserLogin from 'Domains/users/entities/UserLogin'
 import UserRepository from 'Domains/users/UserRepository'
 import EncryptionHelper from 'Applications/security/EncryptionHelper'
 import AuthenticationTokenManager from 'Applications/security/AuthenticationTokenManager'
 import NewAuthentication from 'Domains/authentication/entities/NewAuthentication'
 import AuthRepository from 'Domains/authentication/AuthRepository'
+import IdGenerator from 'Applications/common/IdGenerator'
 
 class AuthenticationsUseCase {
   _encryptionHelper: EncryptionHelper
   _userRepository: UserRepository
   _authRepository: AuthRepository
   _tokenManager: AuthenticationTokenManager
-  _idGenerator: IdGeneratorType
+  _idGenerator: IdGenerator
 
   constructor({
     userRepository,

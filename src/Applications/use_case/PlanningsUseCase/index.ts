@@ -1,3 +1,4 @@
+import IdGenerator from 'Applications/common/IdGenerator'
 import {
   AddPlanningPayload,
   DeletePlanningPayload,
@@ -6,7 +7,6 @@ import {
   PlanningsUseCaseType,
   UpdatePlanningPayload,
 } from './types'
-import { IdGeneratorType } from 'Commons/types'
 import CategoryRepository from 'Domains/categories/CategoryRepository'
 import PlanningRepository from 'Domains/plannings/PlanningRepository'
 import FilterPlanning from 'Domains/plannings/entities/FilterPlanning'
@@ -21,7 +21,7 @@ class PlanningsUseCase {
   _walletRepository: WalletRepository
   _categoryRepository: CategoryRepository
   _planningRepository: PlanningRepository
-  _idGenerator: IdGeneratorType
+  _idGenerator: IdGenerator
 
   constructor({
     transactionRepository,
@@ -76,7 +76,7 @@ class PlanningsUseCase {
     month,
   }: AddPlanningPayload): Promise<{ id: string }> {
     const registerPlanning = new RegisterPlanning({
-      id: this._idGenerator('plan'),
+      id: this._idGenerator.generate('plan'),
       name,
       amount,
       category_id,

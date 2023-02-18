@@ -10,12 +10,12 @@ import {
 } from './types'
 import { GetWalletResult, GetWalletsResult } from 'Domains/wallets/types'
 import RegisterWallet from 'Domains/wallets/entities/RegisterWallet'
-import { IdGeneratorType } from 'Commons/types'
 import UpdateDataWallet from 'Domains/wallets/entities/UpdateDataWallet'
+import IdGenerator from 'Applications/common/IdGenerator'
 
 class WalletsUseCase {
   _walletRepository: WalletRepository
-  _idGenerator: IdGeneratorType
+  _idGenerator: IdGenerator
 
   constructor({ walletRepository, idGenerator }: WalletUseCaseType) {
     this._walletRepository = walletRepository
@@ -44,7 +44,7 @@ class WalletsUseCase {
     userId,
   }: AddWalletPayload): Promise<{ id: string }> {
     const registerWallet = new RegisterWallet({
-      id: this._idGenerator('wallet'),
+      id: this._idGenerator.generate('wallet'),
       name,
       balance,
       user_id: userId,

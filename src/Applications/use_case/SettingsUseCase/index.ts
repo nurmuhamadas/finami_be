@@ -1,3 +1,4 @@
+import IdGenerator from 'Applications/common/IdGenerator'
 import {
   AddSettingPayload,
   DeleteSettingPayload,
@@ -6,7 +7,6 @@ import {
   SettingsUseCaseType,
   UpdateSettingPayload,
 } from './types'
-import { IdGeneratorType } from 'Commons/types'
 import SettingRepository from 'Domains/settings/SettingRepository'
 import RegisterSetting from 'Domains/settings/entities/RegisterSetting'
 import UpdateDataSetting from 'Domains/settings/entities/UpdateDataSetting'
@@ -14,7 +14,7 @@ import { GetSettingResult } from 'Domains/settings/types'
 
 class SettingsUseCase {
   _settingRepository: SettingRepository
-  _idGenerator: IdGeneratorType
+  _idGenerator: IdGenerator
 
   constructor({ settingRepository, idGenerator }: SettingsUseCaseType) {
     this._settingRepository = settingRepository
@@ -45,7 +45,7 @@ class SettingsUseCase {
     user_id,
   }: AddSettingPayload): Promise<{ id: string }> {
     const registerSetting = new RegisterSetting({
-      id: this._idGenerator('setting'),
+      id: this._idGenerator.generate('setting'),
       date_format,
       currency_id,
       user_id,

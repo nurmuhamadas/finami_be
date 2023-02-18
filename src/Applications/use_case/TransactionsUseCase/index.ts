@@ -1,3 +1,4 @@
+import IdGenerator from 'Applications/common/IdGenerator'
 import {
   AddTransactionPayload,
   DeleteTransactionPayload,
@@ -6,7 +7,6 @@ import {
   TransactionsUseCaseType,
   UpdateTransactionPayload,
 } from './types'
-import { IdGeneratorType } from 'Commons/types'
 import { calculateDiffTransactionAmount } from 'Commons/utils/helpers'
 import CategoryRepository from 'Domains/categories/CategoryRepository'
 import TransactionRepository from 'Domains/transactions/TransactionRepository'
@@ -23,7 +23,7 @@ class TransactionsUseCase {
   _transactionRepository: TransactionRepository
   _walletRepository: WalletRepository
   _categoryRepository: CategoryRepository
-  _idGenerator: IdGeneratorType
+  _idGenerator: IdGenerator
 
   constructor({
     transactionRepository,
@@ -91,7 +91,7 @@ class TransactionsUseCase {
     image_url,
   }: AddTransactionPayload): Promise<{ id: string }> {
     const registerTransaction = new RegisterTransaction({
-      id: this._idGenerator('trx'),
+      id: this._idGenerator.generate('trx'),
       amount,
       description,
       category_id,

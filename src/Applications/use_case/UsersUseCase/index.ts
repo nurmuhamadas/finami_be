@@ -1,3 +1,4 @@
+import IdGenerator from 'Applications/common/IdGenerator'
 import {
   AddUserPayload,
   DeleteUserPayload,
@@ -5,11 +6,8 @@ import {
   UsersUseCaseType,
   UpdateUserPayload,
 } from './types'
-import { IdGeneratorType } from 'Commons/types'
 import SettingRepository from 'Domains/settings/SettingRepository'
 import RegisterSetting from 'Domains/settings/entities/RegisterSetting'
-import UpdateDataSetting from 'Domains/settings/entities/UpdateDataSetting'
-import { GetSettingResult } from 'Domains/settings/types'
 import UserRepository from 'Domains/users/UserRepository'
 import RegisterUser from 'Domains/users/entities/RegisterUser'
 import UpdateDataUser from 'Domains/users/entities/UpdateDataUser'
@@ -18,7 +16,7 @@ import { GetUsersResult } from 'Domains/users/types'
 class UsersUseCase {
   _settingRepository: SettingRepository
   _userRepository: UserRepository
-  _idGenerator: IdGeneratorType
+  _idGenerator: IdGenerator
 
   constructor({
     settingRepository,
@@ -47,7 +45,7 @@ class UsersUseCase {
     image_url,
   }: AddUserPayload): Promise<{ id: string }> {
     const registerUser = new RegisterUser({
-      id: this._idGenerator('user'),
+      id: this._idGenerator.generate('user'),
       username,
       email,
       password,
@@ -60,7 +58,7 @@ class UsersUseCase {
 
     // Add setting
     const registerSetting = new RegisterSetting({
-      id: this._idGenerator('setting'),
+      id: this._idGenerator.generate('setting'),
       date_format: 'dd-mm-yyyy',
       currency_id: 'currency-1',
       user_id: result.id,

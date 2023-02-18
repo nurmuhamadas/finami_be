@@ -1,8 +1,9 @@
-import { DateFormatType, IdGeneratorType } from 'Commons/types'
+import IdGenerator from 'Applications/common/IdGenerator'
+import { DateFormatType } from 'Commons/types'
 import SettingRepository from 'Domains/settings/SettingRepository'
 
 export type SettingsUseCaseType = {
-  idGenerator: IdGeneratorType
+  idGenerator: IdGenerator
   settingRepository: SettingRepository
 }
 

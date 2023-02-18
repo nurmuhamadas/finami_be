@@ -1,3 +1,4 @@
+import IdGenerator from 'Applications/common/IdGenerator'
 import {
   AddCategoryPayload,
   DeleteCategoryPayload,
@@ -6,7 +7,6 @@ import {
   CategoriesUseCaseType,
   UpdateCategoryPayload,
 } from './types'
-import { IdGeneratorType } from 'Commons/types'
 import CategoryRepository from 'Domains/categories/CategoryRepository'
 import FilterCategory from 'Domains/categories/entities/FilterCategory'
 import RegisterCategory from 'Domains/categories/entities/RegisterCategory'
@@ -18,7 +18,7 @@ import {
 
 class CategoriesUseCase {
   _categoryRepository: CategoryRepository
-  _idGenerator: IdGeneratorType
+  _idGenerator: IdGenerator
 
   constructor({ categoryRepository, idGenerator }: CategoriesUseCaseType) {
     this._categoryRepository = categoryRepository
@@ -60,7 +60,7 @@ class CategoriesUseCase {
     group,
   }: AddCategoryPayload): Promise<{ id: string }> {
     const registerCategory = new RegisterCategory({
-      id: this._idGenerator('category'),
+      id: this._idGenerator.generate('category'),
       name,
       transaction_type,
       user_id,

@@ -1,8 +1,8 @@
-import { IdGeneratorType } from 'Commons/types'
+import IdGenerator from 'Applications/common/IdGenerator'
 import WalletRepository from 'Domains/wallets/WalletRepository'
 
 export type WalletUseCaseType = {
-  idGenerator: IdGeneratorType
+  idGenerator: IdGenerator
   walletRepository: WalletRepository
 }
 
