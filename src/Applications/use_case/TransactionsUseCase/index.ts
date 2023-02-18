@@ -1,7 +1,8 @@
 import {
   AddTransactionPayload,
   DeleteTransactionPayload,
-  GetTransactionPayload,
+  GetTransactionByIdPayload,
+  GetTransactionsPayload,
   TransactionsUseCaseType,
   UpdateTransactionPayload,
 } from './types'
@@ -12,7 +13,10 @@ import TransactionRepository from 'Domains/transactions/TransactionRepository'
 import FilterTransaction from 'Domains/transactions/entities/FilterTransaction'
 import RegisterTransaction from 'Domains/transactions/entities/RegisterTransaction'
 import UpdateDataTransaction from 'Domains/transactions/entities/UpdateDataTransaction'
-import { GetTransactionsResult } from 'Domains/transactions/types'
+import {
+  GetTransactionResult,
+  GetTransactionsResult,
+} from 'Domains/transactions/types'
 import WalletRepository from 'Domains/wallets/WalletRepository'
 
 class TransactionsUseCase {
@@ -45,7 +49,7 @@ class TransactionsUseCase {
     offset,
     sort_by,
     order_by,
-  }: GetTransactionPayload): Promise<GetTransactionsResult> {
+  }: GetTransactionsPayload): Promise<GetTransactionsResult> {
     const filter = new FilterTransaction({
       transaction_type,
       date_range,
@@ -62,6 +66,17 @@ class TransactionsUseCase {
       filter,
     )
 
+    return result
+  }
+
+  async getTransactionById({
+    id,
+    user_id,
+  }: GetTransactionByIdPayload): Promise<GetTransactionResult> {
+    //  verify access
+    await this._transactionRepository.verifyTransactionOwner(id, user_id)
+
+    const result = await this._transactionRepository.getTransactionById(id)
     return result
   }
 

@@ -7,8 +7,12 @@ export type WalletUseCaseType = {
 }
 
 export type GetWalletsPayload = {
-  userId: string
-  walletId?: string
+  user_id: string
+}
+
+export type GetWalletByIdPayload = {
+  user_id: string
+  wallet_id: string
 }
 
 export type AddWalletPayload = {

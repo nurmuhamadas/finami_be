@@ -14,7 +14,7 @@ export type TransactionsUseCaseType = {
   categoryRepository: CategoryRepository
 }
 
-export type GetTransactionPayload = {
+export type GetTransactionsPayload = {
   user_id: string
   child_id?: string
   transaction_type?: TransactionTypesType
@@ -26,6 +26,11 @@ export type GetTransactionPayload = {
   offset?: number
   sort_by: 'amount'
   order_by: OrderByType
+}
+
+export type GetTransactionByIdPayload = {
+  id: string
+  user_id: string
 }
 
 export type AddTransactionPayload = {

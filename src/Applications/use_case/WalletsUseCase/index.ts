@@ -6,6 +6,7 @@ import {
   UpdateWalletPayload,
   DeleteWalletPayload,
   RestoreWalletPayload,
+  GetWalletByIdPayload,
 } from './types'
 import { GetWalletResult, GetWalletsResult } from 'Domains/wallets/types'
 import RegisterWallet from 'Domains/wallets/entities/RegisterWallet'
@@ -21,18 +22,19 @@ class WalletsUseCase {
     this._idGenerator = idGenerator
   }
 
-  async getWallets({
-    userId,
-    walletId,
-  }: GetWalletsPayload): Promise<GetWalletResult | GetWalletsResult> {
-    let result: GetWalletResult | GetWalletsResult
+  async getWallets({ user_id }: GetWalletsPayload): Promise<GetWalletsResult> {
+    const result = await this._walletRepository.getWalletsByUserId(user_id)
+    return result
+  }
 
-    if (walletId) {
-      result = await this._walletRepository.getWalletById(walletId)
-    } else {
-      result = await this._walletRepository.getWalletsByUserId(userId)
-    }
+  async getWalletById({
+    user_id,
+    wallet_id,
+  }: GetWalletByIdPayload): Promise<GetWalletResult> {
+    // verify access
+    await this._walletRepository.verifyWalletOwner(wallet_id, user_id)
 
+    const result = await this._walletRepository.getWalletById(wallet_id)
     return result
   }
 
@@ -63,6 +65,7 @@ class WalletsUseCase {
       balance,
     })
 
+    // verify access
     await this._walletRepository.verifyWalletOwner(walletId, userId)
 
     const result = await this._walletRepository.updateWallet(
@@ -85,7 +88,9 @@ class WalletsUseCase {
     walletId,
     userId,
   }: RestoreWalletPayload): Promise<{ id: string }> {
+    // verify access
     await this._walletRepository.verifyWalletOwner(walletId, userId)
+
     const result = await this._walletRepository.restoreWalletById(walletId)
     return result
   }

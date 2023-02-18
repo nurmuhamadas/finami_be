@@ -43,24 +43,16 @@ class PlanningsUseCase {
     child_id,
     wallet_id,
     month,
-  }: GetPlanningsPayload): Promise<GetPlanningResult | GetPlanningsResult> {
-    let result: GetPlanningResult | GetPlanningsResult
+  }: GetPlanningsPayload): Promise<GetPlanningsResult> {
     const filter = new FilterPlanning({
       month: month,
       wallet_id: wallet_id,
     })
 
-    if (child_id) {
-      result = await this._planningRepository.getPlanningsByUserId(
-        child_id,
-        filter,
-      )
-    } else {
-      result = await this._planningRepository.getPlanningsByUserId(
-        user_id,
-        filter,
-      )
-    }
+    const result = await this._planningRepository.getPlanningsByUserId(
+      child_id || user_id,
+      filter,
+    )
 
     return result
   }
