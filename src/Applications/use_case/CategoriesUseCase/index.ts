@@ -15,14 +15,6 @@ import {
   GetCategoriesResult,
   GetCategoryResult,
 } from 'Domains/categories/types'
-import PlanningRepository from 'Domains/plannings/PlanningRepository'
-import FilterPlanning from 'Domains/plannings/entities/FilterPlanning'
-import RegisterPlanning from 'Domains/plannings/entities/RegisterPlanning'
-import UpdateDataPlanning from 'Domains/plannings/entities/UpdateDataPlanning'
-import { PlanningDataType } from 'Domains/plannings/entities/types'
-import { GetPlanningResult, GetPlanningsResult } from 'Domains/plannings/types'
-import TransactionRepository from 'Domains/transactions/TransactionRepository'
-import WalletRepository from 'Domains/wallets/WalletRepository'
 
 class CategoriesUseCase {
   _categoryRepository: CategoryRepository

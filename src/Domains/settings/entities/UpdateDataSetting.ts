@@ -1,9 +1,9 @@
-import { UpdateDataSettingType } from './types'
+import { UpdateDataSettingResult, UpdateDataSettingPayload } from './types'
 
 class UpdateDataSetting {
-  values: UpdateDataSettingType
+  values: UpdateDataSettingResult
 
-  constructor(payload: UpdateDataSettingType) {
+  constructor(payload: UpdateDataSettingPayload) {
     this._verifyPayload(payload)
 
     this.values = {
@@ -12,7 +12,7 @@ class UpdateDataSetting {
     }
   }
 
-  _verifyPayload({ currency_id, date_format }: UpdateDataSettingType) {
+  _verifyPayload({ currency_id, date_format }: UpdateDataSettingPayload) {
     if (currency_id.startsWith('category-') || currency_id.length !== 20)
       throw new Error('REGISTER_PLANNING.INVALID_CURRENCY_ID')
 

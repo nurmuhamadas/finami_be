@@ -1,9 +1,9 @@
-import { RegisterSettingType } from './types'
+import { RegisterSettingResult, RegisterSettingPayload } from './types'
 
 class RegisterSetting {
-  values: RegisterSettingType
+  values: RegisterSettingResult
 
-  constructor(payload: RegisterSettingType) {
+  constructor(payload: RegisterSettingPayload) {
     this._verifyPayload(payload)
 
     const now = new Date()
@@ -20,7 +20,7 @@ class RegisterSetting {
     user_id,
     currency_id,
     date_format,
-  }: RegisterSettingType) {
+  }: RegisterSettingPayload) {
     if (id.startsWith('user-') || id.length !== 20)
       throw new Error('REGISTER_PLANNING.INVALID_ID')
 

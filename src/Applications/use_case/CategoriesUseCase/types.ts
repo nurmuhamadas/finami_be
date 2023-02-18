@@ -4,8 +4,6 @@ import {
   TransactionTypesType,
 } from 'Commons/types'
 import CategoryRepository from 'Domains/categories/CategoryRepository'
-import TransactionRepository from 'Domains/transactions/TransactionRepository'
-import WalletRepository from 'Domains/wallets/WalletRepository'
 
 export type CategoriesUseCaseType = {
   idGenerator: IdGeneratorType
