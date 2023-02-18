@@ -1,9 +1,4 @@
-import {
-  CategoryGroupsType,
-  DateFormatType,
-  IdGeneratorType,
-  TransactionTypesType,
-} from 'Commons/types'
+import { DateFormatType, IdGeneratorType } from 'Commons/types'
 import SettingRepository from 'Domains/settings/SettingRepository'
 
 export type SettingsUseCaseType = {

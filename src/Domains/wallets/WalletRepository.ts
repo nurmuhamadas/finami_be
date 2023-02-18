@@ -1,6 +1,5 @@
 import RegisterWallet from './entities/RegisterWallet'
 import UpdateDataWallet from './entities/UpdateDataWallet'
-import { WalletDataType } from './entities/types'
 import { GetWalletResult, GetWalletsResult } from './types'
 
 class WalletRepository {

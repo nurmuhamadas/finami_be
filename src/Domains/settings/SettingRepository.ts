@@ -1,6 +1,5 @@
 import RegisterSetting from './entities/RegisterSetting'
 import UpdateDataSetting from './entities/UpdateDataSetting'
-import { SettingDataType } from './entities/types'
 import { GetSettingResult } from './types'
 
 class SettingRepository {

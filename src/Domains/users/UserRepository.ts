@@ -1,6 +1,5 @@
 import RegisterUser from './entities/RegisterUser'
 import UpdateDataUser from './entities/UpdateDataUser'
-import { UserDataType } from './entities/types'
 import { GetUserResult, GetUsersResult } from './types'
 
 class UserRepository {

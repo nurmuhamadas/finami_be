@@ -1,7 +1,6 @@
 import FilterPlanning from './entities/FilterPlanning'
 import RegisterPlanning from './entities/RegisterPlanning'
 import UpdateDataPlanning from './entities/UpdateDataPlanning'
-import { PlanningDataType } from './entities/types'
 import { GetPlanningResult, GetPlanningsResult } from './types'
 
 class PlanningRepository {

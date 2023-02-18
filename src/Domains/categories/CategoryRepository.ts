@@ -1,7 +1,6 @@
 import FilterCategory from './entities/FilterCategory'
 import RegisterCategory from './entities/RegisterCategory'
 import UpdateDataCategory from './entities/UpdateDataCategory'
-import { CategoryDataType } from './entities/types'
 import { GetCategoriesResult, GetCategoryResult } from './types'
 
 class CategoryRepository {

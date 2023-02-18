@@ -1,8 +1,4 @@
-import {
-  IdGeneratorType,
-  OrderByType,
-  TransactionTypesType,
-} from 'Commons/types'
+import { IdGeneratorType } from 'Commons/types'
 import CategoryRepository from 'Domains/categories/CategoryRepository'
 import PlanningRepository from 'Domains/plannings/PlanningRepository'
 import TransactionRepository from 'Domains/transactions/TransactionRepository'
