@@ -1,3 +1,4 @@
+import AuthorizationError from 'Commons/exceptions/AuthorizationError'
 import InvariantError from 'Commons/exceptions/InvariantError'
 import NotFoundError from 'Commons/exceptions/NotFoundError'
 import WalletRepository from 'Domains/wallets/WalletRepository'
@@ -37,11 +38,11 @@ class WalletRepositoryPostgres extends WalletRepository {
     id: string,
     updateDataWallet: UpdateDataWallet,
   ): Promise<{ id: string }> {
-    const { name, balance, user_id, updated_at } = updateDataWallet.values
+    const { name, balance, updated_at } = updateDataWallet.values
     const query = {
-      text: `UPDATE wallets SET name = $1, balance = $2, user_id = $3, updated_at = $4
-            WHERE id = $5 AND deleted_at IS NULL RETURNING id`,
-      values: [name, balance, user_id, updated_at, id],
+      text: `UPDATE wallets SET name = $1, balance = $2, updated_at = $3
+            WHERE id = $4 AND deleted_at IS NULL RETURNING id`,
+      values: [name, balance, updated_at, id],
     }
 
     const result = await this._pool.query(query)
@@ -103,7 +104,7 @@ class WalletRepositoryPostgres extends WalletRepository {
       throw new NotFoundError('Wallet not found')
     }
     if (result.rows[0].user_id !== userId) {
-      throw new InvariantError('Not allowed to access this record')
+      throw new AuthorizationError('Not allowed to access this record')
     }
 
     return true
@@ -137,6 +138,48 @@ class WalletRepositoryPostgres extends WalletRepository {
 
     return {
       ...result.rows?.[0],
+    }
+  }
+
+  async increaseWalletBalance(
+    walletId: string,
+    amount: number,
+  ): Promise<{ id: string }> {
+    const query = {
+      text: `UPDATE wallets SET amount = amount + $1
+            WHERE id = $2 AND deleted_at IS NULL`,
+      values: [amount, walletId],
+    }
+
+    const result = await this._pool.query(query)
+
+    if (!result.rowCount) {
+      throw new NotFoundError('wallet not found')
+    }
+
+    return {
+      id: result.rows[0].id,
+    }
+  }
+
+  async reduceWalletBalance(
+    walletId: string,
+    amount: number,
+  ): Promise<{ id: string }> {
+    const query = {
+      text: `UPDATE wallets SET amount = amount - $1
+            WHERE id = $2 AND deleted_at IS NULL`,
+      values: [amount, walletId],
+    }
+
+    const result = await this._pool.query(query)
+
+    if (!result.rowCount) {
+      throw new NotFoundError('wallet not found')
+    }
+
+    return {
+      id: result.rows[0].id,
     }
   }
 }

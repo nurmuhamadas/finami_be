@@ -34,6 +34,20 @@ class WalletRepository {
   async getWalletById(id: string): Promise<GetWalletResult> {
     throw new Error('WALLET_REPOSITORY.METHOD_NOT_IMPLEMENTED')
   }
+
+  async increaseWalletBalance(
+    walletId: string,
+    amount: number,
+  ): Promise<{ id: string }> {
+    throw new Error('WALLET_REPOSITORY.METHOD_NOT_IMPLEMENTED')
+  }
+
+  async reduceWalletBalance(
+    walletId: string,
+    amount: number,
+  ): Promise<{ id: string }> {
+    throw new Error('WALLET_REPOSITORY.METHOD_NOT_IMPLEMENTED')
+  }
 }
 
 export default WalletRepository

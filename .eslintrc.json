@@ -8,21 +8,16 @@
     "eslint:recommended",
     "plugin:import/recommended",
     "plugin:json/recommended",
-    "plugin:jest/recommended",
-    "plugin:jest-formatting/recommended",
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
-    "prettier/@typescript-eslint",
-    "plugin:prettier/recommended",
-    "plugin:eslint-comments/recommended"
+    "plugin:eslint-comments/recommended",
+    "prettier"
   ],
   "plugins": [
-    "module-resolver",
     "prettier",
     "@typescript-eslint",
     "unused-imports",
-    "simple-import-sort",
-    "check-file"
+    "simple-import-sort"
   ],
   "overrides": [],
   "parserOptions": {

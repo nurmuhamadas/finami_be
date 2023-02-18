@@ -36,6 +36,10 @@ class CategoryRepository {
   async getCategoryById(id: string): Promise<GetCategoryResult> {
     throw new Error('CATEGORY_REPOSITORY.METHOD_NOT_IMPLEMENTED')
   }
+
+  async verifyCategoryOwner(id: string, user_id: string): Promise<boolean> {
+    throw new Error('CATEGORY_REPOSITORY.METHOD_NOT_IMPLEMENTED')
+  }
 }
 
 export default CategoryRepository

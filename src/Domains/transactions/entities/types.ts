@@ -1,6 +1,18 @@
 import { TransactionTypesType } from 'Commons/types'
 
-export type RegisterTransactionType = {
+export type RegisterTransactionPayload = {
+  id: string
+  amount: number
+  description: string
+  user_id: string
+  category_id: string
+  wallet_id: string
+  transaction_type: TransactionTypesType
+  image_url?: string
+  date: Date
+}
+
+export type RegisterTransactionResult = {
   id: string
   amount: number
   description: string
@@ -12,15 +24,22 @@ export type RegisterTransactionType = {
   date: Date
   created_at: Date
   updated_at: Date
-  deleted_at?: Date | null
+  deleted_at: Date | null
 }
 
-export type UpdateDataTransactionType = {
+export type UpdateDataTransactionPayload = {
   amount: number
   description: string
-  user_id: string
   category_id: string
-  wallet_id: string
+  transaction_type: TransactionTypesType
+  image_url?: string
+  date: Date
+}
+
+export type UpdateDataTransactionResult = {
+  amount: number
+  description: string
+  category_id: string
   transaction_type: TransactionTypesType
   image_url?: string
   date: Date

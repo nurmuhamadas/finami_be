@@ -1,3 +1,4 @@
+import AuthorizationError from 'Commons/exceptions/AuthorizationError'
 import InvariantError from 'Commons/exceptions/InvariantError'
 import NotFoundError from 'Commons/exceptions/NotFoundError'
 import CategoryRepository from 'Domains/categories/CategoryRepository'
@@ -165,6 +166,25 @@ class CategoryRepositoryPostgres extends CategoryRepository {
     return {
       ...result.rows?.[0],
     }
+  }
+
+  async verifyCategoryOwner(id: string, userId: string): Promise<boolean> {
+    const query = {
+      text: `SELECT user_id FROM categories
+            WHERE id = $1 AND deleted_at IS NULL`,
+      values: [id],
+    }
+
+    const result = await this._pool.query(query)
+
+    if (result.rowCount === 0) {
+      throw new NotFoundError('Wallet not found')
+    }
+    if (result.rows[0].user_id !== userId) {
+      throw new AuthorizationError('Not allowed to access this record')
+    }
+
+    return true
   }
 }
 

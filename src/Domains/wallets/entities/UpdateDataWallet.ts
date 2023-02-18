@@ -12,13 +12,11 @@ class UpdateDataWallet {
     }
   }
 
-  _verifyPayload({ name, user_id, balance }: UpdateDataWalletPayload) {
-    if (name.length > 30) throw new Error('UPDATE_DATA_WALLET.NAME_LIMIT_CHAR')
+  _verifyPayload({ name, balance }: UpdateDataWalletPayload) {
+    if (name && name.length > 30)
+      throw new Error('UPDATE_DATA_WALLET.NAME_LIMIT_CHAR')
 
-    if (user_id.startsWith('user-') || user_id.length !== 20)
-      throw new Error('UPDATE_DATA_WALLET.INVALID_USER_ID')
-
-    if (String(balance) === 'NaN')
+    if (balance && String(balance) === 'NaN')
       throw new Error('UPDATE_DATA_WALLET.INVALID_BALANCE')
   }
 }

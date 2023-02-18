@@ -1,9 +1,11 @@
+import AuthorizationError from 'Commons/exceptions/AuthorizationError'
 import InvariantError from 'Commons/exceptions/InvariantError'
 import NotFoundError from 'Commons/exceptions/NotFoundError'
 import TransactionRepository from 'Domains/transactions/TransactionRepository'
 import FilterTransaction from 'Domains/transactions/entities/FilterTransaction'
 import RegisterTransaction from 'Domains/transactions/entities/RegisterTransaction'
 import UpdateDataTransaction from 'Domains/transactions/entities/UpdateDataTransaction'
+import { TransactionDataType } from 'Domains/transactions/entities/types'
 import {
   GetTransactionResult,
   GetTransactionsResult,
@@ -74,23 +76,19 @@ class TransactionRepositoryPostgres extends TransactionRepository {
       transaction_type,
       date,
       image_url,
-      user_id,
-      wallet_id,
       category_id,
       updated_at,
     } = updateDataTransaction.values
     const query = {
-      text: `UPDATE transactions SET amount = $1, descriptions = $2, transaction_type = $3, date = $4,
-            image_url = $5, user_id = $6, wallet_id = $7, category_id = $8, updated_at = $9
-            WHERE id = $10 AND deleted_at IS NULL RETURNING id`,
+      text: `UPDATE transactions SET amount = $1, descriptions = $2, transaction_type = $3,
+            date = $4, image_url = $5, category_id = $6, updated_at = $7
+            WHERE id = $8 AND deleted_at IS NULL RETURNING id`,
       values: [
         amount,
         description,
         transaction_type,
         date,
         image_url,
-        user_id,
-        wallet_id,
         category_id,
         updated_at,
         id,
@@ -108,10 +106,10 @@ class TransactionRepositoryPostgres extends TransactionRepository {
     }
   }
 
-  async softDeleteTransactionById(id: string): Promise<{ id: string }> {
+  async softDeleteTransactionById(id: string): Promise<TransactionDataType> {
     const query = {
       text: `UPDATE transactions SET deleted_at = NOW()
-            WHERE id = $1 AND deleted_at IS NULL RETURNING id`,
+            WHERE id = $1 AND deleted_at IS NULL RETURNING *`,
       values: [id],
     }
 
@@ -122,13 +120,13 @@ class TransactionRepositoryPostgres extends TransactionRepository {
     }
 
     return {
-      id: result.rows?.[0]?.id,
+      ...result.rows[0],
     }
   }
 
-  async restoreTransactionById(id: string): Promise<{ id: string }> {
+  async restoreTransactionById(id: string): Promise<TransactionDataType> {
     const query = {
-      text: `UPDATE transactions SET deleted_at = NULL WHERE id = $1 RETURNING id`,
+      text: `UPDATE transactions SET deleted_at = NULL WHERE id = $1 RETURNING *`,
       values: [id],
     }
 
@@ -139,7 +137,7 @@ class TransactionRepositoryPostgres extends TransactionRepository {
     }
 
     return {
-      id: result.rows?.[0]?.id,
+      ...result.rows[0],
     }
   }
 
@@ -242,6 +240,25 @@ class TransactionRepositoryPostgres extends TransactionRepository {
     return {
       ...result.rows?.[0],
     }
+  }
+
+  async verifyTransactionOwner(id: string, userId: string): Promise<boolean> {
+    const query = {
+      text: `SELECT user_id FROM transactions
+            WHERE id = $1 AND deleted_at IS NULL`,
+      values: [id],
+    }
+
+    const result = await this._pool.query(query)
+
+    if (result.rowCount === 0) {
+      throw new NotFoundError('Transaction not found')
+    }
+    if (result.rows[0].user_id !== userId) {
+      throw new AuthorizationError('Not allowed to access this record')
+    }
+
+    return true
   }
 }
 

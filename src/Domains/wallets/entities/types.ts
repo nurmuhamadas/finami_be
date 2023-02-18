@@ -16,15 +16,13 @@ export type RegisterWalletResult = {
 }
 
 export type UpdateDataWalletPayload = {
-  name: string
-  user_id: string
-  balance: number
+  name?: string
+  balance?: number
 }
 
 export type UpdateDataWalletResult = {
-  name: string
-  user_id: string
-  balance: number
+  name?: string
+  balance?: number
   updated_at: Date
 }
 

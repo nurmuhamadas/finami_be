@@ -61,7 +61,6 @@ class WalletsUseCase {
     const updateDataWallet = new UpdateDataWallet({
       name,
       balance,
-      user_id: userId,
     })
 
     await this._walletRepository.verifyWalletOwner(walletId, userId)

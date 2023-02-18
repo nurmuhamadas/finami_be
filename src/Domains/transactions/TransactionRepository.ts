@@ -18,11 +18,11 @@ class TransactionRepository {
     throw new Error('TRANSACTION_REPOSITORY.METHOD_NOT_IMPLEMENTED')
   }
 
-  async softDeleteTransactionById(id: string): Promise<{ id: string }> {
+  async softDeleteTransactionById(id: string): Promise<TransactionDataType> {
     throw new Error('TRANSACTION_REPOSITORY.METHOD_NOT_IMPLEMENTED')
   }
 
-  async restoreTransactionById(id: string): Promise<{ id: string }> {
+  async restoreTransactionById(id: string): Promise<TransactionDataType> {
     throw new Error('TRANSACTION_REPOSITORY.METHOD_NOT_IMPLEMENTED')
   }
 
@@ -34,6 +34,10 @@ class TransactionRepository {
   }
 
   async getTransactionById(id: string): Promise<GetTransactionResult> {
+    throw new Error('TRANSACTION_REPOSITORY.METHOD_NOT_IMPLEMENTED')
+  }
+
+  async verifyTransactionOwner(id: string, userId: string): Promise<boolean> {
     throw new Error('TRANSACTION_REPOSITORY.METHOD_NOT_IMPLEMENTED')
   }
 }
