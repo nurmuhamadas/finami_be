@@ -41,6 +41,14 @@ class UserRepository {
   async getChildByParentId(parentId: string): Promise<GetUsersResult> {
     throw new Error('USER_REPOSITORY.METHOD_NOT_IMPLEMENTED')
   }
+
+  async verifyUserAccess(id: string, userId: string): Promise<boolean> {
+    throw new Error('USER_REPOSITORY.METHOD_NOT_IMPLEMENTED')
+  }
+
+  async verifyUserParent(id: string, parentId: string): Promise<boolean> {
+    throw new Error('USER_REPOSITORY.METHOD_NOT_IMPLEMENTED')
+  }
 }
 
 export default UserRepository

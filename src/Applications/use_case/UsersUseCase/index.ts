@@ -1,0 +1,122 @@
+import {
+  AddUserPayload,
+  DeleteUserPayload,
+  GetUsersByIdPayload,
+  UsersUseCaseType,
+  UpdateUserPayload,
+} from './types'
+import { IdGeneratorType } from 'Commons/types'
+import SettingRepository from 'Domains/settings/SettingRepository'
+import RegisterSetting from 'Domains/settings/entities/RegisterSetting'
+import UpdateDataSetting from 'Domains/settings/entities/UpdateDataSetting'
+import { GetSettingResult } from 'Domains/settings/types'
+import UserRepository from 'Domains/users/UserRepository'
+import RegisterUser from 'Domains/users/entities/RegisterUser'
+import UpdateDataUser from 'Domains/users/entities/UpdateDataUser'
+import { GetUsersResult } from 'Domains/users/types'
+
+class UsersUseCase {
+  _settingRepository: SettingRepository
+  _userRepository: UserRepository
+  _idGenerator: IdGeneratorType
+
+  constructor({
+    settingRepository,
+    userRepository,
+    idGenerator,
+  }: UsersUseCaseType) {
+    this._settingRepository = settingRepository
+    this._userRepository = userRepository
+    this._idGenerator = idGenerator
+  }
+
+  async getUsersById({
+    user_id,
+  }: GetUsersByIdPayload): Promise<GetUsersResult> {
+    const result = await this._userRepository.getUserById(user_id)
+    const child = await this._userRepository.getChildByParentId(user_id)
+    return [result, ...child]
+  }
+
+  async addUser({
+    username,
+    email,
+    password,
+    fullname,
+    parent_id,
+    image_url,
+  }: AddUserPayload): Promise<{ id: string }> {
+    const registerUser = new RegisterUser({
+      id: this._idGenerator('user'),
+      username,
+      email,
+      password,
+      fullname,
+      parent_id,
+      image_url,
+    })
+
+    const result = await this._userRepository.addUser(registerUser)
+
+    // Add setting
+    const registerSetting = new RegisterSetting({
+      id: this._idGenerator('setting'),
+      date_format: 'dd-mm-yyyy',
+      currency_id: 'currency-1',
+      user_id: result.id,
+    })
+    await this._settingRepository.addSetting(registerSetting)
+
+    return result
+  }
+
+  async updateUser({
+    id,
+    username,
+    email,
+    password,
+    fullname,
+    image_url,
+    user_id,
+  }: UpdateUserPayload): Promise<{ id: string }> {
+    const updateDataUser = new UpdateDataUser({
+      username,
+      email,
+      password,
+      fullname,
+      image_url,
+    })
+
+    //  verify access
+    await this._userRepository.verifyUserAccess(id, user_id)
+
+    const result = await this._userRepository.updateUser(id, updateDataUser)
+    return result
+  }
+
+  async deleteUser({
+    id,
+    parent_id,
+  }: DeleteUserPayload): Promise<{ id: string }> {
+    // verify access
+    await this._userRepository.verifyUserParent(id, parent_id)
+
+    const result = await this._userRepository.softDeleteUserById(id)
+    await this._settingRepository.softDeleteSettingByParentId(parent_id)
+    return result
+  }
+
+  async restoreUser({
+    id,
+    parent_id,
+  }: DeleteUserPayload): Promise<{ id: string }> {
+    // verify access
+    await this._userRepository.verifyUserParent(id, parent_id)
+
+    const result = await this._userRepository.restoreUserById(id)
+    await this._settingRepository.restoreSettingByParentId(parent_id)
+    return result
+  }
+}
+
+export default UsersUseCase

@@ -3,7 +3,7 @@ export type UserLoginType = {
   password: string
 }
 
-export type RegisterUserType = {
+export type RegisterUserResult = {
   id: string
   username: string
   email: string
@@ -16,14 +16,31 @@ export type RegisterUserType = {
   deleted_at?: Date | null
 }
 
-export type UpdateDataUserType = {
+export type RegisterUserPayload = {
+  id: string
   username: string
   email: string
   password: string
   fullname: string
   parent_id?: string
   image_url?: string
+}
+
+export type UpdateDataUserResult = {
+  username: string
+  email: string
+  password: string
+  fullname: string
+  image_url?: string
   updated_at: Date
+}
+
+export type UpdateDataUserPayload = {
+  username: string
+  email: string
+  password: string
+  fullname: string
+  image_url?: string
 }
 
 export type UserDataType = {

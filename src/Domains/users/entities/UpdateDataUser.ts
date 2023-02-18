@@ -1,9 +1,9 @@
-import { UpdateDataUserType } from './types'
+import { UpdateDataUserPayload, UpdateDataUserResult } from './types'
 
 class UpdateDataUser {
-  values: UpdateDataUserType
+  values: UpdateDataUserResult
 
-  constructor(payload: UpdateDataUserType) {
+  constructor(payload: UpdateDataUserPayload) {
     this._verifyPayload(payload)
 
     this.values = {
@@ -17,9 +17,8 @@ class UpdateDataUser {
     email,
     password,
     fullname,
-    parent_id,
     image_url,
-  }: UpdateDataUserType) {
+  }: UpdateDataUserPayload) {
     if (username.length > 30)
       throw new Error('UPDATE_DATA_USER.USERNAME_LIMIT_CHAR')
     if (!username.match(/^[\w]+$/))
@@ -36,9 +35,6 @@ class UpdateDataUser {
 
     if (fullname.length > 50)
       throw new Error('UPDATE_DATA_USER.FULLNAME_LIMIT_CHAR')
-
-    if (parent_id && (parent_id.startsWith('user-') || parent_id.length !== 20))
-      throw new Error('UPDATE_DATA_USER.INVALID_PARENT_ID')
 
     if (
       image_url &&

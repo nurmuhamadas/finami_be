@@ -1,9 +1,9 @@
-import { RegisterUserType } from './types'
+import { RegisterUserResult, RegisterUserPayload } from './types'
 
 class RegisterUser {
-  values: RegisterUserType
+  values: RegisterUserResult
 
-  constructor(payload: RegisterUserType) {
+  constructor(payload: RegisterUserPayload) {
     this._verifyPayload(payload)
 
     const now = new Date()
@@ -23,7 +23,7 @@ class RegisterUser {
     fullname,
     parent_id,
     image_url,
-  }: RegisterUserType) {
+  }: RegisterUserPayload) {
     if (id.startsWith('user-') || id.length !== 20)
       throw new Error('REGISTER_USER.INVALID_ID')
 

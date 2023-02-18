@@ -138,6 +138,42 @@ class SettingRepositoryPostgres extends SettingRepository {
       ...result.rows?.[0],
     }
   }
+
+  async softDeleteSettingByParentId(parentId: string): Promise<{ id: string }> {
+    const query = {
+      text: `UPDATE settings s SET s.deleted_at = NOW() FROM users u
+            WHERE u.parent_id = s.user_id AND u.parent_id = $1 AND deleted_at IS NULL RETURNING id`,
+      values: [parentId],
+    }
+
+    const result = await this._pool.query(query)
+
+    if (!result.rowCount) {
+      throw new InvariantError('Failed to delete setting')
+    }
+
+    return {
+      id: result.rows?.[0]?.id,
+    }
+  }
+
+  async restoreSettingByParentId(parentId: string): Promise<{ id: string }> {
+    const query = {
+      text: `UPDATE settings s SET s.deleted_at = NULL FROM users u
+            WHERE u.parent_id = s.user_id AND u.parent_id = $1 AND deleted_at IS NOT NULL RETURNING id`,
+      values: [parentId],
+    }
+
+    const result = await this._pool.query(query)
+
+    if (!result.rowCount) {
+      throw new InvariantError('Failed to restore setting')
+    }
+
+    return {
+      id: result.rows?.[0]?.id,
+    }
+  }
 }
 
 export default SettingRepositoryPostgres

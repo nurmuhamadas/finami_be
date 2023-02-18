@@ -33,7 +33,7 @@ class SettingsUseCase {
     user_id,
   }: GetSettingByIdPayload): Promise<GetSettingResult> {
     // verify access
-    // TODO: await this._settingRepository.verifySettingowner(id, user_id)
+    await this._settingRepository.verifySettingOwner(id, user_id)
 
     const result = await this._settingRepository.getSettingByUserId(id)
     return result
@@ -59,6 +59,7 @@ class SettingsUseCase {
     id,
     currency_id,
     date_format,
+    user_id,
   }: UpdateSettingPayload): Promise<{ id: string }> {
     const updateDataSetting = new UpdateDataSetting({
       currency_id,
@@ -66,7 +67,7 @@ class SettingsUseCase {
     })
 
     //  verify access
-    // TODO: await this._settingRepository.verifySettingowner(id, user_id)
+    await this._settingRepository.verifySettingOwner(id, user_id)
 
     const result = await this._settingRepository.updateSetting(
       id,
@@ -77,10 +78,10 @@ class SettingsUseCase {
 
   async deleteSetting({
     id,
-    user_id,
+    parent_id,
   }: DeleteSettingPayload): Promise<{ id: string }> {
     // verify access
-    // TODO: await this._settingRepository.verifySettingowner(id, user_id)
+    await this._settingRepository.verifySettingAccess(id, parent_id) // ONLY parent can delete setting
 
     const result = await this._settingRepository.softDeleteSettingById(id)
     return result
@@ -88,10 +89,10 @@ class SettingsUseCase {
 
   async restoreSetting({
     id,
-    user_id,
+    parent_id,
   }: DeleteSettingPayload): Promise<{ id: string }> {
     // verify access
-    // TODO: await this._settingRepository.verifySettingowner(id, user_id)
+    await this._settingRepository.verifySettingAccess(id, parent_id) // ONLY parent can delete setting
 
     const result = await this._settingRepository.restoreSettingById(id)
     return result

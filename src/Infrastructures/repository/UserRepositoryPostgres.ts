@@ -1,3 +1,4 @@
+import AuthorizationError from 'Commons/exceptions/AuthorizationError'
 import InvariantError from 'Commons/exceptions/InvariantError'
 import NotFoundError from 'Commons/exceptions/NotFoundError'
 import UserRepository from 'Domains/users/UserRepository'
@@ -58,28 +59,12 @@ class UserRepositoryPostgres extends UserRepository {
     id: string,
     updateUser: UpdateDataUser,
   ): Promise<{ id: string }> {
-    const {
-      username,
-      email,
-      password,
-      fullname,
-      image_url,
-      parent_id,
-      updated_at,
-    } = updateUser.values
+    const { username, email, password, fullname, image_url, updated_at } =
+      updateUser.values
     const query = {
       text: `UPDATE users SET username = $1, email = $2, password = $3, fullname = $4,
-            image_url = $5, parent_id = $6, updated_at = $7 WHERE id = $8 AND deleted_at IS NULL RETURNING id`,
-      values: [
-        username,
-        email,
-        password,
-        fullname,
-        image_url,
-        parent_id,
-        updated_at,
-        id,
-      ],
+            image_url = $5, updated_at = $6 WHERE id = $7 AND deleted_at IS NULL RETURNING id`,
+      values: [username, email, password, fullname, image_url, updated_at, id],
     }
 
     const result = await this._pool.query(query)
@@ -198,6 +183,44 @@ class UserRepositoryPostgres extends UserRepository {
 
     const result = await this._pool.query(query)
     return result.rows
+  }
+
+  async verifyUserAccess(id: string, userId: string): Promise<boolean> {
+    const query = {
+      text: `SELECT id, parent_id FROM users
+            WHERE id = $1 AND deleted_at IS NULL`,
+      values: [id],
+    }
+
+    const result = await this._pool.query(query)
+
+    if (result.rowCount === 0) {
+      throw new NotFoundError('user not found')
+    }
+    if (result.rows[0].id !== userId && result.rows[0].parent_id !== userId) {
+      throw new AuthorizationError('Not allowed to access this record')
+    }
+
+    return true
+  }
+
+  async verifyUserParent(id: string, parentId: string): Promise<boolean> {
+    const query = {
+      text: `SELECT parent_id FROM users
+            WHERE id = $1 AND deleted_at IS NULL`,
+      values: [id],
+    }
+
+    const result = await this._pool.query(query)
+
+    if (result.rowCount === 0) {
+      throw new NotFoundError('user not found')
+    }
+    if (result.rows[0].parent_id !== parentId) {
+      throw new AuthorizationError('Not allowed to access this record')
+    }
+
+    return true
   }
 }
 

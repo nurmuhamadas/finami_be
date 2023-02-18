@@ -23,11 +23,12 @@ export type AddSettingPayload = {
 
 export type UpdateSettingPayload = {
   id: string
+  user_id: string
   date_format: DateFormatType
   currency_id: string
 }
 
 export type DeleteSettingPayload = {
   id: string
-  user_id: string
+  parent_id: string
 }
