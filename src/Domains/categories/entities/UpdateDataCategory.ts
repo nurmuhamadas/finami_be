@@ -1,9 +1,9 @@
-import { UpdateDataCategoryType } from './types'
+import { UpdateDataCategoryResult, UpdateDataCategoryPayload } from './types'
 
 class UpdateDataCategory {
-  values: UpdateDataCategoryType
+  values: UpdateDataCategoryResult
 
-  constructor(payload: UpdateDataCategoryType) {
+  constructor(payload: UpdateDataCategoryPayload) {
     this._verifyPayload(payload)
 
     this.values = {
@@ -17,7 +17,7 @@ class UpdateDataCategory {
     icon_url,
     transaction_type,
     user_id,
-  }: UpdateDataCategoryType) {
+  }: UpdateDataCategoryPayload) {
     if (name.length > 30)
       throw new Error('UPDATE_DATA_CATEGORY.NAME_LIMIT_CHAR')
 
