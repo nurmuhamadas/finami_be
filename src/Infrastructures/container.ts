@@ -298,3 +298,5 @@ container.register([
     },
   },
 ])
+
+export default container

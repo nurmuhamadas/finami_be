@@ -62,6 +62,7 @@ class AuthenticationsUseCase {
 
     return {
       refreshToken: auth.values.refreshToken,
+      accessToken: auth.values.accessToken,
     }
   }
 
