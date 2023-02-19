@@ -13,24 +13,20 @@ import FilterPlanning from 'Domains/plannings/entities/FilterPlanning'
 import RegisterPlanning from 'Domains/plannings/entities/RegisterPlanning'
 import UpdateDataPlanning from 'Domains/plannings/entities/UpdateDataPlanning'
 import { GetPlanningResult, GetPlanningsResult } from 'Domains/plannings/types'
-import TransactionRepository from 'Domains/transactions/TransactionRepository'
 import WalletRepository from 'Domains/wallets/WalletRepository'
 
 class PlanningsUseCase {
-  _transactionRepository: TransactionRepository
   _walletRepository: WalletRepository
   _categoryRepository: CategoryRepository
   _planningRepository: PlanningRepository
   _idGenerator: IdGenerator
 
   constructor({
-    transactionRepository,
     walletRepository,
     categoryRepository,
     planningRepository,
     idGenerator,
   }: PlanningsUseCaseType) {
-    this._transactionRepository = transactionRepository
     this._walletRepository = walletRepository
     this._categoryRepository = categoryRepository
     this._planningRepository = planningRepository

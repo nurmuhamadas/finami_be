@@ -38,4 +38,4 @@ class JwtTokenManager extends AuthenticationTokenManager {
   }
 }
 
-module.exports = JwtTokenManager
+export default JwtTokenManager

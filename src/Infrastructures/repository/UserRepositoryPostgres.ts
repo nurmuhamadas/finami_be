@@ -224,4 +224,4 @@ class UserRepositoryPostgres extends UserRepository {
   }
 }
 
-module.exports = UserRepositoryPostgres
+export default UserRepositoryPostgres

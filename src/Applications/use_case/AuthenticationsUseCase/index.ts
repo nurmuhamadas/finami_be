@@ -11,27 +11,23 @@ import EncryptionHelper from 'Applications/security/EncryptionHelper'
 import AuthenticationTokenManager from 'Applications/security/AuthenticationTokenManager'
 import NewAuthentication from 'Domains/authentication/entities/NewAuthentication'
 import AuthRepository from 'Domains/authentication/AuthRepository'
-import IdGenerator from 'Applications/common/IdGenerator'
 
 class AuthenticationsUseCase {
   _encryptionHelper: EncryptionHelper
   _userRepository: UserRepository
   _authRepository: AuthRepository
   _tokenManager: AuthenticationTokenManager
-  _idGenerator: IdGenerator
 
   constructor({
     userRepository,
     encryptionHelper,
     authRepository,
     tokenManager,
-    idGenerator,
   }: AuthenticationsUseCaseType) {
     this._authRepository = authRepository
     this._userRepository = userRepository
     this._encryptionHelper = encryptionHelper
     this._tokenManager = tokenManager
-    this._idGenerator = idGenerator
   }
 
   async login({

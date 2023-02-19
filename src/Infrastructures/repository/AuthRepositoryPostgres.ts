@@ -44,4 +44,4 @@ class AuthRepositoryPostgres extends AuthRepository {
   }
 }
 
-module.exports = AuthRepositoryPostgres
+export default AuthRepositoryPostgres
