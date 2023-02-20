@@ -7,5 +7,5 @@ exports.up = (pgm) => {
 }
 
 exports.down = (pgm) => {
-  pgm.sql('TRUNCATE TABLE currencies')
+  pgm.sql('TRUNCATE TABLE currencies CASCADE')
 }
