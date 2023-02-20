@@ -1,4 +1,4 @@
-import IdGenerator from 'Applications/common/IdGenerator'
+import IdGenerator from '../../Applications/common/IdGenerator'
 import cryptoRandomString from 'crypto-random-string'
 
 class CryptoRandomIdGenerator extends IdGenerator {

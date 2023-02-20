@@ -1,6 +1,6 @@
 import { DomainErrorTranslatorType } from './types'
 
-const InvariantError = require('./InvariantError')
+import InvariantError from './InvariantError'
 
 const DomainErrorTranslator: DomainErrorTranslatorType = {
   errorMessageGenerator: (message: string) => {

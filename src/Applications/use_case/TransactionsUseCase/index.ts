@@ -7,7 +7,7 @@ import {
   TransactionsUseCaseType,
   UpdateTransactionPayload,
 } from './types'
-import { calculateDiffTransactionAmount } from 'Commons/utils/helpers'
+import { calculateDiffTransactionAmount } from '../../../Commons/utils/helpers'
 import CategoryRepository from '../../../Domains/categories/CategoryRepository'
 import TransactionRepository from '../../../Domains/transactions/TransactionRepository'
 import FilterTransaction from '../../../Domains/transactions/entities/FilterTransaction'

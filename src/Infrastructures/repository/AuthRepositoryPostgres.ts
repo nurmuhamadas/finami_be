@@ -1,5 +1,5 @@
-import InvariantError from 'Commons/exceptions/InvariantError'
-import AuthRepository from 'Domains/authentication/AuthRepository'
+import InvariantError from '../../Commons/exceptions/InvariantError'
+import AuthRepository from '../../Domains/authentication/AuthRepository'
 import { Pool } from 'pg'
 
 class AuthRepositoryPostgres extends AuthRepository {

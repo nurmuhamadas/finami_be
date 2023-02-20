@@ -1,6 +1,6 @@
 import { Request } from '@hapi/hapi'
-import containerInstance from '../../../../Infrastructures/container'
 import autoBind from 'auto-bind'
+import containerInstance from '../../../../Infrastructures/container'
 import WalletsUseCase from '../../../../Applications/use_case/WalletsUseCase'
 import PlanningsUseCase from '../../../../Applications/use_case/PlanningsUseCase'
 

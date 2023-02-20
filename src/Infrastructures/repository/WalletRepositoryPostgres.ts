@@ -1,10 +1,10 @@
-import AuthorizationError from 'Commons/exceptions/AuthorizationError'
-import InvariantError from 'Commons/exceptions/InvariantError'
-import NotFoundError from 'Commons/exceptions/NotFoundError'
-import WalletRepository from 'Domains/wallets/WalletRepository'
-import RegisterWallet from 'Domains/wallets/entities/RegisterWallet'
-import UpdateDataWallet from 'Domains/wallets/entities/UpdateDataWallet'
-import { GetWalletResult, GetWalletsResult } from 'Domains/wallets/types'
+import AuthorizationError from '../../Commons/exceptions/AuthorizationError'
+import InvariantError from '../../Commons/exceptions/InvariantError'
+import NotFoundError from '../../Commons/exceptions/NotFoundError'
+import WalletRepository from '../../Domains/wallets/WalletRepository'
+import RegisterWallet from '../../Domains/wallets/entities/RegisterWallet'
+import UpdateDataWallet from '../../Domains/wallets/entities/UpdateDataWallet'
+import { GetWalletResult, GetWalletsResult } from '../../Domains/wallets/types'
 import { Pool } from 'pg'
 
 class WalletRepositoryPostgres extends WalletRepository {

@@ -1,13 +1,15 @@
 {
   "ts-node": {
+    "experimentalSpecifierResolution": "node",
     "esm": true
   },
+  "lib": ["es2015"],
   "compilerOptions": {
     "outDir": "./dist",
     "allowJs": false,
-    "target": "es6",
+    "target": "ES6",
     "sourceMap": true,
-    "module": "ES2015",
+    "module": "ES2022",
     "baseUrl": "./src",
     "strict": true,
     "moduleResolution": "node"

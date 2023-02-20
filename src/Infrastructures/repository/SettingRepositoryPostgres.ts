@@ -1,9 +1,9 @@
-import InvariantError from 'Commons/exceptions/InvariantError'
-import NotFoundError from 'Commons/exceptions/NotFoundError'
-import SettingRepository from 'Domains/settings/SettingRepository'
-import RegisterSetting from 'Domains/settings/entities/RegisterSetting'
-import UpdateDataSetting from 'Domains/settings/entities/UpdateDataSetting'
-import { GetSettingResult } from 'Domains/settings/types'
+import InvariantError from '../../Commons/exceptions/InvariantError'
+import NotFoundError from '../../Commons/exceptions/NotFoundError'
+import SettingRepository from '../../Domains/settings/SettingRepository'
+import RegisterSetting from '../../Domains/settings/entities/RegisterSetting'
+import UpdateDataSetting from '../../Domains/settings/entities/UpdateDataSetting'
+import { GetSettingResult } from '../../Domains/settings/types'
 import { Pool } from 'pg'
 
 class SettingRepositoryPostgres extends SettingRepository {

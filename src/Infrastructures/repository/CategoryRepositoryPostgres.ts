@@ -1,14 +1,14 @@
-import AuthorizationError from 'Commons/exceptions/AuthorizationError'
-import InvariantError from 'Commons/exceptions/InvariantError'
-import NotFoundError from 'Commons/exceptions/NotFoundError'
-import CategoryRepository from 'Domains/categories/CategoryRepository'
-import FilterCategory from 'Domains/categories/entities/FilterCategory'
-import RegisterCategory from 'Domains/categories/entities/RegisterCategory'
-import UpdateDataCategory from 'Domains/categories/entities/UpdateDataCategory'
+import AuthorizationError from '../../Commons/exceptions/AuthorizationError'
+import InvariantError from '../../Commons/exceptions/InvariantError'
+import NotFoundError from '../../Commons/exceptions/NotFoundError'
+import CategoryRepository from '../../Domains/categories/CategoryRepository'
+import FilterCategory from '../../Domains/categories/entities/FilterCategory'
+import RegisterCategory from '../../Domains/categories/entities/RegisterCategory'
+import UpdateDataCategory from '../../Domains/categories/entities/UpdateDataCategory'
 import {
   GetCategoriesResult,
   GetCategoryResult,
-} from 'Domains/categories/types'
+} from '../../Domains/categories/types'
 import { Pool } from 'pg'
 
 class CategoryRepositoryPostgres extends CategoryRepository {

@@ -3,7 +3,7 @@ import WalletsHandler from './handler'
 const routes = (handler: WalletsHandler) => [
   {
     method: 'GET',
-    path: '/wallets/',
+    path: '/wallets',
     handler: handler.getWAlletsHandler,
     options: {
       auth: 'finami_jwt',

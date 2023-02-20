@@ -3,7 +3,7 @@ import CategoriesHandlers from './handler'
 const routes = (handler: CategoriesHandlers) => [
   {
     method: 'GET',
-    path: '/categories/',
+    path: '/categories',
     handler: handler.getCategoriesHandler,
     options: {
       auth: 'finami_jwt',

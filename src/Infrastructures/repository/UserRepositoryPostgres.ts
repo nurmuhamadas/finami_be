@@ -1,10 +1,10 @@
-import AuthorizationError from 'Commons/exceptions/AuthorizationError'
-import InvariantError from 'Commons/exceptions/InvariantError'
-import NotFoundError from 'Commons/exceptions/NotFoundError'
-import UserRepository from 'Domains/users/UserRepository'
-import RegisterUser from 'Domains/users/entities/RegisterUser'
-import UpdateDataUser from 'Domains/users/entities/UpdateDataUser'
-import { GetUserResult, GetUsersResult } from 'Domains/users/types'
+import AuthorizationError from '../../Commons/exceptions/AuthorizationError'
+import InvariantError from '../../Commons/exceptions/InvariantError'
+import NotFoundError from '../../Commons/exceptions/NotFoundError'
+import UserRepository from '../../Domains/users/UserRepository'
+import RegisterUser from '../../Domains/users/entities/RegisterUser'
+import UpdateDataUser from '../../Domains/users/entities/UpdateDataUser'
+import { GetUserResult, GetUsersResult } from '../../Domains/users/types'
 import { Pool } from 'pg'
 
 class UserRepositoryPostgres extends UserRepository {

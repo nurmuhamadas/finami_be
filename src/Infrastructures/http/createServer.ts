@@ -1,7 +1,7 @@
 import { server as HapiServer } from '@hapi/hapi'
 import containerInstance from '../container'
 
-const Jwt = require('@hapi/jwt')
+import * as Jwt from '@hapi/jwt'
 import users from '../../Interfaces/http/api/users'
 import authentications from '../../Interfaces/http/api/authentications'
 import categories from '../../Interfaces/http/api/categories'

@@ -3,7 +3,7 @@ import SettingHandlers from './handler'
 const routes = (handler: SettingHandlers) => [
   {
     method: 'GET',
-    path: '/setting/',
+    path: '/setting',
     handler: handler.getSettingByUserIdHandler,
     options: {
       auth: 'finami_jwt',

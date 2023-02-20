@@ -2,7 +2,7 @@ import { Server } from '@hapi/hapi'
 
 import containerInstance from '../../../../Infrastructures/container'
 import WalletsHandler from './handler'
-const routes = require('./routes')
+import routes from './routes'
 
 export default {
   name: 'wallets',

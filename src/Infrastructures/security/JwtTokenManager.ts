@@ -4,8 +4,8 @@ import {
 } from 'Applications/security/types'
 import { JwtType } from './types'
 
-const AuthenticationTokenManager = require('../../Applications/security/AuthenticationTokenManager')
-const InvariantError = require('../../Commons/exceptions/InvariantError')
+import AuthenticationTokenManager from '../../Applications/security/AuthenticationTokenManager'
+import InvariantError from '../../Commons/exceptions/InvariantError'
 
 class JwtTokenManager extends AuthenticationTokenManager {
   _jwt: JwtType

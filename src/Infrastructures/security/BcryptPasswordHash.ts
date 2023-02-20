@@ -1,4 +1,4 @@
-import EncryptionHelper from 'Applications/security/EncryptionHelper'
+import EncryptionHelper from '../../Applications/security/EncryptionHelper'
 
 class BcryptPasswordHash extends EncryptionHelper {
   _bcrypt: any

@@ -1,15 +1,15 @@
-import AuthorizationError from 'Commons/exceptions/AuthorizationError'
-import InvariantError from 'Commons/exceptions/InvariantError'
-import NotFoundError from 'Commons/exceptions/NotFoundError'
-import TransactionRepository from 'Domains/transactions/TransactionRepository'
-import FilterTransaction from 'Domains/transactions/entities/FilterTransaction'
-import RegisterTransaction from 'Domains/transactions/entities/RegisterTransaction'
-import UpdateDataTransaction from 'Domains/transactions/entities/UpdateDataTransaction'
-import { TransactionDataType } from 'Domains/transactions/entities/types'
+import AuthorizationError from '../../Commons/exceptions/AuthorizationError'
+import InvariantError from '../../Commons/exceptions/InvariantError'
+import NotFoundError from '../../Commons/exceptions/NotFoundError'
+import TransactionRepository from '../../Domains/transactions/TransactionRepository'
+import FilterTransaction from '../../Domains/transactions/entities/FilterTransaction'
+import RegisterTransaction from '../../Domains/transactions/entities/RegisterTransaction'
+import UpdateDataTransaction from '../../Domains/transactions/entities/UpdateDataTransaction'
+import { TransactionDataType } from '../../Domains/transactions/entities/types'
 import {
   GetTransactionResult,
   GetTransactionsResult,
-} from 'Domains/transactions/types'
+} from '../../Domains/transactions/types'
 import { Pool } from 'pg'
 
 class TransactionRepositoryPostgres extends TransactionRepository {

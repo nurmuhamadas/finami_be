@@ -3,7 +3,7 @@ import PlanningsHandlers from './handler'
 const routes = (handler: PlanningsHandlers) => [
   {
     method: 'GET',
-    path: '/plannings/',
+    path: '/plannings',
     handler: handler.getPlanningsHandler,
     options: {
       auth: 'finami_jwt',

@@ -3,7 +3,7 @@ import TransactionHandlers from './handler'
 const routes = (handler: TransactionHandlers) => [
   {
     method: 'GET',
-    path: '/transactions/',
+    path: '/transactions',
     handler: handler.getTransactionsHandler,
     options: {
       auth: 'finami_jwt',
