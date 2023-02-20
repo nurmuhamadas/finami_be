@@ -32,6 +32,10 @@ const DomainErrorTranslator: DomainErrorTranslatorType = {
     return new InvariantError(_message)
   },
   translate(error) {
+    if ((error as any).isServer) {
+      return error
+    }
+
     return this.errorMessageGenerator(error.message)
   },
 }

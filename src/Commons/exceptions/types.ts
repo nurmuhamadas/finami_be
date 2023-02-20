@@ -11,6 +11,6 @@ type ErrorsType =
   | NotFoundError
   | ClientError
 export type DomainErrorTranslatorType = {
-  translate: (error: { message: string }) => ErrorsType | string
+  translate: (error: Error) => ErrorsType | string | Error
   errorMessageGenerator: (message: string) => ErrorsType | string
 }
