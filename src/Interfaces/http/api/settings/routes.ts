@@ -1,9 +1,9 @@
-import CategoriesHandlers from './handler'
+import SettingHandlers from './handler'
 
-const routes = (handler: CategoriesHandlers) => [
+const routes = (handler: SettingHandlers) => [
   {
     method: 'GET',
-    path: '/categories/',
+    path: '/setting/',
     handler: handler.getSettingByUserIdHandler,
     options: {
       auth: 'finami_jwt',
@@ -11,7 +11,7 @@ const routes = (handler: CategoriesHandlers) => [
   },
   {
     method: 'GET',
-    path: '/categories/{id}',
+    path: '/setting/{id}',
     handler: handler.getSettingByIdHandler,
     options: {
       auth: 'finami_jwt',
@@ -19,7 +19,7 @@ const routes = (handler: CategoriesHandlers) => [
   },
   {
     method: 'PUT',
-    path: '/categories/{id}',
+    path: '/setting/{id}',
     handler: handler.putSettingHandler,
     options: {
       auth: 'finami_jwt',
@@ -27,7 +27,7 @@ const routes = (handler: CategoriesHandlers) => [
   },
   {
     method: 'DELETE',
-    path: '/categories/{id}',
+    path: '/setting/{id}',
     handler: handler.deleteSettingHandler,
     options: {
       auth: 'finami_jwt',
