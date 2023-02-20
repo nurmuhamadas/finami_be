@@ -1,8 +1,8 @@
 import { Request } from '@hapi/hapi'
 import containerInstance from '../../../../Infrastructures/container'
 import autoBind from 'auto-bind'
-import WalletsUseCase from 'Applications/use_case/WalletsUseCase'
-import PlanningsUseCase from 'Applications/use_case/PlanningsUseCase'
+import WalletsUseCase from '../../../../Applications/use_case/WalletsUseCase'
+import PlanningsUseCase from '../../../../Applications/use_case/PlanningsUseCase'
 
 class PlanningsHandlers {
   _container: typeof containerInstance

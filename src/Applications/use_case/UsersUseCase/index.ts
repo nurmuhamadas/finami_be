@@ -1,4 +1,4 @@
-import IdGenerator from 'Applications/common/IdGenerator'
+import IdGenerator from '../../../Applications/common/IdGenerator'
 import {
   AddUserPayload,
   DeleteUserPayload,
@@ -6,12 +6,12 @@ import {
   UsersUseCaseType,
   UpdateUserPayload,
 } from './types'
-import SettingRepository from 'Domains/settings/SettingRepository'
-import RegisterSetting from 'Domains/settings/entities/RegisterSetting'
-import UserRepository from 'Domains/users/UserRepository'
-import RegisterUser from 'Domains/users/entities/RegisterUser'
-import UpdateDataUser from 'Domains/users/entities/UpdateDataUser'
-import { GetUsersResult } from 'Domains/users/types'
+import SettingRepository from '../../../Domains/settings/SettingRepository'
+import RegisterSetting from '../../../Domains/settings/entities/RegisterSetting'
+import UserRepository from '../../../Domains/users/UserRepository'
+import RegisterUser from '../../../Domains/users/entities/RegisterUser'
+import UpdateDataUser from '../../../Domains/users/entities/UpdateDataUser'
+import { GetUsersResult } from '../../../Domains/users/types'
 
 class UsersUseCase {
   _settingRepository: SettingRepository

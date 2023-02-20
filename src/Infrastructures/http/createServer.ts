@@ -1,7 +1,5 @@
 import { server as HapiServer } from '@hapi/hapi'
 import containerInstance from '../container'
-import DomainErrorTranslator from 'Commons/exceptions/DomainErrorTranslator'
-import ClientError from 'Commons/exceptions/ClientError'
 
 const Jwt = require('@hapi/jwt')
 import users from '../../Interfaces/http/api/users'
@@ -11,6 +9,8 @@ import plannings from '../../Interfaces/http/api/plannings'
 import settings from '../../Interfaces/http/api/settings'
 import transactions from '../../Interfaces/http/api/transactions'
 import wallets from '../../Interfaces/http/api/wallets'
+import DomainErrorTranslator from '../../Commons/exceptions/DomainErrorTranslator'
+import ClientError from '../../Commons/exceptions/ClientError'
 
 const createServer = async (container: typeof containerInstance) => {
   const server = HapiServer({

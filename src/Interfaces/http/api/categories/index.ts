@@ -4,7 +4,7 @@ import containerInstance from '../../../../Infrastructures/container'
 import CategoriesHandlers from './handler'
 const routes = require('./routes')
 
-module.exports = {
+export default {
   name: 'categories',
   register: async (
     server: Server,

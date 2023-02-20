@@ -4,7 +4,7 @@ import containerInstance from '../../../../Infrastructures/container'
 import PlanningsHandlers from './handler'
 const routes = require('./routes')
 
-module.exports = {
+export default {
   name: 'plannings',
   register: async (
     server: Server,

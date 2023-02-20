@@ -1,6 +1,9 @@
-import IdGenerator from 'Applications/common/IdGenerator'
-import { CategoryGroupsType, TransactionTypesType } from 'Commons/types'
-import CategoryRepository from 'Domains/categories/CategoryRepository'
+import IdGenerator from '../../../Applications/common/IdGenerator'
+import {
+  CategoryGroupsType,
+  TransactionTypesType,
+} from '../../../Commons/types'
+import CategoryRepository from '../../../Domains/categories/CategoryRepository'
 
 export type CategoriesUseCaseType = {
   idGenerator: IdGenerator

@@ -4,7 +4,7 @@ import containerInstance from '../../../../Infrastructures/container'
 import SettingsHandlers from './handler'
 const routes = require('./routes')
 
-module.exports = {
+export default {
   name: 'settings',
   register: async (
     server: Server,

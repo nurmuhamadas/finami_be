@@ -1,6 +1,6 @@
-import IdGenerator from 'Applications/common/IdGenerator'
-import { DateFormatType } from 'Commons/types'
-import SettingRepository from 'Domains/settings/SettingRepository'
+import IdGenerator from '../../../Applications/common/IdGenerator'
+import { DateFormatType } from '../../../Commons/types'
+import SettingRepository from '../../../Domains/settings/SettingRepository'
 
 export type SettingsUseCaseType = {
   idGenerator: IdGenerator

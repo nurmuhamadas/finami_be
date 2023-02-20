@@ -7,7 +7,7 @@
     "allowJs": false,
     "target": "es6",
     "sourceMap": true,
-    "module": "commonjs",
+    "module": "ES2015",
     "baseUrl": "./src",
     "strict": true,
     "moduleResolution": "node"

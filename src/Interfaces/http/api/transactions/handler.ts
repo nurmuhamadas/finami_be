@@ -1,7 +1,7 @@
 import { Request } from '@hapi/hapi'
 import containerInstance from '../../../../Infrastructures/container'
 import autoBind from 'auto-bind'
-import TransactionsUseCase from 'Applications/use_case/TransactionsUseCase'
+import TransactionsUseCase from '../../../../Applications/use_case/TransactionsUseCase'
 
 class TransactionHandlers {
   _container: typeof containerInstance

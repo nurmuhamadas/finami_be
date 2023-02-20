@@ -4,7 +4,7 @@ import containerInstance from '../../../../Infrastructures/container'
 import TransactionHandlers from './handler'
 const routes = require('./routes')
 
-module.exports = {
+export default {
   name: 'transactions',
   register: async (
     server: Server,

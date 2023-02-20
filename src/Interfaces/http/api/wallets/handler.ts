@@ -1,7 +1,7 @@
 import { Request } from '@hapi/hapi'
 import containerInstance from '../../../../Infrastructures/container'
 import autoBind from 'auto-bind'
-import WalletsUseCase from 'Applications/use_case/WalletsUseCase'
+import WalletsUseCase from '../../../../Applications/use_case/WalletsUseCase'
 
 class WalletsHandler {
   _container: typeof containerInstance

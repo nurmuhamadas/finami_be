@@ -1,5 +1,5 @@
-import IdGenerator from 'Applications/common/IdGenerator'
-import WalletRepository from 'Domains/wallets/WalletRepository'
+import IdGenerator from '../../../Applications/common/IdGenerator'
+import WalletRepository from '../../../Domains/wallets/WalletRepository'
 
 export type WalletUseCaseType = {
   idGenerator: IdGenerator

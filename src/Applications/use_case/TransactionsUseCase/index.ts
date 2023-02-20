@@ -1,4 +1,4 @@
-import IdGenerator from 'Applications/common/IdGenerator'
+import IdGenerator from '../../../Applications/common/IdGenerator'
 import {
   AddTransactionPayload,
   DeleteTransactionPayload,
@@ -8,16 +8,16 @@ import {
   UpdateTransactionPayload,
 } from './types'
 import { calculateDiffTransactionAmount } from 'Commons/utils/helpers'
-import CategoryRepository from 'Domains/categories/CategoryRepository'
-import TransactionRepository from 'Domains/transactions/TransactionRepository'
-import FilterTransaction from 'Domains/transactions/entities/FilterTransaction'
-import RegisterTransaction from 'Domains/transactions/entities/RegisterTransaction'
-import UpdateDataTransaction from 'Domains/transactions/entities/UpdateDataTransaction'
+import CategoryRepository from '../../../Domains/categories/CategoryRepository'
+import TransactionRepository from '../../../Domains/transactions/TransactionRepository'
+import FilterTransaction from '../../../Domains/transactions/entities/FilterTransaction'
+import RegisterTransaction from '../../../Domains/transactions/entities/RegisterTransaction'
+import UpdateDataTransaction from '../../../Domains/transactions/entities/UpdateDataTransaction'
 import {
   GetTransactionResult,
   GetTransactionsResult,
-} from 'Domains/transactions/types'
-import WalletRepository from 'Domains/wallets/WalletRepository'
+} from '../../../Domains/transactions/types'
+import WalletRepository from '../../../Domains/wallets/WalletRepository'
 
 class TransactionsUseCase {
   _transactionRepository: TransactionRepository

@@ -1,8 +1,8 @@
-import IdGenerator from 'Applications/common/IdGenerator'
-import { OrderByType, TransactionTypesType } from 'Commons/types'
-import CategoryRepository from 'Domains/categories/CategoryRepository'
-import TransactionRepository from 'Domains/transactions/TransactionRepository'
-import WalletRepository from 'Domains/wallets/WalletRepository'
+import IdGenerator from '../../../Applications/common/IdGenerator'
+import { OrderByType, TransactionTypesType } from '../../../Commons/types'
+import CategoryRepository from '../../../Domains/categories/CategoryRepository'
+import TransactionRepository from '../../../Domains/transactions/TransactionRepository'
+import WalletRepository from '../../../Domains/wallets/WalletRepository'
 
 export type TransactionsUseCaseType = {
   idGenerator: IdGenerator

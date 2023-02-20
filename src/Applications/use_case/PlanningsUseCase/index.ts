@@ -1,4 +1,4 @@
-import IdGenerator from 'Applications/common/IdGenerator'
+import IdGenerator from '../../../Applications/common/IdGenerator'
 import {
   AddPlanningPayload,
   DeletePlanningPayload,
@@ -7,13 +7,16 @@ import {
   PlanningsUseCaseType,
   UpdatePlanningPayload,
 } from './types'
-import CategoryRepository from 'Domains/categories/CategoryRepository'
-import PlanningRepository from 'Domains/plannings/PlanningRepository'
-import FilterPlanning from 'Domains/plannings/entities/FilterPlanning'
-import RegisterPlanning from 'Domains/plannings/entities/RegisterPlanning'
-import UpdateDataPlanning from 'Domains/plannings/entities/UpdateDataPlanning'
-import { GetPlanningResult, GetPlanningsResult } from 'Domains/plannings/types'
-import WalletRepository from 'Domains/wallets/WalletRepository'
+import CategoryRepository from '../../../Domains/categories/CategoryRepository'
+import PlanningRepository from '../../../Domains/plannings/PlanningRepository'
+import FilterPlanning from '../../../Domains/plannings/entities/FilterPlanning'
+import RegisterPlanning from '../../../Domains/plannings/entities/RegisterPlanning'
+import UpdateDataPlanning from '../../../Domains/plannings/entities/UpdateDataPlanning'
+import {
+  GetPlanningResult,
+  GetPlanningsResult,
+} from '../../../Domains/plannings/types'
+import WalletRepository from '../../../Domains/wallets/WalletRepository'
 
 class PlanningsUseCase {
   _walletRepository: WalletRepository

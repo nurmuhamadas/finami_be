@@ -1,8 +1,8 @@
-import IdGenerator from 'Applications/common/IdGenerator'
-import AuthenticationTokenManager from 'Applications/security/AuthenticationTokenManager'
-import EncryptionHelper from 'Applications/security/EncryptionHelper'
-import AuthRepository from 'Domains/authentication/AuthRepository'
-import UserRepository from 'Domains/users/UserRepository'
+import IdGenerator from '../../../Applications/common/IdGenerator'
+import AuthenticationTokenManager from '../../../Applications/security/AuthenticationTokenManager'
+import EncryptionHelper from '../../../Applications/security/EncryptionHelper'
+import AuthRepository from '../../../Domains/authentication/AuthRepository'
+import UserRepository from '../../../Domains/users/UserRepository'
 
 export type AuthenticationsUseCaseType = {
   idGenerator: IdGenerator

@@ -1,8 +1,8 @@
 import { Request } from '@hapi/hapi'
-import containerInstance from '../../../../Infrastructures/container'
 import autoBind from 'auto-bind'
-import WalletsUseCase from 'Applications/use_case/WalletsUseCase'
-import CategoriesUseCase from 'Applications/use_case/CategoriesUseCase'
+import containerInstance from '../../../../Infrastructures/container'
+import WalletsUseCase from '../../../../Applications/use_case/WalletsUseCase'
+import CategoriesUseCase from '../../../../Applications/use_case/CategoriesUseCase'
 
 class CategoriesHandlers {
   _container: typeof containerInstance

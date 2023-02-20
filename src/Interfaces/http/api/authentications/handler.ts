@@ -1,7 +1,7 @@
 import { Request } from '@hapi/hapi'
-import containerInstance from '../../../../Infrastructures/container'
 import autoBind from 'auto-bind'
-import AuthenticationsUseCase from 'Applications/use_case/AuthenticationsUseCase'
+import containerInstance from '../../../../Infrastructures/container'
+import AuthenticationsUseCase from '../../../../Applications/use_case/AuthenticationsUseCase'
 
 class AuthHandler {
   _container: typeof containerInstance

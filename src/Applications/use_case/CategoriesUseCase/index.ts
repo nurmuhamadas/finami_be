@@ -1,4 +1,4 @@
-import IdGenerator from 'Applications/common/IdGenerator'
+import IdGenerator from '../../../Applications/common/IdGenerator'
 import {
   AddCategoryPayload,
   DeleteCategoryPayload,
@@ -7,14 +7,14 @@ import {
   CategoriesUseCaseType,
   UpdateCategoryPayload,
 } from './types'
-import CategoryRepository from 'Domains/categories/CategoryRepository'
-import FilterCategory from 'Domains/categories/entities/FilterCategory'
-import RegisterCategory from 'Domains/categories/entities/RegisterCategory'
-import UpdateDataCategory from 'Domains/categories/entities/UpdateDataCategory'
+import CategoryRepository from '../../../Domains/categories/CategoryRepository'
+import FilterCategory from '../../../Domains/categories/entities/FilterCategory'
+import RegisterCategory from '../../../Domains/categories/entities/RegisterCategory'
+import UpdateDataCategory from '../../../Domains/categories/entities/UpdateDataCategory'
 import {
   GetCategoriesResult,
   GetCategoryResult,
-} from 'Domains/categories/types'
+} from '../../../Domains/categories/types'
 
 class CategoriesUseCase {
   _categoryRepository: CategoryRepository

@@ -1,8 +1,8 @@
 import IdGenerator from 'Applications/common/IdGenerator'
-import CategoryRepository from 'Domains/categories/CategoryRepository'
-import PlanningRepository from 'Domains/plannings/PlanningRepository'
-import TransactionRepository from 'Domains/transactions/TransactionRepository'
-import WalletRepository from 'Domains/wallets/WalletRepository'
+import CategoryRepository from '../../../Domains/categories/CategoryRepository'
+import PlanningRepository from '../../../Domains/plannings/PlanningRepository'
+import TransactionRepository from '../../../Domains/transactions/TransactionRepository'
+import WalletRepository from '../../../Domains/wallets/WalletRepository'
 
 export type PlanningsUseCaseType = {
   idGenerator: IdGenerator

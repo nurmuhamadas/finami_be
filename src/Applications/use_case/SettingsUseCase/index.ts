@@ -1,4 +1,4 @@
-import IdGenerator from 'Applications/common/IdGenerator'
+import IdGenerator from '../../../Applications/common/IdGenerator'
 import {
   AddSettingPayload,
   DeleteSettingPayload,
@@ -7,10 +7,10 @@ import {
   SettingsUseCaseType,
   UpdateSettingPayload,
 } from './types'
-import SettingRepository from 'Domains/settings/SettingRepository'
-import RegisterSetting from 'Domains/settings/entities/RegisterSetting'
-import UpdateDataSetting from 'Domains/settings/entities/UpdateDataSetting'
-import { GetSettingResult } from 'Domains/settings/types'
+import SettingRepository from '../../../Domains/settings/SettingRepository'
+import RegisterSetting from '../../../Domains/settings/entities/RegisterSetting'
+import UpdateDataSetting from '../../../Domains/settings/entities/UpdateDataSetting'
+import { GetSettingResult } from '../../../Domains/settings/types'
 
 class SettingsUseCase {
   _settingRepository: SettingRepository

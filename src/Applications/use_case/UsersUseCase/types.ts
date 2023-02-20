@@ -1,6 +1,6 @@
-import IdGenerator from 'Applications/common/IdGenerator'
-import SettingRepository from 'Domains/settings/SettingRepository'
-import UserRepository from 'Domains/users/UserRepository'
+import IdGenerator from '../../../Applications/common/IdGenerator'
+import SettingRepository from '../../../Domains/settings/SettingRepository'
+import UserRepository from '../../../Domains/users/UserRepository'
 
 export type UsersUseCaseType = {
   idGenerator: IdGenerator

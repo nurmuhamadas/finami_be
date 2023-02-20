@@ -1,4 +1,4 @@
-import WalletRepository from 'Domains/wallets/WalletRepository'
+import WalletRepository from '../../../Domains/wallets/WalletRepository'
 import {
   WalletUseCaseType,
   GetWalletsPayload,
@@ -8,10 +8,13 @@ import {
   RestoreWalletPayload,
   GetWalletByIdPayload,
 } from './types'
-import { GetWalletResult, GetWalletsResult } from 'Domains/wallets/types'
-import RegisterWallet from 'Domains/wallets/entities/RegisterWallet'
-import UpdateDataWallet from 'Domains/wallets/entities/UpdateDataWallet'
-import IdGenerator from 'Applications/common/IdGenerator'
+import {
+  GetWalletResult,
+  GetWalletsResult,
+} from '../../../Domains/wallets/types'
+import RegisterWallet from '../../../Domains/wallets/entities/RegisterWallet'
+import UpdateDataWallet from '../../../Domains/wallets/entities/UpdateDataWallet'
+import IdGenerator from '../../../Applications/common/IdGenerator'
 
 class WalletsUseCase {
   _walletRepository: WalletRepository

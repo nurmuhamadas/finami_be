@@ -4,7 +4,7 @@ import containerInstance from '../../../../Infrastructures/container'
 import WalletsHandler from './handler'
 const routes = require('./routes')
 
-module.exports = {
+export default {
   name: 'wallets',
   register: async (
     server: Server,

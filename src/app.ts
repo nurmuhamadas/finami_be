@@ -1,16 +1,13 @@
-import { server as HapiServer } from '@hapi/hapi'
 import { config } from 'dotenv'
+import createServer from './Infrastructures/http/createServer'
+import containerInstance from './Infrastructures/container'
 
 config()
 
 const init = async () => {
-  const server = HapiServer({
-    port: 3000,
-    host: 'localhost',
-  })
-
+  const server = await createServer(containerInstance)
   await server.start()
-  console.log('Server running on %s', server.info.uri)
+  console.log(`server start at ${server.info.uri}`)
 }
 
 init()
