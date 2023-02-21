@@ -6,7 +6,7 @@ const Joi: typeof JoiType = require('joi')
 
 export const postAuthenticationSchema = Joi.object({
   username: Joi.string().required(),
-  password: Joi.number().required(),
+  password: Joi.string().required(),
 })
 
 export const putAuthenticationSchema = Joi.object({

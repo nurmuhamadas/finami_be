@@ -65,7 +65,7 @@ container.register([
     parameter: {
       dependencies: [
         {
-          concrete: Jwt,
+          concrete: Jwt.token,
         },
       ],
     },
@@ -171,7 +171,7 @@ container.register([
         },
         {
           name: 'tokenManager',
-          internal: JwtTokenManager.name,
+          internal: AuthenticationTokenManager.name,
         },
       ],
     },
@@ -273,6 +273,10 @@ container.register([
         {
           name: 'userRepository',
           internal: UserRepository.name,
+        },
+        {
+          name: 'encryptionHelper',
+          internal: EncryptionHelper.name,
         },
         {
           name: 'idGenerator',

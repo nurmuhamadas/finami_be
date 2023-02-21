@@ -140,7 +140,9 @@ class UserRepositoryPostgres extends UserRepository {
       throw new NotFoundError('user not found')
     }
 
-    return result.rows?.[0]?.password
+    return {
+      password: result.rows?.[0]?.password,
+    }
   }
 
   async getIdByUsername(username: string): Promise<{ id: string }> {

@@ -1,3 +1,4 @@
+import AuthenticationError from '../../Commons/exceptions/AuthenticationError'
 import EncryptionHelper from '../../Applications/security/EncryptionHelper'
 
 class BcryptPasswordHash extends EncryptionHelper {
@@ -15,10 +16,11 @@ class BcryptPasswordHash extends EncryptionHelper {
   }
 
   async comparePassword(password: string, hashedPassword: string) {
+    console.log(password, hashedPassword)
     const result = await this._bcrypt.compare(password, hashedPassword)
 
     if (!result) {
-      // throw new AuthenticationError('kredensial yang Anda masukkan salah')
+      throw new AuthenticationError('Invalid password')
     }
   }
 }

@@ -12,20 +12,24 @@ import UserRepository from '../../../Domains/users/UserRepository'
 import RegisterUser from '../../../Domains/users/entities/RegisterUser'
 import UpdateDataUser from '../../../Domains/users/entities/UpdateDataUser'
 import { GetUsersResult } from '../../../Domains/users/types'
+import EncryptionHelper from 'Applications/security/EncryptionHelper'
 
 class UsersUseCase {
   _settingRepository: SettingRepository
   _userRepository: UserRepository
   _idGenerator: IdGenerator
+  _encryptionHelper: EncryptionHelper
 
   constructor({
     settingRepository,
     userRepository,
+    encryptionHelper,
     idGenerator,
   }: UsersUseCaseType) {
     this._settingRepository = settingRepository
     this._userRepository = userRepository
     this._idGenerator = idGenerator
+    this._encryptionHelper = encryptionHelper
   }
 
   async getUsersById({
@@ -58,6 +62,9 @@ class UsersUseCase {
     if (parent_id) {
       await this._userRepository.verifyAvailableParent(parent_id)
     }
+
+    const hashedPassword = await this._encryptionHelper.hash(password)
+    registerUser.values.password = hashedPassword
 
     const result = await this._userRepository.addUser(registerUser)
 
@@ -92,6 +99,9 @@ class UsersUseCase {
 
     //  verify access
     await this._userRepository.verifyUserAccess(id, user_id)
+
+    const hashedPassword = await this._encryptionHelper.hash(password)
+    updateDataUser.values.password = hashedPassword
 
     const result = await this._userRepository.updateUser(id, updateDataUser)
     return result
