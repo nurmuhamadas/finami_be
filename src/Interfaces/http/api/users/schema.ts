@@ -7,10 +7,10 @@ const Joi: typeof JoiType = require('joi')
 export const postUserSchema = Joi.object({
   username: Joi.string().max(30).required(),
   email: Joi.string().email().max(50).required(),
-  password: Joi.string().required(),
+  password: Joi.string().min(8).required(),
   fullname: Joi.string().required(),
   image_url: Joi.string(),
-  parent_id: Joi.string().max(20),
+  parent_id: Joi.string().min(20).max(20),
 })
 
 export const putUserSchema = Joi.object({

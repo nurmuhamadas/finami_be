@@ -12,7 +12,7 @@ class FilterPlanning {
   _verifyPayload({ wallet_id, month }: PlanningFilter) {
     if (
       wallet_id &&
-      (wallet_id.startsWith('wallet-') || wallet_id.length !== 20)
+      (!wallet_id.startsWith('wallet-') || wallet_id.length !== 20)
     )
       throw new Error('PLANNING_FILTER.INVALID_WALLET_ID')
 

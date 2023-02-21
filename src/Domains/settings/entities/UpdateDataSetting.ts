@@ -13,11 +13,11 @@ class UpdateDataSetting {
   }
 
   _verifyPayload({ currency_id, date_format }: UpdateDataSettingPayload) {
-    if (currency_id.startsWith('category-') || currency_id.length !== 20)
-      throw new Error('REGISTER_PLANNING.INVALID_CURRENCY_ID')
+    if (!currency_id.startsWith('currency-'))
+      throw new Error('UPDATE_DATA_SETTING.INVALID_CURRENCY_ID')
 
     if (
-      [
+      ![
         'yyyy/mm/dd',
         'dd/mm/yyyy',
         'mm/dd/yyyy',
@@ -28,7 +28,7 @@ class UpdateDataSetting {
         'yyyy-dd-mm',
       ].includes(date_format)
     )
-      throw new Error('REGISTER_PLANNING.INVALID_DATE_FORMAT')
+      throw new Error('UPDATE_DATA_SETTING.INVALID_DATE_FORMAT')
   }
 }
 

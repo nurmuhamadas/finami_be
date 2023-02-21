@@ -22,15 +22,15 @@ class RegisterCategory {
     transaction_type,
     user_id,
   }: RegisterCategoryPayload) {
-    if (id.startsWith('user-') || id.length !== 20)
+    if (!id.startsWith('category-') || id.length !== 20)
       throw new Error('REGISTER_CATEGORY.INVALID_ID')
 
     if (name.length > 30) throw new Error('REGISTER_CATEGORY.NAME_LIMIT_CHAR')
 
     if (
       icon_url &&
-      icon_url.match(
-        /[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gi,
+      !/[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gi.test(
+        icon_url,
       )
     )
       throw new Error('REGISTER_CATEGORY.INVALID_ICON_URL')
@@ -38,7 +38,7 @@ class RegisterCategory {
     if (!['in', 'out'].includes(transaction_type))
       throw new Error('REGISTER_CATEGORY.INVALID_TRANSACTION_TYPE')
 
-    if (user_id.startsWith('user-') || user_id.length !== 20)
+    if (!user_id.startsWith('user-') || user_id.length !== 20)
       throw new Error('REGISTER_CATEGORY.INVALID_USER_ID')
   }
 }

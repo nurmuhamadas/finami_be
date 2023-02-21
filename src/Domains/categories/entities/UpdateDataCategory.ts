@@ -23,8 +23,8 @@ class UpdateDataCategory {
 
     if (
       icon_url &&
-      icon_url.match(
-        /[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gi,
+      !/[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gi.test(
+        icon_url,
       )
     )
       throw new Error('UPDATE_DATA_CATEGORY.INVALID_ICON_URL')
@@ -32,7 +32,7 @@ class UpdateDataCategory {
     if (!['in', 'out'].includes(transaction_type))
       throw new Error('UPDATE_DATA_CATEGORY.INVALID_TRANSACTION_TYPE')
 
-    if (user_id.startsWith('user-') || user_id.length !== 20)
+    if (!user_id.startsWith('user-') || user_id.length !== 20)
       throw new Error('UPDATE_DATA_CATEGORY.INVALID_USER_ID')
   }
 }

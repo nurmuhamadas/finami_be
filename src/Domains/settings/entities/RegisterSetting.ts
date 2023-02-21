@@ -21,17 +21,17 @@ class RegisterSetting {
     currency_id,
     date_format,
   }: RegisterSettingPayload) {
-    if (id.startsWith('user-') || id.length !== 20)
-      throw new Error('REGISTER_PLANNING.INVALID_ID')
+    if (!id.startsWith('setting-') || id.length !== 20)
+      throw new Error('REGISTER_SETTING.INVALID_ID')
 
-    if (user_id.startsWith('user-') || user_id.length !== 20)
-      throw new Error('REGISTER_PLANNING.INVALID_USER_ID')
+    if (!user_id.startsWith('user-') || user_id.length !== 20)
+      throw new Error('REGISTER_SETTING.INVALID_USER_ID')
 
-    if (currency_id.startsWith('category-') || currency_id.length !== 20)
-      throw new Error('REGISTER_PLANNING.INVALID_CURRENCY_ID')
+    if (!currency_id.startsWith('currency-'))
+      throw new Error('REGISTER_SETTING.INVALID_CURRENCY_ID')
 
     if (
-      [
+      ![
         'yyyy/mm/dd',
         'dd/mm/yyyy',
         'mm/dd/yyyy',
@@ -42,7 +42,7 @@ class RegisterSetting {
         'yyyy-dd-mm',
       ].includes(date_format)
     )
-      throw new Error('REGISTER_PLANNING.INVALID_DATE_FORMAT')
+      throw new Error('REGISTER_SETTING.INVALID_DATE_FORMAT')
   }
 }
 
