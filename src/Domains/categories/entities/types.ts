@@ -3,7 +3,7 @@ import { CategoryGroupsType, TransactionTypesType } from 'Commons/types'
 export type RegisterCategoryResult = {
   id: string
   name: string
-  icon_url?: string
+  icon_url?: string | null
   transaction_type: TransactionTypesType
   user_id: string
   group: CategoryGroupsType
@@ -15,7 +15,7 @@ export type RegisterCategoryResult = {
 export type RegisterCategoryPayload = {
   id: string
   name: string
-  icon_url?: string
+  icon_url?: string | null
   transaction_type: TransactionTypesType
   user_id: string
   group: CategoryGroupsType
@@ -23,7 +23,7 @@ export type RegisterCategoryPayload = {
 
 export type UpdateDataCategoryResult = {
   name: string
-  icon_url?: string
+  icon_url?: string | null
   transaction_type: TransactionTypesType
   user_id: string
   group: CategoryGroupsType

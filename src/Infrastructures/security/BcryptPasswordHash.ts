@@ -16,7 +16,6 @@ class BcryptPasswordHash extends EncryptionHelper {
   }
 
   async comparePassword(password: string, hashedPassword: string) {
-    console.log(password, hashedPassword)
     const result = await this._bcrypt.compare(password, hashedPassword)
 
     if (!result) {

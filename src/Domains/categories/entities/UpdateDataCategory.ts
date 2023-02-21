@@ -1,3 +1,4 @@
+import { categoryGroup } from '../../../Commons/utils/consts'
 import { UpdateDataCategoryResult, UpdateDataCategoryPayload } from './types'
 
 class UpdateDataCategory {
@@ -8,6 +9,7 @@ class UpdateDataCategory {
 
     this.values = {
       ...payload,
+      icon_url: payload.icon_url || null,
       updated_at: new Date(),
     }
   }
@@ -17,6 +19,7 @@ class UpdateDataCategory {
     icon_url,
     transaction_type,
     user_id,
+    group,
   }: UpdateDataCategoryPayload) {
     if (name.length > 30)
       throw new Error('UPDATE_DATA_CATEGORY.NAME_LIMIT_CHAR')
@@ -34,6 +37,13 @@ class UpdateDataCategory {
 
     if (!user_id.startsWith('user-') || user_id.length !== 20)
       throw new Error('UPDATE_DATA_CATEGORY.INVALID_USER_ID')
+
+    if (
+      !categoryGroup.includes(group) ||
+      (transaction_type === 'in' && group !== 'Income') ||
+      (transaction_type === 'out' && group === 'Income')
+    )
+      throw new Error('REGISTER_CATEGORY.INVALID_GROUP')
   }
 }
 

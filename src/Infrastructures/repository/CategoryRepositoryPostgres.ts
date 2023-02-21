@@ -63,20 +63,12 @@ class CategoryRepositoryPostgres extends CategoryRepository {
     id: string,
     updateDataCategory: UpdateDataCategory,
   ): Promise<{ id: string }> {
-    const { name, icon_url, user_id, transaction_type, group, updated_at } =
+    const { name, icon_url, user_id, transaction_type, group } =
       updateDataCategory.values
     const query = {
       text: `UPDATE categories SET name = $1, icon_url = $2, user_id = $3, transaction_type = $4,
-            group = $5, updated_at = $6 WHERE id = $7 AND deleted_at IS NULL RETURNING id`,
-      values: [
-        name,
-        icon_url,
-        user_id,
-        transaction_type,
-        group,
-        updated_at,
-        id,
-      ],
+            "group" = $5, updated_at = NOW() WHERE id = $6 AND deleted_at IS NULL RETURNING id`,
+      values: [name, icon_url, user_id, transaction_type, group, id],
     }
 
     const result = await this._pool.query(query)

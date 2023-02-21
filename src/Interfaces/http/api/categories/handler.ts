@@ -1,7 +1,6 @@
 import { Request } from '@hapi/hapi'
 import autoBind from 'auto-bind'
 import containerInstance from '../../../../Infrastructures/container'
-import WalletsUseCase from '../../../../Applications/use_case/WalletsUseCase'
 import CategoriesUseCase from '../../../../Applications/use_case/CategoriesUseCase'
 
 class CategoriesHandlers {
@@ -19,7 +18,7 @@ class CategoriesHandlers {
     )
 
     const { id: userId } = request.auth.credentials
-    const { transaction_type } = request.payload as any
+    const { transaction_type } = request.query
     const data = await categoryUseCase.getCategories({
       user_id: userId as string,
       transaction_type,
@@ -56,7 +55,7 @@ class CategoriesHandlers {
 
   async postCategoryHandler(request: Request, h: any) {
     const categoryUseCase: CategoriesUseCase = this._container.getInstance(
-      WalletsUseCase.name,
+      CategoriesUseCase.name,
     )
 
     const { id: userId } = request.auth.credentials
@@ -80,7 +79,7 @@ class CategoriesHandlers {
 
   async putCategoryHandler(request: Request, h: any) {
     const categoryUseCase: CategoriesUseCase = this._container.getInstance(
-      WalletsUseCase.name,
+      CategoriesUseCase.name,
     )
 
     const { id: userId } = request.auth.credentials
@@ -105,8 +104,9 @@ class CategoriesHandlers {
   }
 
   async deleteCategoryHandler(request: Request, h: any) {
+    console.log('called')
     const categoryUseCase: CategoriesUseCase = this._container.getInstance(
-      WalletsUseCase.name,
+      CategoriesUseCase.name,
     )
 
     const { id: userId } = request.auth.credentials

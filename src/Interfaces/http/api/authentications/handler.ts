@@ -40,7 +40,6 @@ class AuthHandler {
     )
     const { refreshToken } = request.payload as any
 
-    console.log(request.payload)
     const res = await authUseCase.refreshAuth({
       refreshToken,
     })

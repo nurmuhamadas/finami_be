@@ -80,12 +80,12 @@ const createServer = async (container: typeof containerInstance) => {
       console.log(translatedError)
 
       if (translatedError instanceof ClientError) {
-        const newResponse = h.response({
+        const _newResponse = h.response({
           status: 'fail',
           message: translatedError.message,
         })
-        newResponse.code(translatedError.statusCode)
-        return newResponse
+        _newResponse.code(translatedError.statusCode)
+        return _newResponse
       }
 
       if (!translatedError.isServer) {

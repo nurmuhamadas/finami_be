@@ -3,9 +3,14 @@ import { DomainErrorTranslatorType } from './types'
 import InvariantError from './InvariantError'
 
 const DomainErrorTranslator: DomainErrorTranslatorType = {
-  errorMessageGenerator: (message: string) => {
-    let _message = message
-    const [domain, messageCode] = message
+  errorMessageGenerator: (error) => {
+    if (!error.message.includes('.') || !error.message.includes('_')) {
+      return error
+    }
+
+    console.log(error)
+    let _message = ''
+    const [domain, messageCode] = error.message.split('.')
 
     if (domain.includes('REGISTER_')) {
       _message = `can't create new ${domain
@@ -18,13 +23,17 @@ const DomainErrorTranslator: DomainErrorTranslatorType = {
     }
 
     if (messageCode.includes('INVALID_PASSWORD')) {
-      message += `can't create new user, password should contain lowercase, uppercase, number, special character, and minimal 8 character.`
+      _message += `can't create new user, password should contain lowercase, uppercase, number, special character, and minimal 8 character.`
     } else if (messageCode.includes('INVALID_')) {
-      message += `invalid ${domain.replace('INVALID_', '').toLowerCase()}.`
+      _message += `invalid ${messageCode
+        .replace('INVALID_', '')
+        .toLowerCase()}.`
     } else if (messageCode.includes('_LIMIT_CHAR')) {
-      message += `${domain.replace('_LIMIT_CHAR', '').toLowerCase()} too long.`
+      _message += `${messageCode
+        .replace('_LIMIT_CHAR', '')
+        .toLowerCase()} too long.`
     } else if (messageCode.includes('_CONTAIN_RESTRICTED_CHARACTER')) {
-      message += `${domain
+      _message += `${messageCode
         .replace('_CONTAIN_RESTRICTED_CHARACTER', '')
         .toLowerCase()} contain restricted character.`
     }
@@ -32,11 +41,7 @@ const DomainErrorTranslator: DomainErrorTranslatorType = {
     return new InvariantError(_message)
   },
   translate(error) {
-    if ((error as any).isServer) {
-      return error
-    }
-
-    return this.errorMessageGenerator(error.message)
+    return this.errorMessageGenerator(error)
   },
 }
 
