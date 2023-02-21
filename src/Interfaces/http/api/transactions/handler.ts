@@ -28,7 +28,7 @@ class TransactionHandlers {
       offset,
       order_by,
       sort_by,
-    } = request.payload as any
+    } = request.query as any
     const data = await transactionsUseCase.getTranscations({
       user_id: userId as string,
       child_id,

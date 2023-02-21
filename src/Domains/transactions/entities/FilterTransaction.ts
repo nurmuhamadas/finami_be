@@ -39,7 +39,7 @@ class FilterTransaction {
     )
       throw new Error('FILTER_TRANSACTION.INVALID_WALLET_ID')
 
-    if (sort_by && !['amount'].includes(sort_by))
+    if (sort_by && !['amount', 'date'].includes(sort_by))
       throw new Error('FILTER_TRANSACTION.INVALID_SORT_BY')
 
     if (order_by && !['asc', 'desc'].includes(order_by))

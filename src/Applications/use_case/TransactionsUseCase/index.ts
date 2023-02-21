@@ -159,12 +159,17 @@ class TransactionsUseCase {
         type: lastTransaction.transaction_type,
       },
     )
-    if (transaction_type === 'in') {
-    }
+
     if (diffAmount > 0) {
-      await this._walletRepository.increaseWalletBalance(wallet_id, amount)
+      await this._walletRepository.increaseWalletBalance(
+        wallet_id,
+        Math.abs(diffAmount),
+      )
     } else {
-      await this._walletRepository.reduceWalletBalance(wallet_id, amount)
+      await this._walletRepository.reduceWalletBalance(
+        wallet_id,
+        Math.abs(diffAmount),
+      )
     }
 
     return result

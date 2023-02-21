@@ -186,35 +186,28 @@ class TransactionRepositoryPostgres extends TransactionRepository {
       }
       if (search_key) {
         count += 1
-        _filter += ` AND description = %$${count}%`
-        values.push(search_key)
+        _filter += ` AND descriptions LIKE $${count}`
+        values.push(`%${search_key}%`)
       }
+
+      _filter += ` ORDER BY t.${sort_by} ${order_by}`
+
       if (limit) {
         count += 1
-        _filter += ` LIMIT = $${count}`
+        _filter += ` LIMIT $${count}`
         values.push(limit)
       }
       if (offset) {
         count += 1
-        _filter += ` OFFSET = $${count}`
+        _filter += ` OFFSET $${count}`
         values.push(offset)
-      }
-      if (sort_by) {
-        count += 1
-        _filter += ` SORT_BY $${count}`
-        values.push(sort_by)
-      }
-      if (order_by) {
-        count += 1
-        _filter += ` ORDER_BY $${count}`
-        values.push(sort_by)
       }
     }
 
     const query = {
       text: `SELECT t.*, u.username FROM transactions t
             LEFT JOIN users u ON t.user_id = u.id
-            WHERE (u.id = $1 OR u.parent_id = $1) AND deleted_at IS NULL
+            WHERE (u.id = $1 OR u.parent_id = $1) AND t.deleted_at IS NULL
             ${_filter}`,
       values,
     }
@@ -227,7 +220,7 @@ class TransactionRepositoryPostgres extends TransactionRepository {
     const query = {
       text: `SELECT t.*, u.username FROM transactions t
             LEFT JOIN users u ON t.user_id = u.id
-            WHERE t.id = $1 AND deleted_at IS NULL`,
+            WHERE t.id = $1 AND t.deleted_at IS NULL`,
       values: [id],
     }
 

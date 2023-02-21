@@ -146,8 +146,8 @@ class WalletRepositoryPostgres extends WalletRepository {
     amount: number,
   ): Promise<{ id: string }> {
     const query = {
-      text: `UPDATE wallets SET amount = amount + $1
-            WHERE id = $2 AND deleted_at IS NULL`,
+      text: `UPDATE wallets SET balance = balance + $1
+            WHERE id = $2 AND deleted_at IS NULL RETURNING id`,
       values: [amount, walletId],
     }
 
@@ -167,8 +167,8 @@ class WalletRepositoryPostgres extends WalletRepository {
     amount: number,
   ): Promise<{ id: string }> {
     const query = {
-      text: `UPDATE wallets SET amount = amount - $1
-            WHERE id = $2 AND deleted_at IS NULL`,
+      text: `UPDATE wallets SET balance = balance - $1
+            WHERE id = $2 AND deleted_at IS NULL RETURNING id`,
       values: [amount, walletId],
     }
 

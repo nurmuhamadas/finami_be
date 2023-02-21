@@ -13,5 +13,5 @@ export const calculateDiffTransactionAmount = (
   let _lastTrx =
     (lastTransaction.amount || 0) * (lastTransaction.type === 'in' ? 1 : -1)
 
-  return _lastTrx - _newTrx
+  return _newTrx - _lastTrx
 }

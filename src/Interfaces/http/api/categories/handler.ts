@@ -104,7 +104,6 @@ class CategoriesHandlers {
   }
 
   async deleteCategoryHandler(request: Request, h: any) {
-    console.log('called')
     const categoryUseCase: CategoriesUseCase = this._container.getInstance(
       CategoriesUseCase.name,
     )

@@ -8,7 +8,6 @@ const DomainErrorTranslator: DomainErrorTranslatorType = {
       return error
     }
 
-    console.log(error)
     let _message = ''
     const [domain, messageCode] = error.message.split('.')
 
