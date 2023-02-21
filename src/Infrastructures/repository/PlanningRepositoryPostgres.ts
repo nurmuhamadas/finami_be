@@ -134,10 +134,12 @@ class PlanningRepositoryPostgres extends PlanningRepository {
         _filter += ` AND wallet_id = $${count}`
         values.push(wallet_id)
       }
-      if (month?.[0] && month?.[1]) {
+      if (month?.[0]) {
         count += 1
         _filter += ` AND month >= $${count}`
         values.push(month?.[0])
+      }
+      if (month?.[1]) {
         count += 1
         _filter += ` AND month <= $${count}`
         values.push(month?.[1])
@@ -147,7 +149,7 @@ class PlanningRepositoryPostgres extends PlanningRepository {
     const query = {
       text: `SELECT p.*, u.username FROM plannings p
             LEFT JOIN users u ON p.user_id = u.id
-            WHERE (u.id = $1 OR u.parent_id = $1) AND deleted_at IS NULL
+            WHERE (u.id = $1 OR u.parent_id = $1) AND p.deleted_at IS NULL
             ${_filter}`,
       values,
     }
@@ -160,7 +162,7 @@ class PlanningRepositoryPostgres extends PlanningRepository {
     const query = {
       text: `SELECT p.*, u.username FROM plannings p
             LEFT JOIN users u ON p.user_id = u.id
-            WHERE p.id = $1 AND deleted_at IS NULL`,
+            WHERE p.id = $1 AND p.deleted_at IS NULL`,
       values: [id],
     }
 

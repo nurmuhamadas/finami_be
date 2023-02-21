@@ -6,7 +6,8 @@ const Joi: typeof JoiType = require('joi')
 
 export const getPlanningsSchema = Joi.object({
   child_id: Joi.string(),
-  month: Joi.array().length(2).items(Joi.date()),
+  start_month: Joi.date(),
+  end_month: Joi.date(),
   wallet_id: Joi.string(),
 })
 

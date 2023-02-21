@@ -23,6 +23,8 @@ const DomainErrorTranslator: DomainErrorTranslatorType = {
 
     if (messageCode.includes('INVALID_PASSWORD')) {
       _message += `can't create new user, password should contain lowercase, uppercase, number, special character, and minimal 8 character.`
+    } else if (messageCode.includes('START_DATE_SHOULD_BEFORE_END_DATE')) {
+      _message += 'Start date should before end date'
     } else if (messageCode.includes('INVALID_')) {
       _message += `invalid ${messageCode
         .replace('INVALID_', '')

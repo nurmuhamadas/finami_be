@@ -17,8 +17,6 @@ class FilterPlanning {
       throw new Error('PLANNING_FILTER.INVALID_WALLET_ID')
 
     if (month) {
-      if (!month[0] || !month[1])
-        throw new Error('PLANNING_FILTER.DATE_NOT_GIVEN')
       if (month[0] > month[1])
         throw new Error('PLANNING_FILTER.START_DATE_SHOULD_BEFORE_END_DATE')
     }

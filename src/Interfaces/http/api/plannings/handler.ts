@@ -19,11 +19,11 @@ class PlanningsHandlers {
     )
 
     const { id: userId } = request.auth.credentials
-    const { child_id, month, wallet_id } = request.payload as any
+    const { child_id, start_month, end_month, wallet_id } = request.query as any
     const data = await planningUseCase.getPlannings({
       user_id: userId as string,
       child_id,
-      month,
+      month: [start_month, end_month],
       wallet_id,
     })
 
@@ -58,7 +58,7 @@ class PlanningsHandlers {
 
   async postPlanningHandler(request: Request, h: any) {
     const planningUseCase: PlanningsUseCase = this._container.getInstance(
-      WalletsUseCase.name,
+      PlanningsUseCase.name,
     )
 
     const { id: userId } = request.auth.credentials
@@ -84,7 +84,7 @@ class PlanningsHandlers {
 
   async putPlanningHandler(request: Request, h: any) {
     const planningUseCase: PlanningsUseCase = this._container.getInstance(
-      WalletsUseCase.name,
+      PlanningsUseCase.name,
     )
 
     const { id: userId } = request.auth.credentials
@@ -110,7 +110,7 @@ class PlanningsHandlers {
 
   async deletePlanningHandler(request: Request, h: any) {
     const planningUseCase: PlanningsUseCase = this._container.getInstance(
-      WalletsUseCase.name,
+      PlanningsUseCase.name,
     )
 
     const { id: userId } = request.auth.credentials
