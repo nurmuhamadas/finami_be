@@ -16,6 +16,7 @@ class UsersHandler {
     const userUseCase: UsersUseCase = this._container.getInstance(
       UsersUseCase.name,
     )
+
     const { username, email, password, fullname, parent_id, image_url } =
       request.payload as any
 

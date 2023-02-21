@@ -1,4 +1,5 @@
 import SettingHandlers from './handler'
+import { putSettingSchema } from './schema'
 
 const routes = (handler: SettingHandlers) => [
   {
@@ -23,6 +24,9 @@ const routes = (handler: SettingHandlers) => [
     handler: handler.putSettingHandler,
     options: {
       auth: 'finami_jwt',
+      validate: {
+        payload: putSettingSchema,
+      },
     },
   },
   {

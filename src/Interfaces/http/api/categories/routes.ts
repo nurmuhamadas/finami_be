@@ -1,4 +1,9 @@
 import CategoriesHandlers from './handler'
+import {
+  getCategoriesSchema,
+  postCategorySchema,
+  putCategorySchema,
+} from './schema'
 
 const routes = (handler: CategoriesHandlers) => [
   {
@@ -7,6 +12,9 @@ const routes = (handler: CategoriesHandlers) => [
     handler: handler.getCategoriesHandler,
     options: {
       auth: 'finami_jwt',
+      validate: {
+        query: getCategoriesSchema,
+      },
     },
   },
   {
@@ -19,10 +27,13 @@ const routes = (handler: CategoriesHandlers) => [
   },
   {
     method: 'POST',
-    path: '/categories/{id}',
+    path: '/categories',
     handler: handler.postCategoryHandler,
     options: {
       auth: 'finami_jwt',
+      validate: {
+        payload: postCategorySchema,
+      },
     },
   },
   {
@@ -31,6 +42,9 @@ const routes = (handler: CategoriesHandlers) => [
     handler: handler.putCategoryHandler,
     options: {
       auth: 'finami_jwt',
+      validate: {
+        payload: putCategorySchema,
+      },
     },
   },
   {

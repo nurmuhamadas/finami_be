@@ -1,4 +1,9 @@
 import PlanningsHandlers from './handler'
+import {
+  getPlanningsSchema,
+  postPlanningSchema,
+  putPlanningSchema,
+} from './schema'
 
 const routes = (handler: PlanningsHandlers) => [
   {
@@ -7,6 +12,9 @@ const routes = (handler: PlanningsHandlers) => [
     handler: handler.getPlanningsHandler,
     options: {
       auth: 'finami_jwt',
+      validate: {
+        query: getPlanningsSchema,
+      },
     },
   },
   {
@@ -19,10 +27,13 @@ const routes = (handler: PlanningsHandlers) => [
   },
   {
     method: 'POST',
-    path: '/plannings/{id}',
+    path: '/plannings',
     handler: handler.postPlanningHandler,
     options: {
       auth: 'finami_jwt',
+      validate: {
+        payload: postPlanningSchema,
+      },
     },
   },
   {
@@ -31,6 +42,9 @@ const routes = (handler: PlanningsHandlers) => [
     handler: handler.putPlanningHandler,
     options: {
       auth: 'finami_jwt',
+      validate: {
+        payload: putPlanningSchema,
+      },
     },
   },
   {

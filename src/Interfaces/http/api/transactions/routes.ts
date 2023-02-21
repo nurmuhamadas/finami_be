@@ -1,4 +1,9 @@
 import TransactionHandlers from './handler'
+import {
+  getTransactionSchema,
+  postTransactionSchema,
+  putTransactionSchema,
+} from './schema'
 
 const routes = (handler: TransactionHandlers) => [
   {
@@ -7,6 +12,9 @@ const routes = (handler: TransactionHandlers) => [
     handler: handler.getTransactionsHandler,
     options: {
       auth: 'finami_jwt',
+      validate: {
+        query: getTransactionSchema,
+      },
     },
   },
   {
@@ -19,10 +27,13 @@ const routes = (handler: TransactionHandlers) => [
   },
   {
     method: 'POST',
-    path: '/transactions/{id}',
+    path: '/transactions',
     handler: handler.postTransactionHandler,
     options: {
       auth: 'finami_jwt',
+      validate: {
+        payload: postTransactionSchema,
+      },
     },
   },
   {
@@ -31,6 +42,9 @@ const routes = (handler: TransactionHandlers) => [
     handler: handler.putTransactionHandler,
     options: {
       auth: 'finami_jwt',
+      validate: {
+        payload: putTransactionSchema,
+      },
     },
   },
   {

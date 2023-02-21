@@ -28,6 +28,7 @@ import AuthenticationsUseCase from '../Applications/use_case/AuthenticationsUseC
 import CategoriesUseCase from '../Applications/use_case/CategoriesUseCase'
 import PlanningsUseCase from '../Applications/use_case/PlanningsUseCase'
 import SettingsUseCase from '../Applications/use_case/SettingsUseCase'
+import UsersUseCase from '../Applications/use_case/UsersUseCase'
 import TransactionsUseCase from '../Applications/use_case/TransactionsUseCase'
 
 // creating container
@@ -260,8 +261,8 @@ container.register([
     },
   },
   {
-    key: TransactionsUseCase.name,
-    Class: TransactionsUseCase,
+    key: UsersUseCase.name,
+    Class: UsersUseCase,
     parameter: {
       injectType: 'destructuring',
       dependencies: [
