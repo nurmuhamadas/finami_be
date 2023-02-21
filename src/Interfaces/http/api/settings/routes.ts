@@ -29,14 +29,14 @@ const routes = (handler: SettingHandlers) => [
       },
     },
   },
-  {
-    method: 'DELETE',
-    path: '/setting/{id}',
-    handler: handler.deleteSettingHandler,
-    options: {
-      auth: 'finami_jwt',
-    },
-  },
+  // {
+  //   method: 'DELETE',
+  //   path: '/setting/{id}',
+  //   handler: handler.deleteSettingHandler,
+  //   options: {
+  //     auth: 'finami_jwt',
+  //   },
+  // },
 ]
 
 export default routes

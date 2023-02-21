@@ -35,7 +35,7 @@ class SettingsUseCase {
     // verify access
     await this._settingRepository.verifySettingOwner(id, user_id)
 
-    const result = await this._settingRepository.getSettingByUserId(id)
+    const result = await this._settingRepository.getSettingById(id)
     return result
   }
 

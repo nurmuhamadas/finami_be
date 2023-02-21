@@ -1,7 +1,6 @@
 import { Request } from '@hapi/hapi'
 import autoBind from 'auto-bind'
 import containerInstance from '../../../../Infrastructures/container'
-import WalletsUseCase from '../../../../Applications/use_case/WalletsUseCase'
 import SettingsUseCase from '../../../../Applications/use_case/SettingsUseCase'
 
 class SettingsHandlers {
@@ -53,7 +52,7 @@ class SettingsHandlers {
 
   async putSettingHandler(request: Request, h: any) {
     const settingsUseCase: SettingsUseCase = this._container.getInstance(
-      WalletsUseCase.name,
+      SettingsUseCase.name,
     )
 
     const { id: userId } = request.auth.credentials
@@ -77,7 +76,7 @@ class SettingsHandlers {
 
   async deleteSettingHandler(request: Request, h: any) {
     const settingsUseCase: SettingsUseCase = this._container.getInstance(
-      WalletsUseCase.name,
+      SettingsUseCase.name,
     )
 
     const { id: userId } = request.auth.credentials

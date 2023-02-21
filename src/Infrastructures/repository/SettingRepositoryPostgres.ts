@@ -1,3 +1,4 @@
+import AuthorizationError from '../../Commons/exceptions/AuthorizationError'
 import InvariantError from '../../Commons/exceptions/InvariantError'
 import NotFoundError from '../../Commons/exceptions/NotFoundError'
 import SettingRepository from '../../Domains/settings/SettingRepository'
@@ -107,14 +108,14 @@ class SettingRepositoryPostgres extends SettingRepository {
 
   async getSettingByUserId(userId: string): Promise<GetSettingResult> {
     const query = {
-      text: 'SELECT * FROM plannings WHERE user_id = $1 AND deleted_at IS NULL',
+      text: 'SELECT * FROM settings WHERE user_id = $1 AND deleted_at IS NULL',
       values: [userId],
     }
 
     const result = await this._pool.query(query)
 
     if (!result.rowCount) {
-      throw new NotFoundError('planning not found')
+      throw new NotFoundError('setting not found')
     }
 
     return {
@@ -124,14 +125,14 @@ class SettingRepositoryPostgres extends SettingRepository {
 
   async getSettingById(id: string): Promise<GetSettingResult> {
     const query = {
-      text: 'SELECT * FROM plannings WHERE id = $1 AND deleted_at IS NULL',
+      text: 'SELECT * FROM settings WHERE id = $1 AND deleted_at IS NULL',
       values: [id],
     }
 
     const result = await this._pool.query(query)
 
     if (!result.rowCount) {
-      throw new NotFoundError('planning not found')
+      throw new NotFoundError('setting not found')
     }
 
     return {
@@ -173,6 +174,43 @@ class SettingRepositoryPostgres extends SettingRepository {
     return {
       id: result.rows?.[0]?.id,
     }
+  }
+
+  async verifySettingAccess(id: string, parentId: string): Promise<boolean> {
+    const query = {
+      text: `SELECT u.parent_id FROM settings s JOIN users u ON s.user_id = u.id
+            WHERE s.id = $1`,
+      values: [id],
+    }
+
+    const result = await this._pool.query(query)
+
+    if (!result.rowCount) {
+      throw new NotFoundError('setting not found')
+    }
+    if (result.rows?.[0]?.parent_id !== parentId) {
+      throw new AuthorizationError('You not allowed to perform this action')
+    }
+
+    return true
+  }
+
+  async verifySettingOwner(id: string, userId: string): Promise<boolean> {
+    const query = {
+      text: `SELECT user_id FROM settings WHERE id = $1`,
+      values: [id],
+    }
+
+    const result = await this._pool.query(query)
+
+    if (!result.rowCount) {
+      throw new NotFoundError('setting not found')
+    }
+    if (result.rows?.[0]?.user_id !== userId) {
+      throw new AuthorizationError('You not allowed to access this record')
+    }
+
+    return true
   }
 }
 
