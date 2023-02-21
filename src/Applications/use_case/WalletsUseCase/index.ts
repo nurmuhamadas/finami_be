@@ -27,7 +27,10 @@ class WalletsUseCase {
 
   async getWallets({ user_id }: GetWalletsPayload): Promise<GetWalletsResult> {
     const result = await this._walletRepository.getWalletsByUserId(user_id)
-    return result
+    return result.map((d) => ({
+      ...d,
+      balance: Number(d.balance),
+    }))
   }
 
   async getWalletById({
@@ -38,7 +41,10 @@ class WalletsUseCase {
     await this._walletRepository.verifyWalletOwner(wallet_id, user_id)
 
     const result = await this._walletRepository.getWalletById(wallet_id)
-    return result
+    return {
+      ...result,
+      balance: Number(result.balance),
+    }
   }
 
   async addWallet({

@@ -30,6 +30,7 @@ import PlanningsUseCase from '../Applications/use_case/PlanningsUseCase'
 import SettingsUseCase from '../Applications/use_case/SettingsUseCase'
 import UsersUseCase from '../Applications/use_case/UsersUseCase'
 import TransactionsUseCase from '../Applications/use_case/TransactionsUseCase'
+import WalletsUseCase from '../Applications/use_case/WalletsUseCase'
 
 // creating container
 const container = createContainer()
@@ -286,8 +287,8 @@ container.register([
     },
   },
   {
-    key: TransactionsUseCase.name,
-    Class: TransactionsUseCase,
+    key: WalletsUseCase.name,
+    Class: WalletsUseCase,
     parameter: {
       injectType: 'destructuring',
       dependencies: [

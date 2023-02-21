@@ -114,7 +114,7 @@ class WalletRepositoryPostgres extends WalletRepository {
     const query = {
       text: `SELECT w.*, u.username FROM wallets w
             LEFT JOIN users u ON w.user_id = u.id
-            WHERE (u.id = $1 OR u.parent_id = $1) AND deleted_at IS NULL`,
+            WHERE (u.id = $1 OR u.parent_id = $1) AND w.deleted_at IS NULL`,
       values: [userId],
     }
 
@@ -126,7 +126,7 @@ class WalletRepositoryPostgres extends WalletRepository {
     const query = {
       text: `SELECT w.*, u.username FROM wallets w
             LEFT JOIN users u ON w.user_id = u.id
-            WHERE w.id = $1 AND deleted_at IS NULL`,
+            WHERE w.id = $1 AND w.deleted_at IS NULL`,
       values: [id],
     }
 
