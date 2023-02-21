@@ -9,7 +9,7 @@ export type RegisterUserResult = {
   email: string
   password: string
   fullname: string
-  parent_id?: string
+  parent_id?: string | null
   image_url?: string
   created_at: Date
   updated_at: Date
@@ -22,7 +22,7 @@ export type RegisterUserPayload = {
   email: string
   password: string
   fullname: string
-  parent_id?: string
+  parent_id?: string | null
   image_url?: string
 }
 

@@ -9,6 +9,7 @@ class RegisterUser {
     const now = new Date()
     this.values = {
       ...payload,
+      parent_id: payload.parent_id || null,
       created_at: now,
       updated_at: now,
       deleted_at: null,

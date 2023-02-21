@@ -54,6 +54,11 @@ class UsersUseCase {
       image_url,
     })
 
+    // Verify parent_id
+    if (parent_id) {
+      await this._userRepository.verifyAvailableParent(parent_id)
+    }
+
     const result = await this._userRepository.addUser(registerUser)
 
     // Add setting

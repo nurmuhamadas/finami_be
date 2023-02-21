@@ -10,7 +10,7 @@ export const postUserSchema = Joi.object({
   password: Joi.string().min(8).required(),
   fullname: Joi.string().required(),
   image_url: Joi.string(),
-  parent_id: Joi.string().min(20).max(20),
+  parent_id: Joi.string(),
 })
 
 export const putUserSchema = Joi.object({

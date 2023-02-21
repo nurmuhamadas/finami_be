@@ -5,7 +5,7 @@ import * as JoiType from 'joi'
 const Joi: typeof JoiType = require('joi')
 
 export const putSettingSchema = Joi.object({
-  wallet_id: Joi.string().max(20).required(),
+  wallet_id: Joi.string().required(),
   date_format: Joi.string()
     .allow(
       'yyyy/mm/dd',

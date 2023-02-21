@@ -222,6 +222,23 @@ class UserRepositoryPostgres extends UserRepository {
 
     return true
   }
+
+  async verifyAvailableParent(parentId: string): Promise<boolean> {
+    const query = {
+      text: 'SELECT * FROM users WHERE id = $1 AND deleted_at IS NULL',
+      values: [parentId],
+    }
+
+    const result = await this._pool.query(query)
+
+    if (!result.rowCount) {
+      throw new NotFoundError('parent not found')
+    }
+
+    return {
+      ...result.rows?.[0],
+    }
+  }
 }
 
 export default UserRepositoryPostgres
