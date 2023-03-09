@@ -59,12 +59,12 @@ class UserRepositoryPostgres extends UserRepository {
     id: string,
     updateUser: UpdateDataUser,
   ): Promise<{ id: string }> {
-    const { username, email, password, fullname, image_url, updated_at } =
+    const { username, password, fullname, image_url, updated_at } =
       updateUser.values
     const query = {
-      text: `UPDATE users SET username = $1, email = $2, password = $3, fullname = $4,
-            image_url = $5, updated_at = $6 WHERE id = $7 AND deleted_at IS NULL RETURNING id`,
-      values: [username, email, password, fullname, image_url, updated_at, id],
+      text: `UPDATE users SET username = $1, password = $2, fullname = $3,
+            image_url = $4, updated_at = $5 WHERE id = $6 AND deleted_at IS NULL RETURNING id`,
+      values: [username, password, fullname, image_url, updated_at, id],
     }
 
     const result = await this._pool.query(query)

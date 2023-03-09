@@ -77,7 +77,7 @@ const createServer = async (container: typeof containerInstance) => {
     if (response instanceof Error) {
       // error handler manually
       const translatedError: any = DomainErrorTranslator.translate(response)
-      console.log(translatedError)
+      console.log(translatedError, translatedError.isServer)
 
       if (translatedError instanceof ClientError) {
         const _newResponse = h.response({
@@ -94,7 +94,8 @@ const createServer = async (container: typeof containerInstance) => {
 
       const newResponse = h.response({
         status: 'error',
-        message: 'server error',
+        message:
+          "Ups... Something wrong from our side :(\nDon't panic, we'll recover soon",
       })
       newResponse.code(500)
       return newResponse

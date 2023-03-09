@@ -18,7 +18,7 @@ class AuthHandler {
     )
     const { username, password } = request.payload as any
 
-    const { refreshToken, accessToken } = await authUseCase.login({
+    const { refreshToken, accessToken, user } = await authUseCase.login({
       username,
       password,
     })
@@ -28,6 +28,7 @@ class AuthHandler {
       data: {
         accessToken,
         refreshToken,
+        user,
       },
     })
     response.code(201)

@@ -20,6 +20,14 @@ export type LoginPayload = {
 export type LoginResponse = {
   accessToken: string
   refreshToken: string
+  user: {
+    id: string
+    username: string
+    email: string
+    fullname: string
+    parent_id: string
+    image_url: string
+  }
 }
 
 export type LogoutPayload = {

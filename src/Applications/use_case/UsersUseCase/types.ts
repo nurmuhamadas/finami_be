@@ -26,7 +26,6 @@ export type AddUserPayload = {
 export type UpdateUserPayload = {
   id: string
   username: string
-  email: string
   password: string
   fullname: string
   image_url: string

@@ -28,7 +28,6 @@ export type RegisterUserPayload = {
 
 export type UpdateDataUserResult = {
   username: string
-  email: string
   password: string
   fullname: string
   image_url?: string
@@ -37,7 +36,6 @@ export type UpdateDataUserResult = {
 
 export type UpdateDataUserPayload = {
   username: string
-  email: string
   password: string
   fullname: string
   image_url?: string
@@ -47,7 +45,6 @@ export type UserDataType = {
   id: string
   username: string
   email: string
-  password: string
   fullname: string
   parent_id: string
   image_url: string

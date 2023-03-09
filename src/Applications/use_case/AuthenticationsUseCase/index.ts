@@ -45,6 +45,7 @@ class AuthenticationsUseCase {
     await this._encryptionHelper.comparePassword(password, encryptedPassword)
 
     const { id } = await this._userRepository.getIdByUsername(username)
+    const user = await this._userRepository.getUserById(id)
     const accessToken = await this._tokenManager.createAccessToken({
       id,
       username,
@@ -57,12 +58,14 @@ class AuthenticationsUseCase {
     const auth = new NewAuthentication({
       accessToken,
       refreshToken,
+      user,
     })
     await this._authRepository.addToken(auth.values.refreshToken)
 
     return {
       refreshToken: auth.values.refreshToken,
       accessToken: auth.values.accessToken,
+      user: auth.values.user,
     }
   }
 

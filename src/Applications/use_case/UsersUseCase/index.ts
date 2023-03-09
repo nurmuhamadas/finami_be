@@ -72,7 +72,7 @@ class UsersUseCase {
     const registerSetting = new RegisterSetting({
       id: this._idGenerator.generate('setting'),
       date_format: 'dd-mm-yyyy',
-      currency_id: 'currency-1',
+      currency_id: 'currency-00000000001',
       user_id: result.id,
     })
     await this._settingRepository.addSetting(registerSetting)
@@ -83,7 +83,6 @@ class UsersUseCase {
   async updateUser({
     id,
     username,
-    email,
     password,
     fullname,
     image_url,
@@ -91,7 +90,6 @@ class UsersUseCase {
   }: UpdateUserPayload): Promise<{ id: string }> {
     const updateDataUser = new UpdateDataUser({
       username,
-      email,
       password,
       fullname,
       image_url,

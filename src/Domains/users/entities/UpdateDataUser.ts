@@ -14,7 +14,6 @@ class UpdateDataUser {
 
   _verifyPayload({
     username,
-    email,
     password,
     fullname,
     image_url,
@@ -23,10 +22,6 @@ class UpdateDataUser {
       throw new Error('UPDATE_DATA_USER.USERNAME_LIMIT_CHAR')
     if (!/^[\w]+$/.test(username))
       throw new Error('UPDATE_DATA_USER.USERNAME_CONTAIN_RESTRICTED_CHARACTER')
-
-    if (email.length > 30) throw new Error('UPDATE_DATA_USER.EMAIL_LIMIT_CHAR')
-    if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g.test(email))
-      throw new Error('UPDATE_DATA_USER.INVALID_EMAIL')
 
     if (password.length > 30)
       throw new Error('UPDATE_DATA_USER.PASSWORD_LIMIT_CHAR')
