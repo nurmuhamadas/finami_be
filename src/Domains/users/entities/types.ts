@@ -28,7 +28,6 @@ export type RegisterUserPayload = {
 
 export type UpdateDataUserResult = {
   username: string
-  password: string
   fullname: string
   image_url?: string
   updated_at: Date
@@ -36,7 +35,6 @@ export type UpdateDataUserResult = {
 
 export type UpdateDataUserPayload = {
   username: string
-  password: string
   fullname: string
   image_url?: string
 }

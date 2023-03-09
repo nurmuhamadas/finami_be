@@ -12,21 +12,11 @@ class UpdateDataUser {
     }
   }
 
-  _verifyPayload({
-    username,
-    password,
-    fullname,
-    image_url,
-  }: UpdateDataUserPayload) {
+  _verifyPayload({ username, fullname, image_url }: UpdateDataUserPayload) {
     if (username.length > 30)
       throw new Error('UPDATE_DATA_USER.USERNAME_LIMIT_CHAR')
     if (!/^[\w]+$/.test(username))
       throw new Error('UPDATE_DATA_USER.USERNAME_CONTAIN_RESTRICTED_CHARACTER')
-
-    if (password.length > 30)
-      throw new Error('UPDATE_DATA_USER.PASSWORD_LIMIT_CHAR')
-    if (!/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm.test(password))
-      throw new Error('UPDATE_DATA_USER.INVALID_PASSWORD')
 
     if (fullname.length > 50)
       throw new Error('UPDATE_DATA_USER.FULLNAME_LIMIT_CHAR')

@@ -2,9 +2,10 @@ import IdGenerator from '../../../Applications/common/IdGenerator'
 import {
   AddUserPayload,
   DeleteUserPayload,
-  GetUsersByIdPayload,
   UsersUseCaseType,
   UpdateUserPayload,
+  GetUserByIdPayload,
+  GetUsersByUserIdPayload,
 } from './types'
 import SettingRepository from '../../../Domains/settings/SettingRepository'
 import RegisterSetting from '../../../Domains/settings/entities/RegisterSetting'
@@ -32,12 +33,19 @@ class UsersUseCase {
     this._encryptionHelper = encryptionHelper
   }
 
-  async getUsersById({
+  async getUsersByUserId({
     user_id,
-  }: GetUsersByIdPayload): Promise<UserDataRespType[]> {
+  }: GetUsersByUserIdPayload): Promise<UserDataRespType[]> {
     const result = await this._userRepository.getUserById(user_id)
     const child = await this._userRepository.getChildByParentId(user_id)
     return [result, ...child]
+  }
+
+  async getUserById({
+    user_id,
+  }: GetUserByIdPayload): Promise<UserDataRespType> {
+    const result = await this._userRepository.getUserById(user_id)
+    return result
   }
 
   async addUser({
@@ -83,23 +91,18 @@ class UsersUseCase {
   async updateUser({
     id,
     username,
-    password,
     fullname,
     image_url,
     user_id,
   }: UpdateUserPayload): Promise<{ id: string }> {
     const updateDataUser = new UpdateDataUser({
       username,
-      password,
       fullname,
       image_url,
     })
 
     //  verify access
     await this._userRepository.verifyUserAccess(id, user_id)
-
-    const hashedPassword = await this._encryptionHelper.hash(password)
-    updateDataUser.values.password = hashedPassword
 
     const result = await this._userRepository.updateUser(id, updateDataUser)
     return result

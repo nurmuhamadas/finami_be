@@ -10,7 +10,12 @@ export type UsersUseCaseType = {
   encryptionHelper: EncryptionHelper
 }
 
-export type GetUsersByIdPayload = {
+export type GetUsersByUserIdPayload = {
+  user_id: string
+}
+
+export type GetUserByIdPayload = {
+  id: string
   user_id: string
 }
 
@@ -25,11 +30,10 @@ export type AddUserPayload = {
 
 export type UpdateUserPayload = {
   id: string
-  username: string
-  password: string
-  fullname: string
-  image_url: string
   user_id: string
+  username: string
+  fullname: string
+  image_url?: string
 }
 
 export type DeleteUserPayload = {

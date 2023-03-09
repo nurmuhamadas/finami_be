@@ -11,6 +11,14 @@ const routes = (handler: UsersHandler) => [
     },
   },
   {
+    method: 'GET',
+    path: '/users/{id}',
+    handler: handler.getUserByIdHandler,
+    options: {
+      auth: 'finami_jwt',
+    },
+  },
+  {
     method: 'POST',
     path: '/users',
     handler: handler.postUserHandler,

@@ -43,13 +43,12 @@ class UsersHandler {
     )
     const { id } = request.params
     const { id: userId } = request.auth.credentials
-    const { username, password, fullname, image_url } = request.payload as any
+    const { username, fullname, image_url } = request.payload as any
 
     const res = await userUseCase.updateUser({
       id,
       user_id: userId as string,
       username,
-      password,
       fullname,
       image_url,
     })
@@ -88,8 +87,28 @@ class UsersHandler {
     )
     const { id: parentId } = request.auth.credentials
 
-    const res = await userUseCase.getUsersById({
+    const res = await userUseCase.getUsersByUserId({
       user_id: parentId as string,
+    })
+
+    const response = h.response({
+      status: 'success',
+      data: res,
+    })
+    response.code(200)
+    return response
+  }
+
+  async getUserByIdHandler(request: Request, h: any) {
+    const userUseCase: UsersUseCase = this._container.getInstance(
+      UsersUseCase.name,
+    )
+    const { id } = request.query
+    const { id: userId } = request.auth.credentials
+
+    const res = await userUseCase.getUserById({
+      id: id,
+      user_id: userId as string,
     })
 
     const response = h.response({

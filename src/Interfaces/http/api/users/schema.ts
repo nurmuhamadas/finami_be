@@ -15,8 +15,7 @@ export const postUserSchema = Joi.object({
 
 export const putUserSchema = Joi.object({
   username: Joi.string().max(30).required(),
-  email: Joi.string().email().max(50).required(),
-  password: Joi.string().required(),
   fullname: Joi.string().required(),
+  email: Joi.string().email(),
   image_url: Joi.string(),
 })
