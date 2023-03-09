@@ -1,9 +1,9 @@
-import { UserDataType } from 'Domains/users/entities/types'
+import { UserDataRespType } from 'Domains/users/entities/types'
 
 export type NewAuthenticationPayload = {
   accessToken: string
   refreshToken: string
-  user: UserDataType
+  user: UserDataRespType
 }
 
 export type NewAuthenticationResult = {

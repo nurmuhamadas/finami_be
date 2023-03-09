@@ -1,10 +1,10 @@
+import { GetUserRepoResult } from 'Domains/users/types'
 import AuthorizationError from '../../Commons/exceptions/AuthorizationError'
 import InvariantError from '../../Commons/exceptions/InvariantError'
 import NotFoundError from '../../Commons/exceptions/NotFoundError'
 import UserRepository from '../../Domains/users/UserRepository'
 import RegisterUser from '../../Domains/users/entities/RegisterUser'
 import UpdateDataUser from '../../Domains/users/entities/UpdateDataUser'
-import { GetUserResult, GetUsersResult } from '../../Domains/users/types'
 import { Pool } from 'pg'
 
 class UserRepositoryPostgres extends UserRepository {
@@ -160,7 +160,7 @@ class UserRepositoryPostgres extends UserRepository {
     return { id: result.rows?.[0]?.id }
   }
 
-  async getUserById(id: string): Promise<GetUserResult> {
+  async getUserById(id: string): Promise<GetUserRepoResult> {
     const query = {
       text: 'SELECT * FROM users WHERE id = $1 AND deleted_at IS NULL',
       values: [id],
@@ -177,7 +177,7 @@ class UserRepositoryPostgres extends UserRepository {
     }
   }
 
-  async getChildByParentId(parentId: string): Promise<GetUsersResult> {
+  async getChildByParentId(parentId: string): Promise<GetUserRepoResult[]> {
     const query = {
       text: 'SELECT * FROM users WHERE parent_id = $1 AND deleted_at IS NULL',
       values: [parentId],

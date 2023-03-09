@@ -5,10 +5,7 @@ import CategoryRepository from '../../Domains/categories/CategoryRepository'
 import FilterCategory from '../../Domains/categories/entities/FilterCategory'
 import RegisterCategory from '../../Domains/categories/entities/RegisterCategory'
 import UpdateDataCategory from '../../Domains/categories/entities/UpdateDataCategory'
-import {
-  GetCategoriesResult,
-  GetCategoryResult,
-} from '../../Domains/categories/types'
+import { CategoryDataRepoType } from '../../Domains/categories/types'
 import { Pool } from 'pg'
 
 class CategoryRepositoryPostgres extends CategoryRepository {
@@ -120,7 +117,7 @@ class CategoryRepositoryPostgres extends CategoryRepository {
   async getCategoriesByUserId(
     userId: string,
     filter?: FilterCategory,
-  ): Promise<GetCategoriesResult> {
+  ): Promise<CategoryDataRepoType[]> {
     let _filter = ''
     const values = [userId]
 
@@ -143,7 +140,7 @@ class CategoryRepositoryPostgres extends CategoryRepository {
     return result.rows
   }
 
-  async getCategoryById(id: string): Promise<GetCategoryResult> {
+  async getCategoryById(id: string): Promise<CategoryDataRepoType> {
     const query = {
       text: 'SELECT * FROM categories WHERE id = $1 AND deleted_at IS NULL',
       values: [id],

@@ -11,8 +11,8 @@ import RegisterSetting from '../../../Domains/settings/entities/RegisterSetting'
 import UserRepository from '../../../Domains/users/UserRepository'
 import RegisterUser from '../../../Domains/users/entities/RegisterUser'
 import UpdateDataUser from '../../../Domains/users/entities/UpdateDataUser'
-import { GetUsersResult } from '../../../Domains/users/types'
 import EncryptionHelper from 'Applications/security/EncryptionHelper'
+import { UserDataRespType } from 'Domains/users/entities/types'
 
 class UsersUseCase {
   _settingRepository: SettingRepository
@@ -34,7 +34,7 @@ class UsersUseCase {
 
   async getUsersById({
     user_id,
-  }: GetUsersByIdPayload): Promise<GetUsersResult> {
+  }: GetUsersByIdPayload): Promise<UserDataRespType[]> {
     const result = await this._userRepository.getUserById(user_id)
     const child = await this._userRepository.getChildByParentId(user_id)
     return [result, ...child]

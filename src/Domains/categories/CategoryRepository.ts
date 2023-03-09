@@ -1,7 +1,7 @@
 import FilterCategory from './entities/FilterCategory'
 import RegisterCategory from './entities/RegisterCategory'
 import UpdateDataCategory from './entities/UpdateDataCategory'
-import { GetCategoriesResult, GetCategoryResult } from './types'
+import { CategoryDataRepoType } from './types'
 
 class CategoryRepository {
   async addCategory(
@@ -28,11 +28,11 @@ class CategoryRepository {
   async getCategoriesByUserId(
     userId: string,
     filter?: FilterCategory,
-  ): Promise<GetCategoriesResult> {
+  ): Promise<CategoryDataRepoType[]> {
     throw new Error('CATEGORY_REPOSITORY.METHOD_NOT_IMPLEMENTED')
   }
 
-  async getCategoryById(id: string): Promise<GetCategoryResult> {
+  async getCategoryById(id: string): Promise<CategoryDataRepoType> {
     throw new Error('CATEGORY_REPOSITORY.METHOD_NOT_IMPLEMENTED')
   }
 

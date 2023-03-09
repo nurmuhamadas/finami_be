@@ -41,7 +41,7 @@ export type UpdateDataUserPayload = {
   image_url?: string
 }
 
-export type UserDataType = {
+export type UserDataRespType = {
   id: string
   username: string
   email: string

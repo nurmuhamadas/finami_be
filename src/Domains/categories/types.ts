@@ -1,8 +1,13 @@
-import { CategoryDataType } from './entities/types'
+import { CategoryGroupsType, TransactionTypesType } from 'Commons/types'
 
-export type GetCategoryResult = CategoryDataType & {
-  user_name: string
-  is_owner: boolean
+export type CategoryDataRepoType = {
+  id: string
+  name: string
+  icon_url: string
+  transaction_type: TransactionTypesType
+  group: CategoryGroupsType
+  user_id: string
+  created_at: Date
+  updated_at: Date
+  deleted_at?: Date | null
 }
-
-export type GetCategoriesResult = GetCategoryResult[]

@@ -42,13 +42,16 @@ export type CategoryFilter = {
   transaction_type?: TransactionTypesType
 }
 
-export type CategoryDataType = {
+export type CategoryDataRespType = {
   id: string
   name: string
   icon_url: string
   transaction_type: TransactionTypesType
-  user_id: string
   group: CategoryGroupsType
+  user_id: string
+  user_name: string
+  user_fullname: string
+  is_owner: boolean
   created_at: Date
   updated_at: Date
   deleted_at?: Date | null

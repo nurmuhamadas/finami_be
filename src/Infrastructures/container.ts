@@ -188,6 +188,10 @@ container.register([
           internal: CategoryRepository.name,
         },
         {
+          name: 'userRepository',
+          internal: UserRepository.name,
+        },
+        {
           name: 'idGenerator',
           internal: IdGenerator.name,
         },

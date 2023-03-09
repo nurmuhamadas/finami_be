@@ -11,24 +11,29 @@ import CategoryRepository from '../../../Domains/categories/CategoryRepository'
 import FilterCategory from '../../../Domains/categories/entities/FilterCategory'
 import RegisterCategory from '../../../Domains/categories/entities/RegisterCategory'
 import UpdateDataCategory from '../../../Domains/categories/entities/UpdateDataCategory'
-import {
-  GetCategoriesResult,
-  GetCategoryResult,
-} from '../../../Domains/categories/types'
+import { CategoryDataRespType } from 'Domains/categories/entities/types'
+import CategoriesData from '../../../Domains/categories/entities/CategoriesData'
+import UserRepository from 'Domains/users/UserRepository'
 
 class CategoriesUseCase {
   _categoryRepository: CategoryRepository
+  _userRepository: UserRepository
   _idGenerator: IdGenerator
 
-  constructor({ categoryRepository, idGenerator }: CategoriesUseCaseType) {
+  constructor({
+    categoryRepository,
+    userRepository,
+    idGenerator,
+  }: CategoriesUseCaseType) {
     this._categoryRepository = categoryRepository
+    this._userRepository = userRepository
     this._idGenerator = idGenerator
   }
 
   async getCategories({
     user_id,
     transaction_type,
-  }: GetCategoriesPayload): Promise<GetCategoriesResult> {
+  }: GetCategoriesPayload): Promise<CategoryDataRespType[]> {
     const filter = new FilterCategory({
       transaction_type,
     })
@@ -37,19 +42,25 @@ class CategoriesUseCase {
       user_id,
       filter,
     )
+    const user = await this._userRepository.getUserById(user_id)
+    const data = new CategoriesData(result, user)
 
-    return result
+    return data.values
   }
 
   async getCategoryById({
     id,
     user_id,
-  }: GetCategoryByIdPayload): Promise<GetCategoryResult> {
+  }: GetCategoryByIdPayload): Promise<CategoryDataRespType> {
     //  verify access
     await this._categoryRepository.verifyCategoryOwner(id, user_id)
 
     const result = await this._categoryRepository.getCategoryById(id)
-    return result
+    const user = await this._userRepository.getUserById(user_id)
+
+    const data = new CategoriesData([result], user)
+
+    return data.values?.[0]
   }
 
   async addCategory({

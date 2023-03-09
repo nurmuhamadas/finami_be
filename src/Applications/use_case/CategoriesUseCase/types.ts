@@ -1,3 +1,4 @@
+import UserRepository from 'Domains/users/UserRepository'
 import IdGenerator from '../../../Applications/common/IdGenerator'
 import {
   CategoryGroupsType,
@@ -8,6 +9,7 @@ import CategoryRepository from '../../../Domains/categories/CategoryRepository'
 export type CategoriesUseCaseType = {
   idGenerator: IdGenerator
   categoryRepository: CategoryRepository
+  userRepository: UserRepository
 }
 
 export type GetCategoriesPayload = {

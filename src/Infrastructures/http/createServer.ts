@@ -72,12 +72,12 @@ const createServer = async (container: typeof containerInstance) => {
   ])
 
   server.ext('onPreResponse', (request, h) => {
-    const { response } = request
+    const { response, path, url } = request
 
     if (response instanceof Error) {
       // error handler manually
       const translatedError: any = DomainErrorTranslator.translate(response)
-      console.log(translatedError, translatedError.isServer)
+      console.log(translatedError, path, url)
 
       if (translatedError instanceof ClientError) {
         const _newResponse = h.response({
