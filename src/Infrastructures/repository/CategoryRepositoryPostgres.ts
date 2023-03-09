@@ -1,3 +1,4 @@
+import ConflictError from '../../Commons/exceptions/ConflictError'
 import AuthorizationError from '../../Commons/exceptions/AuthorizationError'
 import InvariantError from '../../Commons/exceptions/InvariantError'
 import NotFoundError from '../../Commons/exceptions/NotFoundError'
@@ -167,10 +168,36 @@ class CategoryRepositoryPostgres extends CategoryRepository {
     const result = await this._pool.query(query)
 
     if (result.rowCount === 0) {
-      throw new NotFoundError('Wallet not found')
+      throw new NotFoundError('Category not found')
     }
     if (result.rows[0].user_id !== userId) {
       throw new AuthorizationError('Not allowed to access this record')
+    }
+
+    return true
+  }
+
+  async verifyCategoryReference(id: string): Promise<boolean> {
+    const query = {
+      text: `SELECT id FROM transactions
+            WHERE category_id = $1`,
+      values: [id],
+    }
+    const result = await this._pool.query(query)
+    if (result.rowCount > 0) {
+      throw new ConflictError(
+        "Can't delete category because used by transactions",
+      )
+    }
+
+    const query2 = {
+      text: `SELECT id FROM transactions
+            WHERE category_id = $1`,
+      values: [id],
+    }
+    const result2 = await this._pool.query(query2)
+    if (result2.rowCount > 0) {
+      throw new ConflictError("Can't delete category because used by plannings")
     }
 
     return true
