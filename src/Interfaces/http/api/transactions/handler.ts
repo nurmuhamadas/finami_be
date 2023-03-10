@@ -20,7 +20,8 @@ class TransactionHandlers {
     const {
       child_id,
       transaction_type,
-      date_range,
+      start_date,
+      end_date,
       category_id,
       search_key,
       wallet_id,
@@ -33,7 +34,7 @@ class TransactionHandlers {
       user_id: userId as string,
       child_id,
       transaction_type,
-      date_range,
+      date_range: [start_date, end_date],
       category_id,
       search_key,
       wallet_id,

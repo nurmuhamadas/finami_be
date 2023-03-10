@@ -26,10 +26,12 @@ export type UpdateDataWalletResult = {
   updated_at: Date
 }
 
-export type WalletDataType = {
+export type WalletsDataRespType = {
   id: string
   name: string
   user_id: string
+  user_name: string
+  user_fullname: string
   balance: number
   created_at: Date
   updated_at: Date

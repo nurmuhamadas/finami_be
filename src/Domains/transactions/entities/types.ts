@@ -58,17 +58,22 @@ export type TransactionFilterType = {
   order_by: 'asc' | 'desc'
 }
 
-export type TransactionDataType = {
+export type TransactionDataRespType = {
   id: string
   amount: number
   description: string
-  user_id: string
-  category_id: string
-  wallet_id: string
+  date: Date
   transaction_type: TransactionTypesType
   image_url: string
-  date: Date
+  user_id: string
+  user_name: string
+  user_fullname: string
+  category_id: string
+  category_name: string
+  wallet_id: string
+  wallet_name: string
+  is_owner: boolean
   created_at: Date
   updated_at: Date
-  deleted_at: Date | null
+  deleted_at: Date
 }

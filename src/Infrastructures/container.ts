@@ -301,6 +301,14 @@ container.register([
           internal: WalletRepository.name,
         },
         {
+          name: 'userRepository',
+          internal: UserRepository.name,
+        },
+        {
+          name: 'transactionRepository',
+          internal: TransactionRepository.name,
+        },
+        {
           name: 'idGenerator',
           internal: IdGenerator.name,
         },

@@ -11,9 +11,9 @@ import CategoryRepository from '../../../Domains/categories/CategoryRepository'
 import FilterCategory from '../../../Domains/categories/entities/FilterCategory'
 import RegisterCategory from '../../../Domains/categories/entities/RegisterCategory'
 import UpdateDataCategory from '../../../Domains/categories/entities/UpdateDataCategory'
-import { CategoryDataRespType } from 'Domains/categories/entities/types'
+import { CategoryDataRespType } from '../../../Domains/categories/entities/types'
 import CategoriesData from '../../../Domains/categories/entities/CategoriesData'
-import UserRepository from 'Domains/users/UserRepository'
+import UserRepository from '../../../Domains/users/UserRepository'
 
 class CategoriesUseCase {
   _categoryRepository: CategoryRepository

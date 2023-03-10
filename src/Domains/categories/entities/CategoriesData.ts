@@ -1,4 +1,4 @@
-import { GetUserRepoResult } from 'Domains/users/types'
+import { GetUserRepoResult } from '../../../Domains/users/types'
 import { CategoryDataRepoType } from '../types'
 import { CategoryDataRespType } from './types'
 

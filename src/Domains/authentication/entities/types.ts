@@ -1,4 +1,4 @@
-import { UserDataRespType } from 'Domains/users/entities/types'
+import { UserDataRespType } from '../../../Domains/users/entities/types'
 
 export type NewAuthenticationPayload = {
   accessToken: string

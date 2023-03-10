@@ -13,11 +13,9 @@ import TransactionRepository from '../../../Domains/transactions/TransactionRepo
 import FilterTransaction from '../../../Domains/transactions/entities/FilterTransaction'
 import RegisterTransaction from '../../../Domains/transactions/entities/RegisterTransaction'
 import UpdateDataTransaction from '../../../Domains/transactions/entities/UpdateDataTransaction'
-import {
-  GetTransactionResult,
-  GetTransactionsResult,
-} from '../../../Domains/transactions/types'
 import WalletRepository from '../../../Domains/wallets/WalletRepository'
+import { TransactionDataRespType } from '../../../Domains/transactions/entities/types'
+import TransactionData from '../../../Domains/transactions/entities/TransactionData'
 
 class TransactionsUseCase {
   _transactionRepository: TransactionRepository
@@ -49,7 +47,7 @@ class TransactionsUseCase {
     offset,
     sort_by,
     order_by,
-  }: GetTransactionsPayload): Promise<GetTransactionsResult> {
+  }: GetTransactionsPayload): Promise<TransactionDataRespType[]> {
     const filter = new FilterTransaction({
       transaction_type,
       date_range,
@@ -65,19 +63,22 @@ class TransactionsUseCase {
       child_id || user_id,
       filter,
     )
+    const data = new TransactionData(result, user_id)
 
-    return result
+    return data.values
   }
 
   async getTransactionById({
     id,
     user_id,
-  }: GetTransactionByIdPayload): Promise<GetTransactionResult> {
+  }: GetTransactionByIdPayload): Promise<TransactionDataRespType> {
     //  verify access
     await this._transactionRepository.verifyTransactionOwner(id, user_id)
 
     const result = await this._transactionRepository.getTransactionById(id)
-    return result
+    const data = new TransactionData([result], user_id)
+
+    return data.values?.[0]
   }
 
   async addTransaction({
@@ -155,7 +156,7 @@ class TransactionsUseCase {
     const diffAmount = calculateDiffTransactionAmount(
       { amount, type: transaction_type },
       {
-        amount: lastTransaction.amount,
+        amount: Number(lastTransaction.amount),
         type: lastTransaction.transaction_type,
       },
     )
@@ -190,12 +191,12 @@ class TransactionsUseCase {
     if (result.transaction_type === 'in') {
       await this._walletRepository.reduceWalletBalance(
         result.wallet_id,
-        result.amount,
+        Number(result.amount),
       )
     } else {
       await this._walletRepository.increaseWalletBalance(
         result.wallet_id,
-        result.amount,
+        Number(result.amount),
       )
     }
 
@@ -215,12 +216,12 @@ class TransactionsUseCase {
     if (result.transaction_type === 'in') {
       await this._walletRepository.increaseWalletBalance(
         result.wallet_id,
-        result.amount,
+        Number(result.amount),
       )
     } else {
       await this._walletRepository.reduceWalletBalance(
         result.wallet_id,
-        result.amount,
+        Number(result.amount),
       )
     }
 

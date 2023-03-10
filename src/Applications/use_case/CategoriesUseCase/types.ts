@@ -1,4 +1,4 @@
-import UserRepository from 'Domains/users/UserRepository'
+import UserRepository from '../../../Domains/users/UserRepository'
 import IdGenerator from '../../../Applications/common/IdGenerator'
 import {
   CategoryGroupsType,

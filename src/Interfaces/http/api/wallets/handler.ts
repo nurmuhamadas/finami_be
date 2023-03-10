@@ -57,12 +57,13 @@ class WalletsHandler {
     )
 
     const { id: userId } = request.auth.credentials
-    const { name, balance } = request.payload as any
+    const { name, balance, user_id } = request.payload as any
 
     const data = await walletUseCase.addWallet({
       name,
       balance,
       userId: userId as string,
+      walletOwner: user_id,
     })
 
     const response = h.response({

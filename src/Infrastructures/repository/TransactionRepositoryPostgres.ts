@@ -1,3 +1,4 @@
+import { TransactionDataRepoType } from '../../Domains/transactions/types'
 import AuthorizationError from '../../Commons/exceptions/AuthorizationError'
 import InvariantError from '../../Commons/exceptions/InvariantError'
 import NotFoundError from '../../Commons/exceptions/NotFoundError'
@@ -5,11 +6,6 @@ import TransactionRepository from '../../Domains/transactions/TransactionReposit
 import FilterTransaction from '../../Domains/transactions/entities/FilterTransaction'
 import RegisterTransaction from '../../Domains/transactions/entities/RegisterTransaction'
 import UpdateDataTransaction from '../../Domains/transactions/entities/UpdateDataTransaction'
-import { TransactionDataType } from '../../Domains/transactions/entities/types'
-import {
-  GetTransactionResult,
-  GetTransactionsResult,
-} from '../../Domains/transactions/types'
 import { Pool } from 'pg'
 
 class TransactionRepositoryPostgres extends TransactionRepository {
@@ -22,7 +18,7 @@ class TransactionRepositoryPostgres extends TransactionRepository {
 
   async addTransaction(
     registerTransaction: RegisterTransaction,
-  ): Promise<{ id: string }> {
+  ): Promise<TransactionDataRepoType> {
     const {
       id,
       amount,
@@ -38,7 +34,7 @@ class TransactionRepositoryPostgres extends TransactionRepository {
       deleted_at,
     } = registerTransaction.values
     const query = {
-      text: 'INSERT INTO transactions VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING id',
+      text: 'INSERT INTO transactions VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING *',
       values: [
         id,
         amount,
@@ -62,14 +58,14 @@ class TransactionRepositoryPostgres extends TransactionRepository {
     }
 
     return {
-      id: result.rows?.[0]?.id,
+      ...result.rows?.[0],
     }
   }
 
   async updateTransaction(
     id: string,
     updateDataTransaction: UpdateDataTransaction,
-  ): Promise<{ id: string }> {
+  ): Promise<TransactionDataRepoType> {
     const {
       amount,
       description,
@@ -82,7 +78,7 @@ class TransactionRepositoryPostgres extends TransactionRepository {
     const query = {
       text: `UPDATE transactions SET amount = $1, descriptions = $2, transaction_type = $3,
             date = $4, image_url = $5, category_id = $6, updated_at = $7
-            WHERE id = $8 AND deleted_at IS NULL RETURNING id`,
+            WHERE id = $8 AND deleted_at IS NULL RETURNING *`,
       values: [
         amount,
         description,
@@ -102,11 +98,13 @@ class TransactionRepositoryPostgres extends TransactionRepository {
     }
 
     return {
-      id: result.rows?.[0]?.id,
+      ...result.rows?.[0],
     }
   }
 
-  async softDeleteTransactionById(id: string): Promise<TransactionDataType> {
+  async softDeleteTransactionById(
+    id: string,
+  ): Promise<TransactionDataRepoType> {
     const query = {
       text: `UPDATE transactions SET deleted_at = NOW()
             WHERE id = $1 AND deleted_at IS NULL RETURNING *`,
@@ -124,7 +122,7 @@ class TransactionRepositoryPostgres extends TransactionRepository {
     }
   }
 
-  async restoreTransactionById(id: string): Promise<TransactionDataType> {
+  async restoreTransactionById(id: string): Promise<TransactionDataRepoType> {
     const query = {
       text: `UPDATE transactions SET deleted_at = NULL WHERE id = $1 RETURNING *`,
       values: [id],
@@ -144,7 +142,7 @@ class TransactionRepositoryPostgres extends TransactionRepository {
   async getTransactionsByUserId(
     userId: string,
     filter?: FilterTransaction | undefined,
-  ): Promise<GetTransactionsResult> {
+  ): Promise<TransactionDataRepoType[]> {
     let _filter = ''
     let count = 1
     const values: any[] = [userId]
@@ -205,8 +203,11 @@ class TransactionRepositoryPostgres extends TransactionRepository {
     }
 
     const query = {
-      text: `SELECT t.*, u.username FROM transactions t
-            LEFT JOIN users u ON t.user_id = u.id
+      text: `SELECT t.*, u.username AS user_name, u.fullname AS user_fullname,
+            w.name AS wallet_name, c.name AS category_name FROM transactions t
+            JOIN users u ON t.user_id = u.id
+            JOIN wallets w ON t.wallet_id = w.id
+            JOIN categories c ON t.category_id = c.id
             WHERE (u.id = $1 OR u.parent_id = $1) AND t.deleted_at IS NULL
             ${_filter}`,
       values,
@@ -216,10 +217,13 @@ class TransactionRepositoryPostgres extends TransactionRepository {
     return result.rows
   }
 
-  async getTransactionById(id: string): Promise<GetTransactionResult> {
+  async getTransactionById(id: string): Promise<TransactionDataRepoType> {
     const query = {
-      text: `SELECT t.*, u.username FROM transactions t
-            LEFT JOIN users u ON t.user_id = u.id
+      text: `SELECT t.*, u.username AS user_name, u.fullname AS user_fullname,
+            w.name AS wallet_name, c.name AS category_name FROM transactions t
+            JOIN users u ON t.user_id = u.id
+            JOIN wallets w ON t.wallet_id = w.id
+            JOIN categories c ON t.category_id = c.id
             WHERE t.id = $1 AND t.deleted_at IS NULL`,
       values: [id],
     }
@@ -252,6 +256,22 @@ class TransactionRepositoryPostgres extends TransactionRepository {
     }
 
     return true
+  }
+
+  async softDeleteTransactionsByWalletId(
+    walletId: string,
+  ): Promise<{ deletedRow: number }> {
+    const query = {
+      text: `UPDATE transactions SET deleted_at = NOW()
+            WHERE wallet_id = $1 AND deleted_at IS NULL RETURNING id`,
+      values: [walletId],
+    }
+
+    const result = await this._pool.query(query)
+
+    return {
+      deletedRow: result.rowCount,
+    }
   }
 }
 

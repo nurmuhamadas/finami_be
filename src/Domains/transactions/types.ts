@@ -1,10 +1,20 @@
-import { TransactionDataType } from './entities/types'
+import { TransactionTypesType } from 'Commons/types'
 
-export type GetTransactionResult = TransactionDataType & {
+export type TransactionDataRepoType = {
+  id: string
+  amount: string
+  description: string
+  date: Date
+  transaction_type: TransactionTypesType
+  image_url: string
+  user_id: string
   user_name: string
+  user_fullname: string
+  category_id: string
   category_name: string
+  wallet_id: string
   wallet_name: string
-  is_owner: boolean
+  created_at: Date
+  updated_at: Date
+  deleted_at: Date
 }
-
-export type GetTransactionsResult = GetTransactionResult[]

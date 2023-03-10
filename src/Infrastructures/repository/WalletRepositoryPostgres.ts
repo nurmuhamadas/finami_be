@@ -1,10 +1,10 @@
+import { WalletsDataRepoType } from '../../Domains/wallets/types'
 import AuthorizationError from '../../Commons/exceptions/AuthorizationError'
 import InvariantError from '../../Commons/exceptions/InvariantError'
 import NotFoundError from '../../Commons/exceptions/NotFoundError'
 import WalletRepository from '../../Domains/wallets/WalletRepository'
 import RegisterWallet from '../../Domains/wallets/entities/RegisterWallet'
 import UpdateDataWallet from '../../Domains/wallets/entities/UpdateDataWallet'
-import { GetWalletResult, GetWalletsResult } from '../../Domains/wallets/types'
 import { Pool } from 'pg'
 
 class WalletRepositoryPostgres extends WalletRepository {
@@ -110,9 +110,9 @@ class WalletRepositoryPostgres extends WalletRepository {
     return true
   }
 
-  async getWalletsByUserId(userId: string): Promise<GetWalletsResult> {
+  async getWalletsByUserId(userId: string): Promise<WalletsDataRepoType[]> {
     const query = {
-      text: `SELECT w.*, u.username FROM wallets w
+      text: `SELECT w.*, u.username, u.username AS user_name, u.fullname AS user_fullname FROM wallets w
             LEFT JOIN users u ON w.user_id = u.id
             WHERE (u.id = $1 OR u.parent_id = $1) AND w.deleted_at IS NULL`,
       values: [userId],
@@ -122,7 +122,7 @@ class WalletRepositoryPostgres extends WalletRepository {
     return result.rows
   }
 
-  async getWalletById(id: string): Promise<GetWalletResult> {
+  async getWalletById(id: string): Promise<WalletsDataRepoType> {
     const query = {
       text: `SELECT w.*, u.username FROM wallets w
             LEFT JOIN users u ON w.user_id = u.id

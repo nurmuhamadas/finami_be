@@ -1,9 +1,13 @@
+import UserRepository from '../../../Domains/users/UserRepository'
 import IdGenerator from '../../../Applications/common/IdGenerator'
 import WalletRepository from '../../../Domains/wallets/WalletRepository'
+import TransactionRepository from '../../../Domains/transactions/TransactionRepository'
 
 export type WalletUseCaseType = {
   idGenerator: IdGenerator
   walletRepository: WalletRepository
+  userRepository: UserRepository
+  transactionRepository: TransactionRepository
 }
 
 export type GetWalletsPayload = {
@@ -19,6 +23,7 @@ export type AddWalletPayload = {
   name: string
   balance: number
   userId: string
+  walletOwner: string // user_id from payload
 }
 
 export type UpdateWalletPayload = {

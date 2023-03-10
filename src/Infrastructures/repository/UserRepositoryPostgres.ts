@@ -1,4 +1,4 @@
-import { GetUserRepoResult } from 'Domains/users/types'
+import { GetUserRepoResult } from '../../Domains/users/types'
 import AuthorizationError from '../../Commons/exceptions/AuthorizationError'
 import InvariantError from '../../Commons/exceptions/InvariantError'
 import NotFoundError from '../../Commons/exceptions/NotFoundError'

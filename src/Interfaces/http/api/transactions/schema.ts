@@ -7,14 +7,15 @@ const Joi: typeof JoiType = require('joi')
 export const getTransactionSchema = Joi.object({
   child_id: Joi.string(),
   transaction_type: Joi.string(),
-  date_range: Joi.array().length(2).items(Joi.date()),
+  start_date: Joi.date(),
+  end_date: Joi.date(),
   category_id: Joi.string(),
   wallet_id: Joi.string(),
   search_key: Joi.string(),
   limit: Joi.number(),
   offset: Joi.number(),
-  order_by: Joi.string().required(),
-  sort_by: Joi.string().required(),
+  order_by: Joi.string().default('desc'),
+  sort_by: Joi.string().default('date'),
 })
 
 export const postTransactionSchema = Joi.object({
