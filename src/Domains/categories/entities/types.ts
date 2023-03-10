@@ -40,6 +40,7 @@ export type UpdateDataCategoryPayload = {
 
 export type CategoryFilter = {
   transaction_type?: TransactionTypesType
+  include_child?: boolean
 }
 
 export type CategoryDataRespType = {

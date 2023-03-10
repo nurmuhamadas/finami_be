@@ -12,11 +12,9 @@ import PlanningRepository from '../../../Domains/plannings/PlanningRepository'
 import FilterPlanning from '../../../Domains/plannings/entities/FilterPlanning'
 import RegisterPlanning from '../../../Domains/plannings/entities/RegisterPlanning'
 import UpdateDataPlanning from '../../../Domains/plannings/entities/UpdateDataPlanning'
-import {
-  GetPlanningResult,
-  GetPlanningsResult,
-} from '../../../Domains/plannings/types'
 import WalletRepository from '../../../Domains/wallets/WalletRepository'
+import { PlanningDataRespType } from '../../../Domains/plannings/entities/types'
+import PlanningData from '../../../Domains/plannings/entities/PlanningData'
 
 class PlanningsUseCase {
   _walletRepository: WalletRepository
@@ -41,29 +39,36 @@ class PlanningsUseCase {
     child_id,
     wallet_id,
     month,
-  }: GetPlanningsPayload): Promise<GetPlanningsResult> {
+    category_id,
+    search_key,
+  }: GetPlanningsPayload): Promise<PlanningDataRespType[]> {
     const filter = new FilterPlanning({
       month: month,
       wallet_id: wallet_id,
+      category_id,
+      search_key,
     })
 
     const result = await this._planningRepository.getPlanningsByUserId(
       child_id || user_id,
       filter,
     )
+    const data = new PlanningData(result, user_id)
 
-    return result
+    return data.values
   }
 
   async getPlanningById({
     id,
     user_id,
-  }: GetPlanningByIdPayload): Promise<GetPlanningResult> {
+  }: GetPlanningByIdPayload): Promise<PlanningDataRespType> {
     //  verify access
     await this._planningRepository.verifyPlanningOwner(id, user_id)
 
     const result = await this._planningRepository.getPlanningById(id)
-    return result
+    const data = new PlanningData([result], user_id)
+
+    return data.values?.[0]
   }
 
   async addPlanning({

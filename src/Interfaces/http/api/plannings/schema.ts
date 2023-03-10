@@ -9,6 +9,8 @@ export const getPlanningsSchema = Joi.object({
   start_month: Joi.date(),
   end_month: Joi.date(),
   wallet_id: Joi.string(),
+  category_id: Joi.string(),
+  search_key: Joi.string(),
 })
 
 export const postPlanningSchema = Joi.object({

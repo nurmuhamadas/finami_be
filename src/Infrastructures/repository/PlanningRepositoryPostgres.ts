@@ -1,3 +1,4 @@
+import { PlanningDataRepoType } from '../../Domains/plannings/types'
 import AuthorizationError from '../../Commons/exceptions/AuthorizationError'
 import InvariantError from '../../Commons/exceptions/InvariantError'
 import NotFoundError from '../../Commons/exceptions/NotFoundError'
@@ -5,10 +6,6 @@ import PlanningRepository from '../../Domains/plannings/PlanningRepository'
 import FilterPlanning from '../../Domains/plannings/entities/FilterPlanning'
 import RegisterPlanning from '../../Domains/plannings/entities/RegisterPlanning'
 import UpdateDataPlanning from '../../Domains/plannings/entities/UpdateDataPlanning'
-import {
-  GetPlanningResult,
-  GetPlanningsResult,
-} from '../../Domains/plannings/types'
 import { Pool } from 'pg'
 
 class PlanningRepositoryPostgres extends PlanningRepository {
@@ -122,33 +119,46 @@ class PlanningRepositoryPostgres extends PlanningRepository {
   async getPlanningsByUserId(
     userId: string,
     filter?: FilterPlanning | undefined,
-  ): Promise<GetPlanningsResult> {
+  ): Promise<PlanningDataRepoType[]> {
     let _filter = ''
     let count = 1
     const values: any = [userId]
 
     if (filter) {
-      const { wallet_id, month } = filter.values
+      const { wallet_id, month, category_id, search_key } = filter.values
       if (wallet_id) {
         count += 1
-        _filter += ` AND wallet_id = $${count}`
+        _filter += ` AND p.wallet_id = $${count}`
         values.push(wallet_id)
+      }
+      if (category_id) {
+        count += 1
+        _filter += ` AND p.category_id = $${count}`
+        values.push(category_id)
+      }
+      if (search_key) {
+        count += 1
+        _filter += ` AND p.name LIKE $${count}`
+        values.push(`%${search_key}%`)
       }
       if (month?.[0]) {
         count += 1
-        _filter += ` AND month >= $${count}`
+        _filter += ` AND p.month >= $${count}`
         values.push(month?.[0])
       }
       if (month?.[1]) {
         count += 1
-        _filter += ` AND month <= $${count}`
+        _filter += ` AND p.month <= $${count}`
         values.push(month?.[1])
       }
     }
 
     const query = {
-      text: `SELECT p.*, u.username FROM plannings p
-            LEFT JOIN users u ON p.user_id = u.id
+      text: `SELECT p.*, u.username AS user_name, u.fullname AS user_fullname,
+            c.name AS category_name, w.name AS wallet_name FROM plannings p
+            JOIN users u ON p.user_id = u.id
+            JOIN categories c ON c.user_id = u.id
+            JOIN wallets w ON w.user_id = u.id
             WHERE (u.id = $1 OR u.parent_id = $1) AND p.deleted_at IS NULL
             ${_filter}`,
       values,
@@ -158,10 +168,13 @@ class PlanningRepositoryPostgres extends PlanningRepository {
     return result.rows
   }
 
-  async getPlanningById(id: string): Promise<GetPlanningResult> {
+  async getPlanningById(id: string): Promise<PlanningDataRepoType> {
     const query = {
-      text: `SELECT p.*, u.username FROM plannings p
-            LEFT JOIN users u ON p.user_id = u.id
+      text: `SELECT p.*, u.username AS user_name, u.fullname AS user_fullname,
+            c.name AS category_name, w.name AS wallet_name FROM plannings p
+            JOIN users u ON p.user_id = u.id
+            JOIN categories c ON c.user_id = u.id
+            JOIN wallets w ON w.user_id = u.id
             WHERE p.id = $1 AND p.deleted_at IS NULL`,
       values: [id],
     }

@@ -120,19 +120,23 @@ class CategoryRepositoryPostgres extends CategoryRepository {
     filter?: FilterCategory,
   ): Promise<CategoryDataRepoType[]> {
     let _filter = ''
+    let includeChild = ''
     const values = [userId]
 
     if (filter) {
-      const { transaction_type } = filter.values
+      const { transaction_type, include_child } = filter.values
       if (transaction_type) {
         _filter += 'AND transaction_type = $2'
         values.push(transaction_type)
       }
+      if (include_child !== undefined) {
+        includeChild += 'OR u.parent_id = $1'
+      }
     }
 
     const query = {
-      text: `SELECT * FROM categories
-            WHERE (user_id = $1 OR user_id IS NULL) AND deleted_at IS NULL
+      text: `SELECT c.* FROM categories c JOIN users u ON c.user_id = u.id
+            WHERE (c.user_id = $1 OR c.user_id IS NULL ${includeChild}) AND c.deleted_at IS NULL
             ${_filter}`,
       values,
     }

@@ -32,10 +32,13 @@ class CategoriesUseCase {
 
   async getCategories({
     user_id,
+    include_child,
     transaction_type,
   }: GetCategoriesPayload): Promise<CategoryDataRespType[]> {
+    console.log(include_child)
     const filter = new FilterCategory({
       transaction_type,
+      include_child,
     })
 
     const result = await this._categoryRepository.getCategoriesByUserId(

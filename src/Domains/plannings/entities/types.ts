@@ -41,17 +41,24 @@ export type UpdateDataPlanningPayload = {
 export type PlanningFilter = {
   wallet_id?: string
   month?: Date[]
+  category_id?: string
+  search_key?: string
 }
 
-export type PlanningDataType = {
+export type PlanningDataRespType = {
   id: string
   name: string
   amount: number
   category_id: string
+  category_name: string
   user_id: string
+  user_name: string
+  user_fullname: string
   wallet_id: string
+  wallet_name: string
   month: Date
+  is_owner: boolean
   created_at: Date
   updated_at: Date
-  deleted_at: Date | null
+  deleted_at?: Date
 }

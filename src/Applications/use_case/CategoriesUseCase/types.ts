@@ -15,6 +15,7 @@ export type CategoriesUseCaseType = {
 export type GetCategoriesPayload = {
   user_id: string
   transaction_type: TransactionTypesType
+  include_child: boolean
 }
 
 export type GetCategoryByIdPayload = {

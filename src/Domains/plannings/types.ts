@@ -1,10 +1,16 @@
-import { PlanningDataType } from './entities/types'
-
-export type GetPlanningResult = PlanningDataType & {
-  user_name: string
+export type PlanningDataRepoType = {
+  id: string
+  name: string
+  amount: string
+  category_id: string
   category_name: string
+  user_id: string
+  user_name: string
+  user_fullname: string
+  wallet_id: string
   wallet_name: string
-  is_owner: boolean
+  month: Date
+  created_at: Date
+  updated_at: Date
+  deleted_at?: Date
 }
-
-export type GetPlanningsResult = GetPlanningResult[]

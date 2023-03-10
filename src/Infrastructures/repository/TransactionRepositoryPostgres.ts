@@ -161,30 +161,30 @@ class TransactionRepositoryPostgres extends TransactionRepository {
       } = filter.values
       if (transaction_type) {
         count += 1
-        _filter += ` AND transaction_type = $${count}`
+        _filter += ` AND t.transaction_type = $${count}`
         values.push(transaction_type)
       }
       if (date_range?.[0] && date_range?.[1]) {
         count += 1
-        _filter += ` AND date >= $${count}`
+        _filter += ` AND t.date >= $${count}`
         values.push(date_range?.[0])
         count += 1
-        _filter += ` AND date <= $${count}`
+        _filter += ` AND t.date <= $${count}`
         values.push(date_range?.[1])
       }
       if (category_id) {
         count += 1
-        _filter += ` AND category_id = $${count}`
+        _filter += ` AND t.category_id = $${count}`
         values.push(category_id)
       }
       if (wallet_id) {
         count += 1
-        _filter += ` AND wallet_id = $${count}`
+        _filter += ` AND t.wallet_id = $${count}`
         values.push(wallet_id)
       }
       if (search_key) {
         count += 1
-        _filter += ` AND descriptions LIKE $${count}`
+        _filter += ` AND t.descriptions LIKE $${count}`
         values.push(`%${search_key}%`)
       }
 
