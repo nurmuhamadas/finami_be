@@ -15,6 +15,7 @@ class TransactionData {
     return data?.map((d) => {
       return {
         ...d,
+        description: d.descriptions,
         amount: Number(d.amount),
         is_owner: d.user_id === userId,
       }

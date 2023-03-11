@@ -3,7 +3,7 @@ import { TransactionTypesType } from 'Commons/types'
 export type TransactionDataRepoType = {
   id: string
   amount: string
-  description: string
+  descriptions: string
   date: Date
   transaction_type: TransactionTypesType
   image_url: string

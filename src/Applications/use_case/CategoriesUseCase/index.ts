@@ -44,7 +44,7 @@ class CategoriesUseCase {
       user_id,
       filter,
     )
-    const _default = await this._categoryRepository.getCategoriesDefault()
+    const _default = await this._categoryRepository.getCategoriesDefault(filter)
 
     const data = new CategoriesData([..._default, ...result], user_id)
     return data.values

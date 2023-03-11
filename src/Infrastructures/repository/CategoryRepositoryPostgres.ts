@@ -165,10 +165,23 @@ class CategoryRepositoryPostgres extends CategoryRepository {
     }
   }
 
-  async getCategoriesDefault(): Promise<CategoryDataRepoType[]> {
+  async getCategoriesDefault(
+    filter?: FilterCategory,
+  ): Promise<CategoryDataRepoType[]> {
+    let _filter = ''
+    const values = []
+
+    if (filter) {
+      const { transaction_type } = filter.values
+      if (transaction_type) {
+        _filter += 'AND transaction_type = $1'
+        values.push(transaction_type)
+      }
+    }
     const query = {
-      text: `SELECT * FROM categories WHERE user_id IS NULL AND deleted_at IS NULL`,
-      values: [],
+      text: `SELECT * FROM categories WHERE user_id IS NULL AND deleted_at IS NULL
+            ${_filter}`,
+      values,
     }
 
     const result = await this._pool.query(query)

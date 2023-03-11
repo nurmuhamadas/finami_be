@@ -184,7 +184,7 @@ class TransactionRepositoryPostgres extends TransactionRepository {
       }
       if (search_key) {
         count += 1
-        _filter += ` AND t.descriptions LIKE $${count}`
+        _filter += ` AND t.descriptions ILIKE $${count}`
         values.push(`%${search_key}%`)
       }
 
