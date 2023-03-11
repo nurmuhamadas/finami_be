@@ -138,7 +138,7 @@ class PlanningRepositoryPostgres extends PlanningRepository {
       }
       if (search_key) {
         count += 1
-        _filter += ` AND p.name LIKE $${count}`
+        _filter += ` AND p.name ILIKE $${count}`
         values.push(`%${search_key}%`)
       }
       if (month?.[0]) {
@@ -157,8 +157,8 @@ class PlanningRepositoryPostgres extends PlanningRepository {
       text: `SELECT p.*, u.username AS user_name, u.fullname AS user_fullname,
             c.name AS category_name, w.name AS wallet_name FROM plannings p
             JOIN users u ON p.user_id = u.id
-            JOIN categories c ON c.user_id = u.id
-            JOIN wallets w ON w.user_id = u.id
+            JOIN categories c ON p.category_id = c.id
+            JOIN wallets w ON p.wallet_id = w.id
             WHERE (u.id = $1 OR u.parent_id = $1) AND p.deleted_at IS NULL
             ${_filter}`,
       values,
@@ -173,8 +173,8 @@ class PlanningRepositoryPostgres extends PlanningRepository {
       text: `SELECT p.*, u.username AS user_name, u.fullname AS user_fullname,
             c.name AS category_name, w.name AS wallet_name FROM plannings p
             JOIN users u ON p.user_id = u.id
-            JOIN categories c ON c.user_id = u.id
-            JOIN wallets w ON w.user_id = u.id
+            JOIN categories c ON p.category_id = c.id
+            JOIN wallets w ON p.wallet_id = w.id
             WHERE p.id = $1 AND p.deleted_at IS NULL`,
       values: [id],
     }

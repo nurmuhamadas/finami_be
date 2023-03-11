@@ -35,7 +35,6 @@ class CategoriesUseCase {
     include_child,
     transaction_type,
   }: GetCategoriesPayload): Promise<CategoryDataRespType[]> {
-    console.log(include_child)
     const filter = new FilterCategory({
       transaction_type,
       include_child,
@@ -45,9 +44,9 @@ class CategoriesUseCase {
       user_id,
       filter,
     )
-    const user = await this._userRepository.getUserById(user_id)
-    const data = new CategoriesData(result, user)
+    const _default = await this._categoryRepository.getCategoriesDefault()
 
+    const data = new CategoriesData([..._default, ...result], user_id)
     return data.values
   }
 
@@ -59,10 +58,8 @@ class CategoriesUseCase {
     await this._categoryRepository.verifyCategoryOwner(id, user_id)
 
     const result = await this._categoryRepository.getCategoryById(id)
-    const user = await this._userRepository.getUserById(user_id)
 
-    const data = new CategoriesData([result], user)
-
+    const data = new CategoriesData([result], user_id)
     return data.values?.[0]
   }
 

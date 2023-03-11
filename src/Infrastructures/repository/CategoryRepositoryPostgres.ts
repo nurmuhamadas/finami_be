@@ -135,8 +135,9 @@ class CategoryRepositoryPostgres extends CategoryRepository {
     }
 
     const query = {
-      text: `SELECT c.* FROM categories c JOIN users u ON c.user_id = u.id
-            WHERE (c.user_id = $1 OR c.user_id IS NULL ${includeChild}) AND c.deleted_at IS NULL
+      text: `SELECT c.*, u.username AS user_name, u.fullname AS user_fullname
+            FROM categories c JOIN users u ON c.user_id = u.id
+            WHERE (c.user_id = $1 OR c.user_id IS NULL) AND c.deleted_at IS NULL
             ${_filter}`,
       values,
     }
@@ -147,7 +148,9 @@ class CategoryRepositoryPostgres extends CategoryRepository {
 
   async getCategoryById(id: string): Promise<CategoryDataRepoType> {
     const query = {
-      text: 'SELECT * FROM categories WHERE id = $1 AND deleted_at IS NULL',
+      text: `SELECT c.*, u.username AS user_name, u.fullname AS user_fullname
+            FROM categories c JOIN users u ON c.user_id = u.id
+            WHERE id = $1 AND deleted_at IS NULL`,
       values: [id],
     }
 
@@ -162,6 +165,16 @@ class CategoryRepositoryPostgres extends CategoryRepository {
     }
   }
 
+  async getCategoriesDefault(): Promise<CategoryDataRepoType[]> {
+    const query = {
+      text: `SELECT * FROM categories WHERE user_id IS NULL AND deleted_at IS NULL`,
+      values: [],
+    }
+
+    const result = await this._pool.query(query)
+    return result.rows
+  }
+
   async verifyCategoryOwner(id: string, userId: string): Promise<boolean> {
     const query = {
       text: `SELECT user_id FROM categories
@@ -174,7 +187,9 @@ class CategoryRepositoryPostgres extends CategoryRepository {
     if (result.rowCount === 0) {
       throw new NotFoundError('Category not found')
     }
-    if (result.rows[0].user_id !== userId) {
+
+    // * If have no user_id, it mean common categories, so it verified
+    if (result.rows[0].user_id && result.rows[0].user_id !== userId) {
       throw new AuthorizationError('Not allowed to access this record')
     }
 

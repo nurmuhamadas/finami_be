@@ -32,6 +32,10 @@ class CategoryRepository {
     throw new Error('CATEGORY_REPOSITORY.METHOD_NOT_IMPLEMENTED')
   }
 
+  async getCategoriesDefault(): Promise<CategoryDataRepoType[]> {
+    throw new Error('CATEGORY_REPOSITORY.METHOD_NOT_IMPLEMENTED')
+  }
+
   async getCategoryById(id: string): Promise<CategoryDataRepoType> {
     throw new Error('CATEGORY_REPOSITORY.METHOD_NOT_IMPLEMENTED')
   }
