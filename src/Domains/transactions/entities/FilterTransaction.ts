@@ -5,7 +5,6 @@ class FilterTransaction {
 
   constructor(payload: TransactionFilterType) {
     this._verifyPayload(payload)
-
     this.values = payload
   }
 
@@ -21,9 +20,9 @@ class FilterTransaction {
       throw new Error('FILTER_TRANSACTION.INVALID_TRANSACTION_TYPE')
 
     if (date_range) {
-      if (!date_range[0] || !date_range[1])
-        throw new Error('FILTER_TRANSACTION.DATE_RANGE_NOT_COMPLETE')
-      if (date_range[0] > date_range[1])
+      // if (!date_range[0] || !date_range[1])
+      //   throw new Error('FILTER_TRANSACTION.DATE_RANGE_NOT_COMPLETE')
+      if (date_range[0] && date_range[1] && date_range[0] > date_range[1])
         throw new Error('FILTER_TRANSACTION.START_DATE_SHOULD_BEFORE_END_DATE')
     }
 
