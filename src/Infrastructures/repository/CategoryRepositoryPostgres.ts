@@ -235,7 +235,7 @@ class CategoryRepositoryPostgres extends CategoryRepository {
   async verifyCategoryReference(id: string): Promise<boolean> {
     const query = {
       text: `SELECT id FROM transactions
-            WHERE category_id = $1`,
+            WHERE category_id = $1 AND deleted_at IS NULL`,
       values: [id],
     }
     const result = await this._pool.query(query)
@@ -246,8 +246,8 @@ class CategoryRepositoryPostgres extends CategoryRepository {
     }
 
     const query2 = {
-      text: `SELECT id FROM transactions
-            WHERE category_id = $1`,
+      text: `SELECT id FROM plannings
+            WHERE category_id = $1 AND deleted_at IS NULL`,
       values: [id],
     }
     const result2 = await this._pool.query(query2)

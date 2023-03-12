@@ -142,8 +142,8 @@ class SettingRepositoryPostgres extends SettingRepository {
 
   async softDeleteSettingByParentId(parentId: string): Promise<{ id: string }> {
     const query = {
-      text: `UPDATE settings s SET deleted_at = NOW()
-            WHERE s.user_id = $1 AND s.deleted_at IS NULL RETURNING s.id`,
+      text: `UPDATE settings SET deleted_at = NOW()
+            WHERE user_id = $1 AND deleted_at IS NULL RETURNING id`,
       values: [parentId],
     }
 

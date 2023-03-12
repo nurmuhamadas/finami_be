@@ -125,7 +125,7 @@ class UsersUseCase {
     await this._userRepository.verifyUserParent(id, parent_id)
 
     const result = await this._userRepository.softDeleteUserById(id)
-    await this._settingRepository.softDeleteSettingByParentId(parent_id)
+    await this._settingRepository.softDeleteSettingByParentId(result.id)
     return result
   }
 
