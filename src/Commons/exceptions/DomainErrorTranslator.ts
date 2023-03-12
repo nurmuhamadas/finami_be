@@ -12,7 +12,7 @@ const DomainErrorTranslator: DomainErrorTranslatorType = {
     const [domain, messageCode] = error.message.split('.')
 
     if (domain.includes('REGISTER_')) {
-      _message = `can't create new ${domain
+      _message = `Failed to create new ${domain
         .replace('REGISTER_', '')
         .toLowerCase()}, `
     } else if (domain.includes('UPDATE_DATA_')) {
@@ -22,7 +22,7 @@ const DomainErrorTranslator: DomainErrorTranslatorType = {
     }
 
     if (messageCode.includes('INVALID_PASSWORD')) {
-      _message += `can't create new user, password should contain lowercase, uppercase, number, special character, and minimal 8 character.`
+      _message += `password should contain lowercase, uppercase, number, special character, and minimal 8 character.`
     } else if (messageCode.includes('START_DATE_SHOULD_BEFORE_END_DATE')) {
       _message += 'Start date should before end date'
     } else if (messageCode.includes('INVALID_')) {

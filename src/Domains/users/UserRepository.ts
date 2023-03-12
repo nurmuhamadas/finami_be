@@ -26,6 +26,10 @@ class UserRepository {
     throw new Error('USER_REPOSITORY.METHOD_NOT_IMPLEMENTED')
   }
 
+  async verifyAvailableEmail(email: string): Promise<boolean> {
+    throw new Error('USER_REPOSITORY.METHOD_NOT_IMPLEMENTED')
+  }
+
   async getPasswordByUsername(username: string): Promise<{ password: string }> {
     throw new Error('USER_REPOSITORY.METHOD_NOT_IMPLEMENTED')
   }

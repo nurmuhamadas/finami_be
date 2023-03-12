@@ -115,7 +115,7 @@ class SettingRepositoryPostgres extends SettingRepository {
     const result = await this._pool.query(query)
 
     if (!result.rowCount) {
-      throw new NotFoundError('setting not found')
+      throw new NotFoundError('Setting not found')
     }
 
     return {
@@ -132,7 +132,7 @@ class SettingRepositoryPostgres extends SettingRepository {
     const result = await this._pool.query(query)
 
     if (!result.rowCount) {
-      throw new NotFoundError('setting not found')
+      throw new NotFoundError('Setting not found')
     }
 
     return {
@@ -142,8 +142,8 @@ class SettingRepositoryPostgres extends SettingRepository {
 
   async softDeleteSettingByParentId(parentId: string): Promise<{ id: string }> {
     const query = {
-      text: `UPDATE settings s SET s.deleted_at = NOW() FROM users u
-            WHERE u.parent_id = s.user_id AND u.parent_id = $1 AND deleted_at IS NULL RETURNING id`,
+      text: `UPDATE settings s SET deleted_at = NOW()
+            WHERE s.user_id = $1 AND s.deleted_at IS NULL RETURNING s.id`,
       values: [parentId],
     }
 
@@ -160,8 +160,8 @@ class SettingRepositoryPostgres extends SettingRepository {
 
   async restoreSettingByParentId(parentId: string): Promise<{ id: string }> {
     const query = {
-      text: `UPDATE settings s SET s.deleted_at = NULL FROM users u
-            WHERE u.parent_id = s.user_id AND u.parent_id = $1 AND deleted_at IS NOT NULL RETURNING id`,
+      text: `UPDATE settings s SET deleted_at = NULL FROM users u
+            WHERE u.parent_id = s.user_id AND u.parent_id = $1 AND s.deleted_at IS NOT NULL RETURNING s.id`,
       values: [parentId],
     }
 

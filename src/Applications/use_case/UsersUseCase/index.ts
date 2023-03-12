@@ -6,6 +6,8 @@ import {
   UpdateUserPayload,
   GetUserByIdPayload,
   GetUsersByUserIdPayload,
+  AddUserMemberPayload,
+  UpdateUserMemberPayload,
 } from './types'
 import SettingRepository from '../../../Domains/settings/SettingRepository'
 import RegisterSetting from '../../../Domains/settings/entities/RegisterSetting'
@@ -35,10 +37,19 @@ class UsersUseCase {
 
   async getUsersByUserId({
     user_id,
+    member_only,
   }: GetUsersByUserIdPayload): Promise<UserDataRespType[]> {
-    const result = await this._userRepository.getUserById(user_id)
+    const data = []
+
+    if (!member_only) {
+      const result = await this._userRepository.getUserById(user_id)
+      data.push(result)
+    }
+
     const child = await this._userRepository.getChildByParentId(user_id)
-    return [result, ...child]
+    data.push(...child)
+
+    return data
   }
 
   async getUserById({
@@ -53,7 +64,6 @@ class UsersUseCase {
     email,
     password,
     fullname,
-    parent_id,
     image_url,
   }: AddUserPayload): Promise<{ id: string }> {
     const registerUser = new RegisterUser({
@@ -62,14 +72,13 @@ class UsersUseCase {
       email,
       password,
       fullname,
-      parent_id,
       image_url,
     })
 
-    // Verify parent_id
-    if (parent_id) {
-      await this._userRepository.verifyAvailableParent(parent_id)
-    }
+    await this._userRepository.verifyAvailableUsername(
+      registerUser.values.username,
+    )
+    await this._userRepository.verifyAvailableEmail(registerUser.values.email)
 
     const hashedPassword = await this._encryptionHelper.hash(password)
     registerUser.values.password = hashedPassword
@@ -116,7 +125,9 @@ class UsersUseCase {
     await this._userRepository.verifyUserParent(id, parent_id)
 
     const result = await this._userRepository.softDeleteUserById(id)
+    console.log('OKKKKKKKKKKKKKEEEEEEEEEEE')
     await this._settingRepository.softDeleteSettingByParentId(parent_id)
+    console.log('OKKKKKKKKKKKKKEEEEEEEEEEE22222222222222')
     return result
   }
 
@@ -129,6 +140,67 @@ class UsersUseCase {
 
     const result = await this._userRepository.restoreUserById(id)
     await this._settingRepository.restoreSettingByParentId(parent_id)
+    return result
+  }
+
+  async addUserMember({
+    username,
+    email,
+    password,
+    fullname,
+    image_url,
+    parent_id,
+  }: AddUserMemberPayload): Promise<{ id: string }> {
+    const registerUser = new RegisterUser({
+      id: this._idGenerator.generate('user'),
+      username,
+      email,
+      password,
+      fullname,
+      image_url,
+      parent_id,
+    })
+
+    await this._userRepository.verifyAvailableUsername(
+      registerUser.values.username,
+    )
+    await this._userRepository.verifyAvailableEmail(registerUser.values.email)
+
+    const hashedPassword = await this._encryptionHelper.hash(password)
+    registerUser.values.password = hashedPassword
+
+    const result = await this._userRepository.addUser(registerUser)
+
+    // Add setting
+    const registerSetting = new RegisterSetting({
+      id: this._idGenerator.generate('setting'),
+      date_format: 'dd-mm-yyyy',
+      currency_id: 'currency-00000000001',
+      user_id: result.id,
+    })
+    await this._settingRepository.addSetting(registerSetting)
+
+    return result
+  }
+
+  async updateUserMember({
+    id,
+    username,
+    fullname,
+    image_url,
+    user_id,
+    parent_id,
+  }: UpdateUserMemberPayload): Promise<{ id: string }> {
+    const updateDataUser = new UpdateDataUser({
+      username,
+      fullname,
+      image_url,
+    })
+
+    //  verify access
+    await this._userRepository.verifyUserParent(user_id, parent_id)
+
+    const result = await this._userRepository.updateUser(id, updateDataUser)
     return result
   }
 }

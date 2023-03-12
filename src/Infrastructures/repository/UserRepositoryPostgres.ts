@@ -121,7 +121,22 @@ class UserRepositoryPostgres extends UserRepository {
     const result = await this._pool.query(query)
 
     if (result.rowCount) {
-      throw new InvariantError('username not available')
+      throw new InvariantError('Username not available')
+    }
+
+    return true
+  }
+
+  async verifyAvailableEmail(email: string): Promise<boolean> {
+    const query = {
+      text: 'SELECT email FROM users WHERE email = $1',
+      values: [email],
+    }
+
+    const result = await this._pool.query(query)
+
+    if (result.rowCount) {
+      throw new InvariantError('Email not available')
     }
 
     return true
@@ -136,7 +151,7 @@ class UserRepositoryPostgres extends UserRepository {
     const result = await this._pool.query(query)
 
     if (!result.rowCount) {
-      throw new NotFoundError('user not found')
+      throw new NotFoundError('User not found')
     }
 
     return {
@@ -153,7 +168,7 @@ class UserRepositoryPostgres extends UserRepository {
     const result = await this._pool.query(query)
 
     if (!result.rowCount) {
-      throw new NotFoundError('user not found')
+      throw new NotFoundError('User not found')
     }
 
     return { id: result.rows?.[0]?.id }
@@ -168,7 +183,7 @@ class UserRepositoryPostgres extends UserRepository {
     const result = await this._pool.query(query)
 
     if (!result.rowCount) {
-      throw new NotFoundError('user not found')
+      throw new NotFoundError('User not found')
     }
 
     return {
@@ -196,7 +211,7 @@ class UserRepositoryPostgres extends UserRepository {
     const result = await this._pool.query(query)
 
     if (result.rowCount === 0) {
-      throw new NotFoundError('user not found')
+      throw new NotFoundError('User not found')
     }
     if (result.rows[0].id !== userId && result.rows[0].parent_id !== userId) {
       throw new AuthorizationError('Not allowed to access this record')
@@ -215,7 +230,7 @@ class UserRepositoryPostgres extends UserRepository {
     const result = await this._pool.query(query)
 
     if (result.rowCount === 0) {
-      throw new NotFoundError('user not found')
+      throw new NotFoundError('User not found')
     }
     if (result.rows[0].parent_id !== parentId) {
       throw new AuthorizationError('Not allowed to access this record')
@@ -233,7 +248,7 @@ class UserRepositoryPostgres extends UserRepository {
     const result = await this._pool.query(query)
 
     if (!result.rowCount) {
-      throw new NotFoundError('parent not found')
+      throw new NotFoundError('Parent not found')
     }
 
     return {

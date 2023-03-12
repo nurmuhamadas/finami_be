@@ -1,5 +1,11 @@
 import UsersHandler from './handler'
-import { postUserSchema, putUserSchema } from './schema'
+import {
+  postUserSchema,
+  putUserSchema,
+  getUserMembersSchema,
+  postMemberSchema,
+  putMemberSchema,
+} from './schema'
 
 const routes = (handler: UsersHandler) => [
   {
@@ -8,6 +14,9 @@ const routes = (handler: UsersHandler) => [
     handler: handler.getUsersHandler,
     options: {
       auth: 'finami_jwt',
+      validate: {
+        query: getUserMembersSchema,
+      },
     },
   },
   {
@@ -40,8 +49,30 @@ const routes = (handler: UsersHandler) => [
     },
   },
   {
+    method: 'POST',
+    path: '/users/members',
+    handler: handler.postUserMemberHandler,
+    options: {
+      auth: 'finami_jwt',
+      validate: {
+        payload: postMemberSchema,
+      },
+    },
+  },
+  {
+    method: 'PUT',
+    path: '/users/members/{id}',
+    handler: handler.putUserMemberHandler,
+    options: {
+      auth: 'finami_jwt',
+      validate: {
+        payload: putMemberSchema,
+      },
+    },
+  },
+  {
     method: 'DELETE',
-    path: '/users/{id}',
+    path: '/users/members/{id}',
     handler: handler.deleteChildHandler,
     options: {
       auth: 'finami_jwt',

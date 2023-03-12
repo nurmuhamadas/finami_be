@@ -12,6 +12,7 @@ export type UsersUseCaseType = {
 
 export type GetUsersByUserIdPayload = {
   user_id: string
+  member_only?: boolean
 }
 
 export type GetUserByIdPayload = {
@@ -24,7 +25,6 @@ export type AddUserPayload = {
   email: string
   password: string
   fullname: string
-  parent_id: string
   image_url: string
 }
 
@@ -38,5 +38,23 @@ export type UpdateUserPayload = {
 
 export type DeleteUserPayload = {
   id: string
+  parent_id: string
+}
+
+export type AddUserMemberPayload = {
+  username: string
+  email: string
+  password: string
+  fullname: string
+  image_url: string
+  parent_id: string
+}
+
+export type UpdateUserMemberPayload = {
+  id: string
+  user_id: string
+  username: string
+  fullname: string
+  image_url?: string
   parent_id: string
 }

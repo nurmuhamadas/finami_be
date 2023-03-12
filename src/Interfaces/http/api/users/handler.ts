@@ -17,7 +17,7 @@ class UsersHandler {
       UsersUseCase.name,
     )
 
-    const { username, email, password, fullname, parent_id, image_url } =
+    const { username, email, password, fullname, image_url } =
       request.payload as any
 
     const res = await userUseCase.addUser({
@@ -25,8 +25,33 @@ class UsersHandler {
       email,
       password,
       fullname,
-      parent_id,
       image_url,
+    })
+
+    const response = h.response({
+      status: 'success',
+      data: res,
+    })
+    response.code(201)
+    return response
+  }
+
+  async postUserMemberHandler(request: Request, h: any) {
+    const userUseCase: UsersUseCase = this._container.getInstance(
+      UsersUseCase.name,
+    )
+
+    const { id: userId } = request.auth.credentials
+    const { username, email, password, fullname, image_url } =
+      request.payload as any
+
+    const res = await userUseCase.addUserMember({
+      username,
+      email,
+      password,
+      fullname,
+      image_url,
+      parent_id: userId as string,
     })
 
     const response = h.response({
@@ -51,6 +76,31 @@ class UsersHandler {
       username,
       fullname,
       image_url,
+    })
+
+    const response = h.response({
+      status: 'success',
+      data: res,
+    })
+    response.code(200)
+    return response
+  }
+
+  async putUserMemberHandler(request: Request, h: any) {
+    const userUseCase: UsersUseCase = this._container.getInstance(
+      UsersUseCase.name,
+    )
+    const { id } = request.params
+    const { id: userId } = request.auth.credentials
+    const { username, fullname, image_url, user_id } = request.payload as any
+
+    const res = await userUseCase.updateUserMember({
+      id,
+      user_id: user_id,
+      username,
+      fullname,
+      image_url,
+      parent_id: userId as string,
     })
 
     const response = h.response({
@@ -86,9 +136,11 @@ class UsersHandler {
       UsersUseCase.name,
     )
     const { id: parentId } = request.auth.credentials
+    const { member_only } = request.query
 
     const res = await userUseCase.getUsersByUserId({
       user_id: parentId as string,
+      member_only,
     })
 
     const response = h.response({

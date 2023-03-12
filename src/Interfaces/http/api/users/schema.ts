@@ -10,7 +10,6 @@ export const postUserSchema = Joi.object({
   password: Joi.string().min(8).required(),
   fullname: Joi.string().required(),
   image_url: Joi.string(),
-  parent_id: Joi.string(),
 })
 
 export const putUserSchema = Joi.object({
@@ -18,4 +17,24 @@ export const putUserSchema = Joi.object({
   fullname: Joi.string().required(),
   email: Joi.string().email(),
   image_url: Joi.string(),
+})
+
+export const postMemberSchema = Joi.object({
+  username: Joi.string().max(30).required(),
+  email: Joi.string().email().max(50).required(),
+  password: Joi.string().min(8).required(),
+  fullname: Joi.string().required(),
+  image_url: Joi.string(),
+})
+
+export const putMemberSchema = Joi.object({
+  username: Joi.string().max(30).required(),
+  fullname: Joi.string().required(),
+  email: Joi.string().email(),
+  image_url: Joi.string(),
+  user_id: Joi.string().required(),
+})
+
+export const getUserMembersSchema = Joi.object({
+  member_only: Joi.boolean().default(false),
 })
