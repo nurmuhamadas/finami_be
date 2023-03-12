@@ -12,6 +12,7 @@ export type WalletUseCaseType = {
 
 export type GetWalletsPayload = {
   user_id: string
+  user_id_query?: string
 }
 
 export type GetWalletByIdPayload = {

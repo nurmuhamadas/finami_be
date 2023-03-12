@@ -18,8 +18,10 @@ class WalletsHandler {
     )
 
     const { id: userId } = request.auth.credentials
+    const { user_id } = request.query
     const data = await walletUseCase.getWallets({
       user_id: userId as string,
+      user_id_query: user_id,
     })
 
     const response = h.response({

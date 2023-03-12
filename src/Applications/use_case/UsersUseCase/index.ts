@@ -125,9 +125,7 @@ class UsersUseCase {
     await this._userRepository.verifyUserParent(id, parent_id)
 
     const result = await this._userRepository.softDeleteUserById(id)
-    console.log('OKKKKKKKKKKKKKEEEEEEEEEEE')
     await this._settingRepository.softDeleteSettingByParentId(parent_id)
-    console.log('OKKKKKKKKKKKKKEEEEEEEEEEE22222222222222')
     return result
   }
 

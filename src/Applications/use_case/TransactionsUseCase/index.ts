@@ -104,7 +104,7 @@ class TransactionsUseCase {
     })
 
     // verify access
-    await this._walletRepository.verifyWalletOwner(wallet_id, user_id)
+    await this._walletRepository.verifyWalletWriteAccess(wallet_id, user_id)
     await this._categoryRepository.verifyCategoryOwner(category_id, user_id)
 
     const result = await this._transactionRepository.addTransaction(

@@ -13,3 +13,7 @@ export const putWalletSchema = Joi.object({
   name: Joi.string().required(),
   balance: Joi.number().required(),
 })
+
+export const getWalletsSchema = Joi.object({
+  user_id: Joi.string(),
+})

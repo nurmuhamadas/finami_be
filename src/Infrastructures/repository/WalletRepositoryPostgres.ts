@@ -91,7 +91,7 @@ class WalletRepositoryPostgres extends WalletRepository {
     }
   }
 
-  async verifyWalletOwner(id: string, userId: string): Promise<boolean> {
+  async verifyWalletWriteAccess(id: string, userId: string): Promise<boolean> {
     const query = {
       text: `SELECT user_id FROM wallets
             WHERE id = $1 AND deleted_at IS NULL`,
@@ -110,12 +110,48 @@ class WalletRepositoryPostgres extends WalletRepository {
     return true
   }
 
+  async verifyWalletReadAccess(id: string, userId: string): Promise<boolean> {
+    const query = {
+      text: `SELECT w.user_id, u.parent_id FROM wallets w
+            JOIN users u ON w.user_id = u.id
+            WHERE w.id = $1 AND w.deleted_at IS NULL`,
+      values: [id],
+    }
+
+    const result = await this._pool.query(query)
+
+    if (result.rowCount === 0) {
+      throw new NotFoundError('Wallet not found')
+    }
+    if (
+      result.rows[0].user_id !== userId &&
+      result.rows[0].parent_id !== userId
+    ) {
+      throw new AuthorizationError('Not allowed to access this record')
+    }
+
+    return true
+  }
+
   async getWalletsByUserId(userId: string): Promise<WalletsDataRepoType[]> {
     const query = {
       text: `SELECT w.*, u.username, u.username AS user_name, u.fullname AS user_fullname FROM wallets w
             LEFT JOIN users u ON w.user_id = u.id
-            WHERE (u.id = $1 OR u.parent_id = $1) AND w.deleted_at IS NULL`,
+            WHERE u.id = $1 AND w.deleted_at IS NULL`,
       values: [userId],
+    }
+
+    const result = await this._pool.query(query)
+    return result.rows
+  }
+
+  // Include child wallet
+  async getAllWallets(parentId: string): Promise<WalletsDataRepoType[]> {
+    const query = {
+      text: `SELECT w.*, u.username, u.username AS user_name, u.fullname AS user_fullname FROM wallets w
+            LEFT JOIN users u ON w.user_id = u.id
+            WHERE (u.id = $1 OR u.parent_id = $1) AND w.deleted_at IS NULL`,
+      values: [parentId],
     }
 
     const result = await this._pool.query(query)

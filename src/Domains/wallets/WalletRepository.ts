@@ -22,11 +22,19 @@ class WalletRepository {
     throw new Error('WALLET_REPOSITORY.METHOD_NOT_IMPLEMENTED')
   }
 
-  async verifyWalletOwner(id: string, userId: string): Promise<boolean> {
+  async verifyWalletReadAccess(id: string, userId: string): Promise<boolean> {
+    throw new Error('WALLET_REPOSITORY.METHOD_NOT_IMPLEMENTED')
+  }
+
+  async verifyWalletWriteAccess(id: string, userId: string): Promise<boolean> {
     throw new Error('WALLET_REPOSITORY.METHOD_NOT_IMPLEMENTED')
   }
 
   async getWalletsByUserId(userId: string): Promise<WalletsDataRepoType[]> {
+    throw new Error('WALLET_REPOSITORY.METHOD_NOT_IMPLEMENTED')
+  }
+
+  async getAllWallets(userId: string): Promise<WalletsDataRepoType[]> {
     throw new Error('WALLET_REPOSITORY.METHOD_NOT_IMPLEMENTED')
   }
 

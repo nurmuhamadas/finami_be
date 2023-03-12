@@ -18,11 +18,11 @@ class CategoriesHandlers {
     )
 
     const { id: userId } = request.auth.credentials
-    const { transaction_type, include_child } = request.query
+    const { transaction_type, user_id } = request.query
     const data = await categoryUseCase.getCategories({
       user_id: userId as string,
       transaction_type,
-      include_child,
+      user_query_id: user_id,
     })
 
     const response = h.response({

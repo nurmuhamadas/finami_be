@@ -32,18 +32,23 @@ class CategoriesUseCase {
 
   async getCategories({
     user_id,
-    include_child,
+    user_query_id,
     transaction_type,
   }: GetCategoriesPayload): Promise<CategoryDataRespType[]> {
     const filter = new FilterCategory({
       transaction_type,
-      include_child,
     })
+    let result
 
-    const result = await this._categoryRepository.getCategoriesByUserId(
-      user_id,
-      filter,
-    )
+    if (user_query_id) {
+      result = await this._categoryRepository.getCategoriesByUserId(
+        user_query_id,
+        filter,
+      )
+    } else {
+      result = await this._categoryRepository.getAllCategories(user_id, filter)
+    }
+
     const _default = await this._categoryRepository.getCategoriesDefault(filter)
 
     const data = new CategoriesData([..._default, ...result], user_id)

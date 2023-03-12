@@ -176,10 +176,14 @@ class SettingRepositoryPostgres extends SettingRepository {
     }
   }
 
-  async verifySettingAccess(id: string, parentId: string): Promise<boolean> {
+  async verifySettingDeleteAccess(
+    id: string,
+    parentId: string,
+  ): Promise<boolean> {
     const query = {
-      text: `SELECT u.parent_id FROM settings s JOIN users u ON s.user_id = u.id
-            WHERE s.id = $1`,
+      text: `SELECT u.parent_id FROM settings s
+            JOIN users u ON s.user_id = u.id
+            WHERE s.id = $1 AND s.deleted_at IS NULL`,
       values: [id],
     }
 
@@ -195,7 +199,10 @@ class SettingRepositoryPostgres extends SettingRepository {
     return true
   }
 
-  async verifySettingOwner(id: string, userId: string): Promise<boolean> {
+  async verifySettingWriteAndReadAccess(
+    id: string,
+    userId: string,
+  ): Promise<boolean> {
     const query = {
       text: `SELECT user_id FROM settings WHERE id = $1`,
       values: [id],

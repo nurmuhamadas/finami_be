@@ -36,7 +36,14 @@ class PlanningRepository {
     throw new Error('PLANNING_REPOSITORY.METHOD_NOT_IMPLEMENTED')
   }
 
-  async verifyPlanningOwner(id: string, userId: string): Promise<boolean> {
+  async verifyPlanningWriteAccess(
+    id: string,
+    userId: string,
+  ): Promise<boolean> {
+    throw new Error('PLANNING_REPOSITORY.METHOD_NOT_IMPLEMENTED')
+  }
+
+  async verifyPlanningReadAccess(id: string, userId: string): Promise<boolean> {
     throw new Error('PLANNING_REPOSITORY.METHOD_NOT_IMPLEMENTED')
   }
 }

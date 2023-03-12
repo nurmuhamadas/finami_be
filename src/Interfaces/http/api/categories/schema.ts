@@ -6,7 +6,7 @@ const Joi: typeof JoiType = require('joi')
 
 export const getCategoriesSchema = Joi.object({
   transaction_type: Joi.string().valid('in', 'out'),
-  include_child: Joi.boolean(),
+  user_id: Joi.string(),
 })
 
 export const postCategorySchema = Joi.object({

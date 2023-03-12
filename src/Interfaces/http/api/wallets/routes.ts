@@ -1,5 +1,5 @@
 import WalletsHandler from './handler'
-import { postWalletSchema, putWalletSchema } from './schema'
+import { getWalletsSchema, postWalletSchema, putWalletSchema } from './schema'
 
 const routes = (handler: WalletsHandler) => [
   {
@@ -8,6 +8,9 @@ const routes = (handler: WalletsHandler) => [
     handler: handler.getWAlletsHandler,
     options: {
       auth: 'finami_jwt',
+      validate: {
+        query: getWalletsSchema,
+      },
     },
   },
   {

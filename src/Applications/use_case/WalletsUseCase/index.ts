@@ -36,8 +36,14 @@ class WalletsUseCase {
 
   async getWallets({
     user_id,
+    user_id_query,
   }: GetWalletsPayload): Promise<WalletsDataRespType[]> {
-    const result = await this._walletRepository.getWalletsByUserId(user_id)
+    let result
+    if (!!user_id_query) {
+      result = await this._walletRepository.getWalletsByUserId(user_id_query)
+    } else {
+      result = await this._walletRepository.getAllWallets(user_id)
+    }
     const data = new WalletsData(result, user_id)
     return data.values
   }
@@ -47,7 +53,7 @@ class WalletsUseCase {
     wallet_id,
   }: GetWalletByIdPayload): Promise<WalletsDataRespType> {
     // verify access
-    await this._walletRepository.verifyWalletOwner(wallet_id, user_id)
+    await this._walletRepository.verifyWalletReadAccess(wallet_id, user_id)
 
     const result = await this._walletRepository.getWalletById(wallet_id)
     return {
@@ -84,7 +90,7 @@ class WalletsUseCase {
     })
 
     // verify access
-    await this._walletRepository.verifyWalletOwner(walletId, userId)
+    await this._walletRepository.verifyWalletWriteAccess(walletId, userId)
 
     const result = await this._walletRepository.updateWallet(
       walletId,
@@ -97,7 +103,7 @@ class WalletsUseCase {
     walletId,
     userId,
   }: DeleteWalletPayload): Promise<{ id: string }> {
-    await this._walletRepository.verifyWalletOwner(walletId, userId)
+    await this._walletRepository.verifyWalletWriteAccess(walletId, userId)
     const result = await this._walletRepository.softDeleteWalletById(walletId)
     await this._transactionRepository.softDeleteTransactionsByWalletId(walletId)
     return result
@@ -108,7 +114,7 @@ class WalletsUseCase {
     userId,
   }: RestoreWalletPayload): Promise<{ id: string }> {
     // verify access
-    await this._walletRepository.verifyWalletOwner(walletId, userId)
+    await this._walletRepository.verifyWalletWriteAccess(walletId, userId)
 
     const result = await this._walletRepository.restoreWalletById(walletId)
     return result

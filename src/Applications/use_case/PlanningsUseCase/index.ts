@@ -63,7 +63,7 @@ class PlanningsUseCase {
     user_id,
   }: GetPlanningByIdPayload): Promise<PlanningDataRespType> {
     //  verify access
-    await this._planningRepository.verifyPlanningOwner(id, user_id)
+    await this._planningRepository.verifyPlanningReadAccess(id, user_id)
 
     const result = await this._planningRepository.getPlanningById(id)
     const data = new PlanningData([result], user_id)
@@ -90,7 +90,7 @@ class PlanningsUseCase {
     })
 
     //  verify access
-    await this._walletRepository.verifyWalletOwner(wallet_id, user_id)
+    await this._walletRepository.verifyWalletWriteAccess(wallet_id, user_id)
     await this._categoryRepository.verifyCategoryOwner(category_id, user_id)
 
     const result = await this._planningRepository.addPlanning(registerPlanning)
@@ -114,8 +114,8 @@ class PlanningsUseCase {
     })
 
     //  verify access
-    await this._planningRepository.verifyPlanningOwner(id, user_id)
-    await this._walletRepository.verifyWalletOwner(wallet_id, user_id)
+    await this._planningRepository.verifyPlanningWriteAccess(id, user_id)
+    await this._walletRepository.verifyWalletWriteAccess(wallet_id, user_id)
     await this._categoryRepository.verifyCategoryOwner(category_id, user_id)
 
     const result = await this._planningRepository.updatePlanning(
@@ -130,7 +130,7 @@ class PlanningsUseCase {
     user_id,
   }: DeletePlanningPayload): Promise<{ id: string }> {
     // verify access
-    await this._planningRepository.verifyPlanningOwner(id, user_id)
+    await this._planningRepository.verifyPlanningWriteAccess(id, user_id)
 
     const result = await this._planningRepository.softDeletePlanningById(id)
 
@@ -142,7 +142,7 @@ class PlanningsUseCase {
     user_id,
   }: DeletePlanningPayload): Promise<{ id: string }> {
     // verify access
-    await this._planningRepository.verifyPlanningOwner(id, user_id)
+    await this._planningRepository.verifyPlanningWriteAccess(id, user_id)
 
     const result = await this._planningRepository.restorePlanningById(id)
 

@@ -30,11 +30,17 @@ class SettingRepository {
     throw new Error('SETTING_REPOSITORY.METHOD_NOT_IMPLEMENTED')
   }
 
-  async verifySettingOwner(id: string, userId: string): Promise<boolean> {
+  async verifySettingWriteAndReadAccess(
+    id: string,
+    userId: string,
+  ): Promise<boolean> {
     throw new Error('SETTING_REPOSITORY.METHOD_NOT_IMPLEMENTED')
   }
 
-  async verifySettingAccess(id: string, parentId: string): Promise<boolean> {
+  async verifySettingDeleteAccess(
+    id: string,
+    parentId: string,
+  ): Promise<boolean> {
     throw new Error('SETTING_REPOSITORY.METHOD_NOT_IMPLEMENTED')
   }
 

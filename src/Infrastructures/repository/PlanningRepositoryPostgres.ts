@@ -190,7 +190,10 @@ class PlanningRepositoryPostgres extends PlanningRepository {
     }
   }
 
-  async verifyPlanningOwner(id: string, userId: string): Promise<boolean> {
+  async verifyPlanningWriteAccess(
+    id: string,
+    userId: string,
+  ): Promise<boolean> {
     const query = {
       text: `SELECT user_id FROM plannings
             WHERE id = $1 AND deleted_at IS NULL`,
@@ -203,6 +206,29 @@ class PlanningRepositoryPostgres extends PlanningRepository {
       throw new NotFoundError('planning not found')
     }
     if (result.rows[0].user_id !== userId) {
+      throw new AuthorizationError('Not allowed to access this record')
+    }
+
+    return true
+  }
+
+  async verifyPlanningReadAccess(id: string, userId: string): Promise<boolean> {
+    const query = {
+      text: `SELECT p.user_id, u.parent_id FROM plannings p
+            JOIN users u ON p.user_id = u.id
+            WHERE p.id = $1 AND p.deleted_at IS NULL`,
+      values: [id],
+    }
+
+    const result = await this._pool.query(query)
+
+    if (result.rowCount === 0) {
+      throw new NotFoundError('planning not found')
+    }
+    if (
+      result.rows[0].user_id !== userId &&
+      result.rows[0].parent_id !== userId
+    ) {
       throw new AuthorizationError('Not allowed to access this record')
     }
 
