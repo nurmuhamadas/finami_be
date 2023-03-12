@@ -14,11 +14,11 @@ export type PlanningsUseCaseType = {
 
 export type GetPlanningsPayload = {
   user_id: string
-  child_id?: string
-  wallet_id?: string
-  month?: Date[]
-  category_id?: string
-  search_key?: string
+  user_query_id: string
+  wallet_id: string
+  month: Date[]
+  category_id: string
+  search_key: string
 }
 
 export type GetPlanningByIdPayload = {

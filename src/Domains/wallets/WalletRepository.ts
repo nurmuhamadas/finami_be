@@ -26,6 +26,13 @@ class WalletRepository {
     throw new Error('WALLET_REPOSITORY.METHOD_NOT_IMPLEMENTED')
   }
 
+  async verifyAvailableWalletName(
+    userId: string,
+    walletName: string,
+  ): Promise<boolean> {
+    throw new Error('WALLET_REPOSITORY.METHOD_NOT_IMPLEMENTED')
+  }
+
   async verifyWalletWriteAccess(id: string, userId: string): Promise<boolean> {
     throw new Error('WALLET_REPOSITORY.METHOD_NOT_IMPLEMENTED')
   }

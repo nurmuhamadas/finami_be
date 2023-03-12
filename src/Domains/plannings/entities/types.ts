@@ -39,10 +39,11 @@ export type UpdateDataPlanningPayload = {
 }
 
 export type PlanningFilter = {
-  wallet_id?: string
-  month?: Date[]
-  category_id?: string
-  search_key?: string
+  wallet_id: string
+  month: Date[]
+  category_id: string
+  user_query_id: string
+  search_key: string
 }
 
 export type PlanningDataRespType = {

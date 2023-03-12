@@ -36,7 +36,7 @@ class PlanningsUseCase {
 
   async getPlannings({
     user_id,
-    child_id,
+    user_query_id,
     wallet_id,
     month,
     category_id,
@@ -45,14 +45,21 @@ class PlanningsUseCase {
     const filter = new FilterPlanning({
       month: month,
       wallet_id: wallet_id,
+      user_query_id,
       category_id,
       search_key,
     })
 
-    const result = await this._planningRepository.getPlanningsByUserId(
-      child_id || user_id,
-      filter,
-    )
+    let result
+    if (user_query_id) {
+      result = await this._planningRepository.getPlanningsByUserId(
+        user_id,
+        filter,
+      )
+    } else {
+      result = await this._planningRepository.getAllPlannings(user_id, filter)
+    }
+
     const data = new PlanningData(result, user_id)
 
     return data.values
@@ -92,6 +99,7 @@ class PlanningsUseCase {
     //  verify access
     await this._walletRepository.verifyWalletWriteAccess(wallet_id, user_id)
     await this._categoryRepository.verifyCategoryOwner(category_id, user_id)
+    await this._walletRepository.verifyWalletWriteAccess(wallet_id, user_id)
 
     const result = await this._planningRepository.addPlanning(registerPlanning)
     return result

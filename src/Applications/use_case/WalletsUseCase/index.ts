@@ -74,6 +74,11 @@ class WalletsUseCase {
       user_id: userId,
     })
 
+    await this._walletRepository.verifyAvailableWalletName(
+      userId,
+      registerWallet.values.name,
+    )
+
     const result = await this._walletRepository.addWallet(registerWallet)
     return result
   }
@@ -91,6 +96,10 @@ class WalletsUseCase {
 
     // verify access
     await this._walletRepository.verifyWalletWriteAccess(walletId, userId)
+    await this._walletRepository.verifyAvailableWalletName(
+      userId,
+      updateDataWallet.values.name,
+    )
 
     const result = await this._walletRepository.updateWallet(
       walletId,

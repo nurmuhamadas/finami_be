@@ -5,7 +5,7 @@ import * as JoiType from 'joi'
 const Joi: typeof JoiType = require('joi')
 
 export const getPlanningsSchema = Joi.object({
-  child_id: Joi.string(),
+  user_id: Joi.string(),
   start_month: Joi.date(),
   end_month: Joi.date(),
   wallet_id: Joi.string(),

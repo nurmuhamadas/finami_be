@@ -27,7 +27,14 @@ class PlanningRepository {
 
   async getPlanningsByUserId(
     userId: string,
-    filter?: FilterPlanning,
+    filter: FilterPlanning,
+  ): Promise<PlanningDataRepoType[]> {
+    throw new Error('PLANNING_REPOSITORY.METHOD_NOT_IMPLEMENTED')
+  }
+
+  async getAllPlannings(
+    userId: string,
+    filter: FilterPlanning,
   ): Promise<PlanningDataRepoType[]> {
     throw new Error('PLANNING_REPOSITORY.METHOD_NOT_IMPLEMENTED')
   }
@@ -44,6 +51,14 @@ class PlanningRepository {
   }
 
   async verifyPlanningReadAccess(id: string, userId: string): Promise<boolean> {
+    throw new Error('PLANNING_REPOSITORY.METHOD_NOT_IMPLEMENTED')
+  }
+
+  async verifyAvailableNameThisMonth(
+    userId: string,
+    planName: string,
+    month: Date,
+  ): Promise<boolean> {
     throw new Error('PLANNING_REPOSITORY.METHOD_NOT_IMPLEMENTED')
   }
 }

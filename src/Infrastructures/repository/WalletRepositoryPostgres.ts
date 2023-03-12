@@ -133,6 +133,25 @@ class WalletRepositoryPostgres extends WalletRepository {
     return true
   }
 
+  async verifyAvailableWalletName(
+    userId: string,
+    walletName: string,
+  ): Promise<boolean> {
+    const query = {
+      text: `SELECT id FROM wallets
+            WHERE user_id = $1 AND name = $2`,
+      values: [userId, walletName],
+    }
+
+    const result = await this._pool.query(query)
+
+    if (result?.rowCount > 0) {
+      throw new InvariantError('Wallet name not available, please use other!')
+    }
+
+    return true
+  }
+
   async getWalletsByUserId(userId: string): Promise<WalletsDataRepoType[]> {
     const query = {
       text: `SELECT w.*, u.username, u.username AS user_name, u.fullname AS user_fullname FROM wallets w

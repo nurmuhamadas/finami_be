@@ -14,6 +14,7 @@ class FilterPlanning {
     month,
     category_id,
     search_key,
+    user_query_id,
   }: PlanningFilter) {
     if (
       wallet_id &&
@@ -26,6 +27,12 @@ class FilterPlanning {
       (!category_id.startsWith('category-') || category_id.length !== 20)
     )
       throw new Error('PLANNING_FILTER.INVALID_CATEGORY_ID')
+
+    if (
+      user_query_id &&
+      (!user_query_id.startsWith('user-') || user_query_id.length !== 20)
+    )
+      throw new Error('PLANNING_FILTER.INVALID_USER_ID')
 
     if (search_key && typeof search_key !== 'string')
       throw new Error('PLANNING_FILTER.INVALID_SEARCH_KEY')

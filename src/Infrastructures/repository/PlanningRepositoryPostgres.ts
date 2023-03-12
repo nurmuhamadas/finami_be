@@ -16,6 +16,56 @@ class PlanningRepositoryPostgres extends PlanningRepository {
     this._pool = pool
   }
 
+  private _generateFilter(
+    userId: string,
+    filter: FilterPlanning,
+    includeUserQuery = true,
+  ) {
+    let _filter = ''
+    let count = includeUserQuery ? 0 : 1
+    const values: any = includeUserQuery ? [] : [userId]
+
+    if (filter) {
+      const { wallet_id, month, category_id, search_key, user_query_id } =
+        filter.values
+      if (wallet_id) {
+        count += 1
+        _filter += ` AND p.wallet_id = $${count}`
+        values.push(wallet_id)
+      }
+      if (category_id) {
+        count += 1
+        _filter += ` AND p.category_id = $${count}`
+        values.push(category_id)
+      }
+      if (includeUserQuery && user_query_id) {
+        count += 1
+        _filter += ` AND p.user_id = $${count}`
+        values.push(user_query_id)
+      }
+      if (search_key) {
+        count += 1
+        _filter += ` AND p.name ILIKE $${count}`
+        values.push(`%${search_key}%`)
+      }
+      if (month?.[0]) {
+        count += 1
+        _filter += ` AND p.month >= $${count}`
+        values.push(month?.[0])
+      }
+      if (month?.[1]) {
+        count += 1
+        _filter += ` AND p.month <= $${count}`
+        values.push(month?.[1])
+      }
+    }
+
+    return {
+      filter: _filter,
+      values,
+    }
+  }
+
   async addPlanning(
     registerPlanning: RegisterPlanning,
   ): Promise<{ id: string }> {
@@ -118,40 +168,34 @@ class PlanningRepositoryPostgres extends PlanningRepository {
 
   async getPlanningsByUserId(
     userId: string,
-    filter?: FilterPlanning | undefined,
+    filter: FilterPlanning,
   ): Promise<PlanningDataRepoType[]> {
-    let _filter = ''
-    let count = 1
-    const values: any = [userId]
+    const { filter: _filter, values } = this._generateFilter(userId, filter)
 
-    if (filter) {
-      const { wallet_id, month, category_id, search_key } = filter.values
-      if (wallet_id) {
-        count += 1
-        _filter += ` AND p.wallet_id = $${count}`
-        values.push(wallet_id)
-      }
-      if (category_id) {
-        count += 1
-        _filter += ` AND p.category_id = $${count}`
-        values.push(category_id)
-      }
-      if (search_key) {
-        count += 1
-        _filter += ` AND p.name ILIKE $${count}`
-        values.push(`%${search_key}%`)
-      }
-      if (month?.[0]) {
-        count += 1
-        _filter += ` AND p.month >= $${count}`
-        values.push(month?.[0])
-      }
-      if (month?.[1]) {
-        count += 1
-        _filter += ` AND p.month <= $${count}`
-        values.push(month?.[1])
-      }
+    const query = {
+      text: `SELECT p.*, u.username AS user_name, u.fullname AS user_fullname,
+            c.name AS category_name, w.name AS wallet_name FROM plannings p
+            JOIN users u ON p.user_id = u.id
+            JOIN categories c ON p.category_id = c.id
+            JOIN wallets w ON p.wallet_id = w.id
+            WHERE p.deleted_at IS NULL
+            ${_filter}`,
+      values,
     }
+
+    const result = await this._pool.query(query)
+    return result.rows
+  }
+
+  async getAllPlannings(
+    userId: string,
+    filter: FilterPlanning,
+  ): Promise<PlanningDataRepoType[]> {
+    const { filter: _filter, values } = this._generateFilter(
+      userId,
+      filter,
+      false,
+    )
 
     const query = {
       text: `SELECT p.*, u.username AS user_name, u.fullname AS user_fullname,
@@ -230,6 +274,33 @@ class PlanningRepositoryPostgres extends PlanningRepository {
       result.rows[0].parent_id !== userId
     ) {
       throw new AuthorizationError('Not allowed to access this record')
+    }
+
+    return true
+  }
+
+  async verifyAvailableNameThisMonth(
+    userId: string,
+    planName: string,
+    month: Date,
+  ): Promise<boolean> {
+    const query = {
+      text: `SELECT month FROM plannings
+            WHERE user_id = $1 AND name = $2 AND p.deleted_at IS NULL`,
+      values: [userId, planName],
+    }
+
+    const result = await this._pool.query(query)
+    const dResult = new Date(result.rows[0].month)
+    const dParams = new Date(month)
+
+    if (
+      dResult.getMonth() === dParams.getMonth() &&
+      dResult.getFullYear() === dParams.getFullYear()
+    ) {
+      throw new InvariantError(
+        'Planning name is not available for this month, please change!',
+      )
     }
 
     return true

@@ -20,7 +20,7 @@ class PlanningsHandlers {
 
     const { id: userId } = request.auth.credentials
     const {
-      child_id,
+      user_id,
       start_month,
       end_month,
       wallet_id,
@@ -29,7 +29,7 @@ class PlanningsHandlers {
     } = request.query as any
     const data = await planningUseCase.getPlannings({
       user_id: userId as string,
-      child_id,
+      user_query_id: user_id,
       month: [start_month, end_month],
       wallet_id,
       category_id,
