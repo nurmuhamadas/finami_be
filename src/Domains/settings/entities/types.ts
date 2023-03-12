@@ -1,4 +1,4 @@
-import { DateFormatType } from 'Commons/types'
+import { DateFormatType } from '../../../Commons/types'
 
 export type RegisterSettingResult = {
   id: string

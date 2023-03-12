@@ -32,12 +32,14 @@ const createServer = async (container: typeof containerInstance) => {
       sub: false,
       maxAgeSec: process.env.ACCESS_TOKEN_AGE,
     },
-    validate: (artifacts: any) => ({
-      isValid: true,
-      credentials: {
-        id: artifacts.decoded.payload.id,
-      },
-    }),
+    validate: (artifacts: any) => {
+      return {
+        isValid: true,
+        credentials: {
+          ...artifacts.decoded.payload,
+        },
+      }
+    },
   })
 
   await server.register([

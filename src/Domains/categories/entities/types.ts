@@ -1,4 +1,7 @@
-import { CategoryGroupsType, TransactionTypesType } from 'Commons/types'
+import {
+  CategoryGroupsType,
+  TransactionTypesType,
+} from '../../../Commons/types'
 
 export type RegisterCategoryResult = {
   id: string

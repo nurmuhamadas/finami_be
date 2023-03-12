@@ -14,7 +14,6 @@ import IdGenerator from '../../../Applications/common/IdGenerator'
 import UserRepository from '../../../Domains/users/UserRepository'
 import TransactionRepository from '../../../Domains/transactions/TransactionRepository'
 import { WalletsDataRespType } from '../../../Domains/wallets/entities/types'
-import CategoriesData from '../../../Domains/categories/entities/CategoriesData'
 import WalletsData from '../../../Domains/wallets/entities/WalletsData'
 
 class WalletsUseCase {
@@ -61,16 +60,14 @@ class WalletsUseCase {
     name,
     balance,
     userId,
-    walletOwner,
   }: AddWalletPayload): Promise<{ id: string }> {
     const registerWallet = new RegisterWallet({
       id: this._idGenerator.generate('wallet'),
       name,
       balance,
-      user_id: walletOwner,
+      user_id: userId,
     })
 
-    await this._userRepository.verifyUserAccess(walletOwner, userId)
     const result = await this._walletRepository.addWallet(registerWallet)
     return result
   }

@@ -1,4 +1,4 @@
-import { TransactionTypesType } from 'Commons/types'
+import { TransactionTypesType } from '../../Commons/types'
 
 type calcTransactionType = {
   type: TransactionTypesType

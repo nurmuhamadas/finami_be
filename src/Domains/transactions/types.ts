@@ -1,4 +1,4 @@
-import { TransactionTypesType } from 'Commons/types'
+import { TransactionTypesType } from '../../Commons/types'
 
 export type TransactionDataRepoType = {
   id: string

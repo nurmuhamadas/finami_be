@@ -23,7 +23,6 @@ export type AddWalletPayload = {
   name: string
   balance: number
   userId: string
-  walletOwner: string // user_id from payload
 }
 
 export type UpdateWalletPayload = {
