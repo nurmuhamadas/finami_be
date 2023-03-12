@@ -239,7 +239,10 @@ class TransactionRepositoryPostgres extends TransactionRepository {
     }
   }
 
-  async verifyTransactionOwner(id: string, userId: string): Promise<boolean> {
+  async verifyTransactionWriteAccess(
+    id: string,
+    userId: string,
+  ): Promise<boolean> {
     const query = {
       text: `SELECT user_id FROM transactions
             WHERE id = $1 AND deleted_at IS NULL`,
@@ -252,6 +255,32 @@ class TransactionRepositoryPostgres extends TransactionRepository {
       throw new NotFoundError('Transaction not found')
     }
     if (result.rows[0].user_id !== userId) {
+      throw new AuthorizationError('Not allowed to access this record')
+    }
+
+    return true
+  }
+
+  async verifyTransactionReadAccess(
+    id: string,
+    userId: string,
+  ): Promise<boolean> {
+    const query = {
+      text: `SELECT u.parent_id, t.user_id FROM transactions t
+            JOIN users u ON t.user_id = u.id
+            WHERE t.id = $1 AND t.deleted_at IS NULL`,
+      values: [id],
+    }
+
+    const result = await this._pool.query(query)
+
+    if (result.rowCount === 0) {
+      throw new NotFoundError('Transaction not found')
+    }
+    if (
+      result.rows[0].user_id !== userId &&
+      result.rows[0].parent_id !== userId
+    ) {
       throw new AuthorizationError('Not allowed to access this record')
     }
 

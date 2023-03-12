@@ -73,7 +73,7 @@ class TransactionsUseCase {
     user_id,
   }: GetTransactionByIdPayload): Promise<TransactionDataRespType> {
     //  verify access
-    await this._transactionRepository.verifyTransactionOwner(id, user_id)
+    await this._transactionRepository.verifyTransactionReadAccess(id, user_id)
 
     const result = await this._transactionRepository.getTransactionById(id)
     const data = new TransactionData([result], user_id)
@@ -142,7 +142,7 @@ class TransactionsUseCase {
     })
 
     // verify access
-    await this._transactionRepository.verifyTransactionOwner(id, user_id)
+    await this._transactionRepository.verifyTransactionWriteAccess(id, user_id)
     await this._categoryRepository.verifyCategoryOwner(category_id, user_id)
 
     const lastTransaction =
@@ -181,7 +181,7 @@ class TransactionsUseCase {
     user_id,
   }: DeleteTransactionPayload): Promise<{ id: string }> {
     // verify access
-    await this._transactionRepository.verifyTransactionOwner(id, user_id)
+    await this._transactionRepository.verifyTransactionWriteAccess(id, user_id)
 
     const result = await this._transactionRepository.softDeleteTransactionById(
       id,
@@ -208,7 +208,7 @@ class TransactionsUseCase {
     user_id,
   }: DeleteTransactionPayload): Promise<{ id: string }> {
     // verify access
-    await this._transactionRepository.verifyTransactionOwner(id, user_id)
+    await this._transactionRepository.verifyTransactionWriteAccess(id, user_id)
 
     const result = await this._transactionRepository.restoreTransactionById(id)
 

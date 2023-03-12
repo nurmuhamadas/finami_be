@@ -38,7 +38,17 @@ class TransactionRepository {
     throw new Error('TRANSACTION_REPOSITORY.METHOD_NOT_IMPLEMENTED')
   }
 
-  async verifyTransactionOwner(id: string, userId: string): Promise<boolean> {
+  async verifyTransactionReadAccess(
+    id: string,
+    userId: string,
+  ): Promise<boolean> {
+    throw new Error('TRANSACTION_REPOSITORY.METHOD_NOT_IMPLEMENTED')
+  }
+
+  async verifyTransactionWriteAccess(
+    id: string,
+    userId: string,
+  ): Promise<boolean> {
     throw new Error('TRANSACTION_REPOSITORY.METHOD_NOT_IMPLEMENTED')
   }
 
