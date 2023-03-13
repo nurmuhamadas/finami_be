@@ -61,6 +61,12 @@ class PlanningRepository {
   ): Promise<boolean> {
     throw new Error('PLANNING_REPOSITORY.METHOD_NOT_IMPLEMENTED')
   }
+
+  async softDeletePlanningByWalletId(
+    id: string,
+  ): Promise<{ deletedRow: number }> {
+    throw new Error('PLANNING_REPOSITORY.METHOD_NOT_IMPLEMENTED')
+  }
 }
 
 export default PlanningRepository

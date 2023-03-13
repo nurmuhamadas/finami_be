@@ -1,7 +1,7 @@
 import {
   AccessTokenPayloadType,
   RefreshTokenPayloadType,
-} from 'Applications/security/types'
+} from '../../Applications/security/types'
 import { JwtType } from './types'
 
 import AuthenticationTokenManager from '../../Applications/security/AuthenticationTokenManager'

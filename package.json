@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "lint": "eslint ./src",
-    "start": "npm run compile && node dist/app.js",
+    "start": "npm run compile && node --experimental-specifier-resolution=node dist/app.js",
     "start:dev": "nodemon --watch src -e ts --exec \"ts-node ./src/app.ts\"",
     "compile": "tsc -p .",
     "type-check": "tsc -p tsconfig.json --noEmit",

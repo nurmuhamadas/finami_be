@@ -16,6 +16,72 @@ class TransactionRepositoryPostgres extends TransactionRepository {
     this._pool = pool
   }
 
+  private _generateFilter(userId: string, filter?: FilterTransaction) {
+    let _filter = ''
+    let count = 1
+    const values: any[] = [userId]
+
+    if (filter) {
+      const {
+        transaction_type,
+        date_range,
+        category_id,
+        wallet_id,
+        search_key,
+        limit,
+        offset,
+        sort_by,
+        order_by,
+      } = filter.values
+      if (transaction_type) {
+        count += 1
+        _filter += ` AND t.transaction_type = $${count}`
+        values.push(transaction_type)
+      }
+      if (date_range?.[0] && date_range?.[1]) {
+        count += 1
+        _filter += ` AND t.date >= $${count}`
+        values.push(date_range?.[0])
+        count += 1
+        _filter += ` AND t.date <= $${count}`
+        values.push(date_range?.[1])
+      }
+      if (category_id) {
+        count += 1
+        _filter += ` AND t.category_id = $${count}`
+        values.push(category_id)
+      }
+      if (wallet_id) {
+        count += 1
+        _filter += ` AND t.wallet_id = $${count}`
+        values.push(wallet_id)
+      }
+      if (search_key) {
+        count += 1
+        _filter += ` AND t.descriptions ILIKE $${count}`
+        values.push(`%${search_key}%`)
+      }
+
+      _filter += ` ORDER BY t.${sort_by} ${order_by}`
+
+      if (limit) {
+        count += 1
+        _filter += ` LIMIT $${count}`
+        values.push(limit)
+      }
+      if (offset) {
+        count += 1
+        _filter += ` OFFSET $${count}`
+        values.push(offset)
+      }
+    }
+
+    return {
+      filter: _filter,
+      values,
+    }
+  }
+
   async addTransaction(
     registerTransaction: RegisterTransaction,
   ): Promise<TransactionDataRepoType> {
@@ -143,65 +209,27 @@ class TransactionRepositoryPostgres extends TransactionRepository {
     userId: string,
     filter?: FilterTransaction | undefined,
   ): Promise<TransactionDataRepoType[]> {
-    let _filter = ''
-    let count = 1
-    const values: any[] = [userId]
-
-    if (filter) {
-      const {
-        transaction_type,
-        date_range,
-        category_id,
-        wallet_id,
-        search_key,
-        limit,
-        offset,
-        sort_by,
-        order_by,
-      } = filter.values
-      if (transaction_type) {
-        count += 1
-        _filter += ` AND t.transaction_type = $${count}`
-        values.push(transaction_type)
-      }
-      if (date_range?.[0] && date_range?.[1]) {
-        count += 1
-        _filter += ` AND t.date >= $${count}`
-        values.push(date_range?.[0])
-        count += 1
-        _filter += ` AND t.date <= $${count}`
-        values.push(date_range?.[1])
-      }
-      if (category_id) {
-        count += 1
-        _filter += ` AND t.category_id = $${count}`
-        values.push(category_id)
-      }
-      if (wallet_id) {
-        count += 1
-        _filter += ` AND t.wallet_id = $${count}`
-        values.push(wallet_id)
-      }
-      if (search_key) {
-        count += 1
-        _filter += ` AND t.descriptions ILIKE $${count}`
-        values.push(`%${search_key}%`)
-      }
-
-      _filter += ` ORDER BY t.${sort_by} ${order_by}`
-
-      if (limit) {
-        count += 1
-        _filter += ` LIMIT $${count}`
-        values.push(limit)
-      }
-      if (offset) {
-        count += 1
-        _filter += ` OFFSET $${count}`
-        values.push(offset)
-      }
+    const { filter: _filter, values } = this._generateFilter(userId, filter)
+    const query = {
+      text: `SELECT t.*, u.username AS user_name, u.fullname AS user_fullname,
+            w.name AS wallet_name, c.name AS category_name FROM transactions t
+            JOIN users u ON t.user_id = u.id
+            JOIN wallets w ON t.wallet_id = w.id
+            JOIN categories c ON t.category_id = c.id
+            WHERE u.id = $1 AND t.deleted_at IS NULL
+            ${_filter}`,
+      values,
     }
 
+    const result = await this._pool.query(query)
+    return result.rows
+  }
+
+  async getAllTransactions(
+    userId: string,
+    filter?: FilterTransaction | undefined,
+  ): Promise<TransactionDataRepoType[]> {
+    const { filter: _filter, values } = this._generateFilter(userId, filter)
     const query = {
       text: `SELECT t.*, u.username AS user_name, u.fullname AS user_fullname,
             w.name AS wallet_name, c.name AS category_name FROM transactions t
@@ -289,18 +317,16 @@ class TransactionRepositoryPostgres extends TransactionRepository {
 
   async softDeleteTransactionsByWalletId(
     walletId: string,
-  ): Promise<{ deletedRow: number }> {
+  ): Promise<TransactionDataRepoType> {
     const query = {
       text: `UPDATE transactions SET deleted_at = NOW()
-            WHERE wallet_id = $1 AND deleted_at IS NULL RETURNING id`,
+            WHERE wallet_id = $1 AND deleted_at IS NULL RETURNING *`,
       values: [walletId],
     }
 
     const result = await this._pool.query(query)
 
-    return {
-      deletedRow: result.rowCount,
-    }
+    return result.rows?.[0]
   }
 }
 

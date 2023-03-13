@@ -1,4 +1,4 @@
-import IdGenerator from 'Applications/common/IdGenerator'
+import IdGenerator from '../../../Applications/common/IdGenerator'
 import CategoryRepository from '../../../Domains/categories/CategoryRepository'
 import PlanningRepository from '../../../Domains/plannings/PlanningRepository'
 import TransactionRepository from '../../../Domains/transactions/TransactionRepository'

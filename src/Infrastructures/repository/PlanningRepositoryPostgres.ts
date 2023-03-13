@@ -305,6 +305,22 @@ class PlanningRepositoryPostgres extends PlanningRepository {
 
     return true
   }
+
+  async softDeletePlanningByWalletId(
+    walletId: string,
+  ): Promise<{ deletedRow: number }> {
+    const query = {
+      text: `UPDATE plannings SET deleted_at = NOW()
+            WHERE wallet_id = $1 AND deleted_at IS NULL RETURNING id`,
+      values: [walletId],
+    }
+
+    const result = await this._pool.query(query)
+
+    return {
+      deletedRow: result.rowCount,
+    }
+  }
 }
 
 export default PlanningRepositoryPostgres

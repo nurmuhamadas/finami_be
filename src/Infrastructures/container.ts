@@ -309,6 +309,10 @@ container.register([
           internal: TransactionRepository.name,
         },
         {
+          name: 'planningRepository',
+          internal: PlanningRepository.name,
+        },
+        {
           name: 'idGenerator',
           internal: IdGenerator.name,
         },

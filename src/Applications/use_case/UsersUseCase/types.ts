@@ -1,4 +1,4 @@
-import EncryptionHelper from 'Applications/security/EncryptionHelper'
+import EncryptionHelper from '../../../Applications/security/EncryptionHelper'
 import IdGenerator from '../../../Applications/common/IdGenerator'
 import SettingRepository from '../../../Domains/settings/SettingRepository'
 import UserRepository from '../../../Domains/users/UserRepository'

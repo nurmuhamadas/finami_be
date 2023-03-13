@@ -13,14 +13,14 @@ export type TransactionsUseCaseType = {
 
 export type GetTransactionsPayload = {
   user_id: string
-  child_id?: string
-  transaction_type?: TransactionTypesType
-  date_range?: Date[]
-  category_id?: string
-  wallet_id?: string
-  search_key?: string
-  limit?: number
-  offset?: number
+  child_id: string
+  transaction_type: TransactionTypesType
+  date_range: Date[]
+  category_id: string
+  wallet_id: string
+  search_key: string
+  limit: number
+  offset: number
   sort_by: 'amount'
   order_by: OrderByType
 }

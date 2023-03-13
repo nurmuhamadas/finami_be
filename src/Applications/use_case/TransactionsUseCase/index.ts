@@ -59,10 +59,18 @@ class TransactionsUseCase {
       sort_by,
       order_by,
     })
-    const result = await this._transactionRepository.getTransactionsByUserId(
-      child_id || user_id,
-      filter,
-    )
+    let result
+    if (child_id) {
+      result = await this._transactionRepository.getTransactionsByUserId(
+        child_id,
+        filter,
+      )
+    } else {
+      result = await this._transactionRepository.getAllTransactions(
+        user_id,
+        filter,
+      )
+    }
     const data = new TransactionData(result, user_id)
 
     return data.values
