@@ -16,6 +16,12 @@ const createServer = async (container: typeof containerInstance) => {
   const server = HapiServer({
     host: process.env.HOST,
     port: process.env.PORT,
+    routes: {
+      cors: {
+        origin: ['https://finami-nurmuhamadas.vercel.app'],
+        headers: ['Accept', 'Content-Type', 'Authorization'],
+      },
+    },
   })
 
   await server.register([
