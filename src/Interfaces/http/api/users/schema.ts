@@ -16,7 +16,19 @@ export const putUserSchema = Joi.object({
   username: Joi.string().max(30).required(),
   fullname: Joi.string().required(),
   email: Joi.string().email(),
-  image_url: Joi.string(),
+  image: Joi.object({
+    hapi: Joi.object({
+      headers: Joi.object({
+        'content-type': Joi.string()
+          .valid('image/jpeg', 'image/png')
+          .required(),
+      }).unknown(),
+      filename: Joi.string().required(),
+    }),
+    _data: Joi.binary()
+      .max(1024 * 1024 * 5)
+      .required(),
+  }).options({ stripUnknown: true }),
 })
 
 export const postMemberSchema = Joi.object({

@@ -68,14 +68,14 @@ class UsersHandler {
     )
     const { id } = request.params
     const { id: userId } = request.auth.credentials
-    const { username, fullname, image_url } = request.payload as any
+    const { username, fullname, image } = request.payload as any
 
     const res = await userUseCase.updateUser({
       id,
       user_id: userId as string,
       username,
       fullname,
-      image_url,
+      image,
     })
 
     const response = h.response({

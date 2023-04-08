@@ -2,7 +2,7 @@ import UserRepository from '../../../Domains/users/UserRepository'
 import IdGenerator from '../../../Applications/common/IdGenerator'
 import WalletRepository from '../../../Domains/wallets/WalletRepository'
 import TransactionRepository from '../../../Domains/transactions/TransactionRepository'
-import PlanningRepository from 'Domains/plannings/PlanningRepository'
+import PlanningRepository from '../../../Domains/plannings/PlanningRepository'
 
 export type WalletUseCaseType = {
   idGenerator: IdGenerator

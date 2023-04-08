@@ -326,6 +326,14 @@ container.register([
           name: 'idGenerator',
           internal: IdGenerator.name,
         },
+        {
+          name: 'storageServices',
+          internal: StorageServices.name,
+        },
+        {
+          name: 'imageProcessor',
+          internal: ImageProcessor.name,
+        },
       ],
     },
   },

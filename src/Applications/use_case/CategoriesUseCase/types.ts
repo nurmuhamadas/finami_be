@@ -6,7 +6,7 @@ import {
 } from '../../../Commons/types'
 import CategoryRepository from '../../../Domains/categories/CategoryRepository'
 import StorageServices from '../../../Applications/storage/StorageManager'
-import ImageProcessor from 'Applications/storage/ImageProcessor'
+import ImageProcessor from '../../../Applications/storage/ImageProcessor'
 
 export type CategoriesUseCaseType = {
   idGenerator: IdGenerator
