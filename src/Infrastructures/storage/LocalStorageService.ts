@@ -1,4 +1,4 @@
-import { writeFile } from 'fs/promises'
+import { writeFile, rm } from 'fs/promises'
 import { existsSync, mkdirSync } from 'fs'
 import StorageServices from '../../Applications/storage/StorageManager'
 
@@ -19,6 +19,12 @@ class LocalStorageService extends StorageServices {
     return {
       url: `${this._path}/${filename}`,
     }
+  }
+
+  async deleteImage(fileName: string): Promise<boolean> {
+    await rm(`${this._path}/${fileName}`)
+
+    return true
   }
 }
 

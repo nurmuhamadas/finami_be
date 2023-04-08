@@ -132,10 +132,17 @@ class CategoriesUseCase {
     //  verify access
     await this._categoryRepository.verifyCategoryOwner(id, user_id)
 
+    const currentCategory = await this._categoryRepository.getCategoryById(id)
     const result = await this._categoryRepository.updateCategory(
       id,
       updateDataCategory,
     )
+
+    // Delete icon from storage
+    await this._storageServices.deleteImage(
+      currentCategory?.icon_url?.split('/uploads/')?.[1],
+    )
+
     return result
   }
 
@@ -149,7 +156,14 @@ class CategoriesUseCase {
     // verify category not used by other as reference
     await this._categoryRepository.verifyCategoryReference(id)
 
+    const currentCategory = await this._categoryRepository.getCategoryById(id)
     const result = await this._categoryRepository.softDeleteCategoryById(id)
+
+    // Delete icon from storage
+    await this._storageServices.deleteImage(
+      currentCategory?.icon_url?.split('/uploads/')?.[1],
+    )
+
     return result
   }
 

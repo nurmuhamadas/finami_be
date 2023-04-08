@@ -4,6 +4,7 @@ import InvariantError from './InvariantError'
 
 const DomainErrorTranslator: DomainErrorTranslatorType = {
   errorMessageGenerator: (error) => {
+    console.log(error)
     if (!error.message.includes('.') || !error.message.includes('_')) {
       return error
     }
