@@ -14,17 +14,33 @@ class LocalStorageService extends StorageServices {
   }
 
   async uploadImage(image: Buffer, filename: string): Promise<{ url: string }> {
-    await writeFile(`${this._path}/${filename}`, image, { encoding: 'utf8' })
+    await writeFile(`${this._path}/images/${filename}`, image, {
+      encoding: 'utf8',
+    })
 
     return {
       url: `${this._path}/${filename}`,
     }
   }
 
-  async deleteImage(fileName: string): Promise<boolean> {
-    await rm(`${this._path}/${fileName}`)
+  async deleteImage(relativePath: string): Promise<boolean> {
+    await rm(`${this._path}/${relativePath}`)
 
     return true
+  }
+
+  async imagePathGenerator(
+    _fileName: string,
+  ): Promise<{ fileName: string; path: string }> {
+    const fileName = `${+new Date()}-${_fileName
+      ?.replaceAll(' ', '_')
+      ?.toLowerCase()}`
+    const path = `images/${fileName}`
+
+    return {
+      fileName,
+      path,
+    }
   }
 }
 

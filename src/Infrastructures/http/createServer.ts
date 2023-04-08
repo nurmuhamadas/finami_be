@@ -1,7 +1,10 @@
+import { join } from 'path'
+import { cwd } from 'process'
 import { server as HapiServer } from '@hapi/hapi'
 import containerInstance from '../container'
 
 import * as Jwt from '@hapi/jwt'
+import * as Innert from '@hapi/inert'
 import users from '../../Interfaces/http/api/users'
 import authentications from '../../Interfaces/http/api/authentications'
 import categories from '../../Interfaces/http/api/categories'
@@ -11,6 +14,7 @@ import transactions from '../../Interfaces/http/api/transactions'
 import wallets from '../../Interfaces/http/api/wallets'
 import DomainErrorTranslator from '../../Commons/exceptions/DomainErrorTranslator'
 import ClientError from '../../Commons/exceptions/ClientError'
+import uploads from '../../Interfaces/http/api/static'
 
 const createServer = async (container: typeof containerInstance) => {
   const server = HapiServer({
@@ -21,12 +25,18 @@ const createServer = async (container: typeof containerInstance) => {
         origin: ['https://finami-nurmuhamadas.vercel.app'],
         headers: ['Accept', 'Content-Type', 'Authorization'],
       },
+      files: {
+        relativeTo: join(cwd(), 'public'),
+      },
     },
   })
 
   await server.register([
     {
       plugin: Jwt,
+    },
+    {
+      plugin: Innert,
     },
   ])
 
@@ -75,6 +85,10 @@ const createServer = async (container: typeof containerInstance) => {
     },
     {
       plugin: wallets,
+      options: { container },
+    },
+    {
+      plugin: uploads,
       options: { container },
     },
   ])

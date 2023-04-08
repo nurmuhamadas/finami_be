@@ -39,15 +39,6 @@ class CategoriesUseCase {
     this._imageProcessor = imageProcessor
   }
 
-  private async _fileNameGenerator(_fileName: string) {
-    const fileName = `${+new Date()}-${_fileName
-      ?.replaceAll(' ', '_')
-      ?.toLowerCase()}`
-    const iconUrl = `${process.env.BE_URL}/uploads/${fileName}`
-
-    return { fileName, iconUrl }
-  }
-
   async getCategories({
     user_id,
     user_query_id,
@@ -93,7 +84,7 @@ class CategoriesUseCase {
     icon,
     group,
   }: AddCategoryPayload): Promise<{ id: string }> {
-    const { fileName, iconUrl } = await this._fileNameGenerator(
+    const { fileName, path } = await this._storageServices.imagePathGenerator(
       icon.hapi.filename,
     )
 
@@ -110,7 +101,7 @@ class CategoriesUseCase {
       name,
       transaction_type,
       user_id,
-      icon_url: iconUrl,
+      icon_url: path,
       group,
     })
 
@@ -126,7 +117,7 @@ class CategoriesUseCase {
     icon,
     group,
   }: UpdateCategoryPayload): Promise<{ id: string }> {
-    const { fileName, iconUrl } = await this._fileNameGenerator(
+    const { fileName, path } = await this._storageServices.imagePathGenerator(
       icon.hapi.filename,
     )
 
@@ -142,7 +133,7 @@ class CategoriesUseCase {
       name,
       transaction_type,
       user_id,
-      icon_url: iconUrl,
+      icon_url: path,
       group,
     })
 
@@ -156,9 +147,11 @@ class CategoriesUseCase {
     )
 
     // Delete icon from storage
-    await this._storageServices.deleteImage(
-      currentCategory?.icon_url?.split('/uploads/')?.[1],
-    )
+    try {
+      await this._storageServices.deleteImage(currentCategory?.icon_url)
+    } catch (err) {
+      console.error((err as Error).message)
+    }
 
     return result
   }
@@ -177,9 +170,11 @@ class CategoriesUseCase {
     const result = await this._categoryRepository.softDeleteCategoryById(id)
 
     // Delete icon from storage
-    await this._storageServices.deleteImage(
-      currentCategory?.icon_url?.split('/uploads/')?.[1],
-    )
+    try {
+      await this._storageServices.deleteImage(currentCategory?.icon_url)
+    } catch (err) {
+      console.error((err as Error).message)
+    }
 
     return result
   }

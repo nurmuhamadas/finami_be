@@ -8,7 +8,14 @@ class StorageServices {
     throw new Error('STORAGE_SERVICES.METHOD_NOT_IMPLEMENTED')
   }
 
-  async deleteImage(fileName: string): Promise<boolean> {
+  async deleteImage(relativePath: string): Promise<boolean> {
+    throw new Error('STORAGE_SERVICES.METHOD_NOT_IMPLEMENTED')
+  }
+
+  async imagePathGenerator(fileName: string): Promise<{
+    fileName: string
+    path: string
+  }> {
     throw new Error('STORAGE_SERVICES.METHOD_NOT_IMPLEMENTED')
   }
 }

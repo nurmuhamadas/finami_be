@@ -45,15 +45,6 @@ class UsersUseCase {
     this._imageProcessor = imageProcessor
   }
 
-  private async _fileNameGenerator(_fileName: string) {
-    const fileName = `${+new Date()}-${_fileName
-      ?.replaceAll(' ', '_')
-      ?.toLowerCase()}`
-    const imageUrl = `uploads/${fileName}`
-
-    return { fileName, imageUrl }
-  }
-
   async getUsersByUserId({
     user_id,
     member_only,
@@ -125,10 +116,10 @@ class UsersUseCase {
   }: UpdateUserPayload): Promise<{ id: string }> {
     let _imageUrl
     if (image) {
-      const { fileName, imageUrl } = await this._fileNameGenerator(
+      const { fileName, path } = await this._storageServices.imagePathGenerator(
         image?.hapi.filename || '',
       )
-      _imageUrl = imageUrl
+      _imageUrl = path
 
       const resizedImage = await this._imageProcessor.resizeImage({
         image: image._data,
@@ -153,9 +144,11 @@ class UsersUseCase {
 
     // Delete last photo profile
     if (currentUser?.image_url && image) {
-      await this._storageServices.deleteImage(
-        currentUser?.image_url?.replace('uploads/', ''),
-      )
+      try {
+        await this._storageServices.deleteImage(currentUser?.image_url)
+      } catch (err) {
+        console.error((err as Error).message)
+      }
     }
 
     return result
