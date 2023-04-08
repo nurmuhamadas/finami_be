@@ -25,19 +25,21 @@ export type GetCategoryByIdPayload = {
   user_id: string
 }
 
+type IconType = {
+  _data: Buffer
+  hapi: {
+    filename: string
+    headers: {
+      'content-disposition': string
+      'content-type': string
+    }
+  }
+}
+
 export type AddCategoryPayload = {
   name: string
   transaction_type: TransactionTypesType
-  icon: {
-    _data: Buffer
-    hapi: {
-      filename: string
-      headers: {
-        'content-disposition': 'form-data; name="icon"; filename="flower.jpg"'
-        'content-type': 'image/jpeg'
-      }
-    }
-  }
+  icon: IconType
   user_id: string
   group: CategoryGroupsType
 }
@@ -46,7 +48,7 @@ export type UpdateCategoryPayload = {
   id: string
   name: string
   transaction_type: TransactionTypesType
-  icon_url: string
+  icon: IconType
   user_id: string
   group: CategoryGroupsType
 }

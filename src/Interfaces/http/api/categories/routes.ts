@@ -52,6 +52,13 @@ const routes: (handler: CategoriesHandlers) => ServerRoute[] = (
     handler: handler.putCategoryHandler,
     options: {
       auth: 'finami_jwt',
+      payload: {
+        allow: 'multipart/form-data',
+        multipart: {
+          output: 'stream',
+        },
+        maxBytes: 1024 * 1024 * 2,
+      },
       validate: {
         payload: putCategorySchema,
       },

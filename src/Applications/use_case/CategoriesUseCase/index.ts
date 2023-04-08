@@ -34,6 +34,15 @@ class CategoriesUseCase {
     this._storageServices = storageServices
   }
 
+  private async _fileNameGenerator(_fileName: string) {
+    const fileName = `${+new Date()}-${_fileName
+      ?.replaceAll(' ', '_')
+      ?.toLowerCase()}`
+    const iconUrl = `${process.env.BE_URL}/uploads/${fileName}`
+
+    return { fileName, iconUrl }
+  }
+
   async getCategories({
     user_id,
     user_query_id,
@@ -79,10 +88,11 @@ class CategoriesUseCase {
     icon,
     group,
   }: AddCategoryPayload): Promise<{ id: string }> {
-    const filename = `${+new Date()}-${icon.hapi.filename}`
-    const iconUrl = `${process.env.BE_URL}/uploads/${filename}`
+    const { fileName, iconUrl } = await this._fileNameGenerator(
+      icon.hapi.filename,
+    )
 
-    await this._storageServices.uploadImage(icon._data, filename)
+    await this._storageServices.uploadImage(icon._data, fileName)
 
     const registerCategory = new RegisterCategory({
       id: this._idGenerator.generate('category'),
@@ -102,14 +112,20 @@ class CategoriesUseCase {
     name,
     transaction_type,
     user_id,
-    icon_url,
+    icon,
     group,
   }: UpdateCategoryPayload): Promise<{ id: string }> {
+    const { fileName, iconUrl } = await this._fileNameGenerator(
+      icon.hapi.filename,
+    )
+
+    await this._storageServices.uploadImage(icon._data, fileName)
+
     const updateDataCategory = new UpdateDataCategory({
       name,
       transaction_type,
       user_id,
-      icon_url,
+      icon_url: iconUrl,
       group,
     })
 

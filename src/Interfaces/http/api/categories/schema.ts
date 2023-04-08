@@ -32,7 +32,21 @@ export const postCategorySchema = Joi.object({
 
 export const putCategorySchema = Joi.object({
   name: Joi.string().required(),
-  icon_url: Joi.string(),
+  icon: Joi.object({
+    hapi: Joi.object({
+      headers: Joi.object({
+        'content-type': Joi.string()
+          .valid('image/jpeg', 'image/png')
+          .required(),
+      }).unknown(),
+      filename: Joi.string().required(),
+    }),
+    _data: Joi.binary()
+      .max(1024 * 1024 * 2)
+      .required(),
+  })
+    .required()
+    .options({ stripUnknown: true }),
   transaction_type: Joi.string().required(),
   group: Joi.string().required(),
 })

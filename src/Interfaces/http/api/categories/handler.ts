@@ -85,7 +85,7 @@ class CategoriesHandlers {
 
     const { id: userId } = request.auth.credentials
     const { id } = request.params
-    const { name, group, transaction_type, icon_url } = request.payload as any
+    const { name, group, transaction_type, icon } = request.payload as any
 
     const data = await categoryUseCase.updateCategory({
       id,
@@ -93,7 +93,7 @@ class CategoriesHandlers {
       name,
       group,
       transaction_type,
-      icon_url,
+      icon,
     })
 
     const response = h.response({
