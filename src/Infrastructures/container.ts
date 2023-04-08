@@ -2,6 +2,7 @@ import { cwd } from 'process'
 
 import * as bcrypt from 'bcrypt'
 import * as Jwt from '@hapi/jwt'
+import * as sharp from 'sharp'
 
 import { createContainer } from 'instances-container'
 import CryptoRandomIdGenerator from './common/CryptoRandomIdGenerator'
@@ -35,6 +36,8 @@ import TransactionsUseCase from '../Applications/use_case/TransactionsUseCase'
 import WalletsUseCase from '../Applications/use_case/WalletsUseCase'
 import LocalStorageService from './storage/LocalStorageService'
 import StorageServices from '../Applications/storage/StorageManager'
+import ImageProcessor from '../Applications/storage/ImageProcessor'
+import SharpImageProcessor from './storage/SharpImageProcessor'
 
 // creating container
 const container = createContainer()
@@ -84,6 +87,17 @@ container.register([
           concrete: {
             path: `${cwd()}/uploads`,
           },
+        },
+      ],
+    },
+  },
+  {
+    key: ImageProcessor.name,
+    Class: SharpImageProcessor,
+    parameter: {
+      dependencies: [
+        {
+          concrete: sharp,
         },
       ],
     },
@@ -215,6 +229,10 @@ container.register([
         {
           name: 'storageServices',
           internal: StorageServices.name,
+        },
+        {
+          name: 'imageProcessor',
+          internal: ImageProcessor.name,
         },
       ],
     },

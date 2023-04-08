@@ -6,12 +6,14 @@ import {
 } from '../../../Commons/types'
 import CategoryRepository from '../../../Domains/categories/CategoryRepository'
 import StorageServices from '../../../Applications/storage/StorageManager'
+import ImageProcessor from 'Applications/storage/ImageProcessor'
 
 export type CategoriesUseCaseType = {
   idGenerator: IdGenerator
   categoryRepository: CategoryRepository
   userRepository: UserRepository
   storageServices: StorageServices
+  imageProcessor: ImageProcessor
 }
 
 export type GetCategoriesPayload = {

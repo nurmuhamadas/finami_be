@@ -29,7 +29,8 @@
     "dotenv": "^16.0.3",
     "instances-container": "^2.0.6",
     "joi": "^17.8.1",
-    "pg": "^8.9.0"
+    "pg": "^8.9.0",
+    "sharp": "^0.32.0"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",

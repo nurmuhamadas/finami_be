@@ -15,23 +15,28 @@ import { CategoryDataRespType } from '../../../Domains/categories/entities/types
 import CategoriesData from '../../../Domains/categories/entities/CategoriesData'
 import UserRepository from '../../../Domains/users/UserRepository'
 import StorageServices from '../../../Applications/storage/StorageManager'
+import ImageProcessor from '../../../Applications/storage/ImageProcessor'
 
 class CategoriesUseCase {
   private _categoryRepository: CategoryRepository
   private _userRepository: UserRepository
   private _idGenerator: IdGenerator
   private _storageServices: StorageServices
+  private _imageProcessor: ImageProcessor
+  private _iconSize: number = 100
 
   constructor({
     categoryRepository,
     userRepository,
     idGenerator,
     storageServices,
+    imageProcessor,
   }: CategoriesUseCaseType) {
     this._categoryRepository = categoryRepository
     this._userRepository = userRepository
     this._idGenerator = idGenerator
     this._storageServices = storageServices
+    this._imageProcessor = imageProcessor
   }
 
   private async _fileNameGenerator(_fileName: string) {
@@ -92,7 +97,13 @@ class CategoriesUseCase {
       icon.hapi.filename,
     )
 
-    await this._storageServices.uploadImage(icon._data, fileName)
+    const resizedImage = await this._imageProcessor.resizeImage({
+      image: icon._data,
+      height: this._iconSize,
+      width: this._iconSize,
+    })
+
+    await this._storageServices.uploadImage(resizedImage, fileName)
 
     const registerCategory = new RegisterCategory({
       id: this._idGenerator.generate('category'),
@@ -119,7 +130,13 @@ class CategoriesUseCase {
       icon.hapi.filename,
     )
 
-    await this._storageServices.uploadImage(icon._data, fileName)
+    const resizedImage = await this._imageProcessor.resizeImage({
+      image: icon._data,
+      height: this._iconSize,
+      width: this._iconSize,
+    })
+
+    await this._storageServices.uploadImage(resizedImage, fileName)
 
     const updateDataCategory = new UpdateDataCategory({
       name,
