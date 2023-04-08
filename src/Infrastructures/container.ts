@@ -1,3 +1,5 @@
+import { cwd } from 'process'
+
 import * as bcrypt from 'bcrypt'
 import * as Jwt from '@hapi/jwt'
 
@@ -31,6 +33,8 @@ import SettingsUseCase from '../Applications/use_case/SettingsUseCase'
 import UsersUseCase from '../Applications/use_case/UsersUseCase'
 import TransactionsUseCase from '../Applications/use_case/TransactionsUseCase'
 import WalletsUseCase from '../Applications/use_case/WalletsUseCase'
+import LocalStorageService from './storage/LocalStorageService'
+import StorageServices from '../Applications/storage/StorageManager'
 
 // creating container
 const container = createContainer()
@@ -67,6 +71,19 @@ container.register([
       dependencies: [
         {
           concrete: Jwt.token,
+        },
+      ],
+    },
+  },
+  {
+    key: StorageServices.name,
+    Class: LocalStorageService,
+    parameter: {
+      dependencies: [
+        {
+          concrete: {
+            path: `${cwd()}/uploads`,
+          },
         },
       ],
     },
@@ -194,6 +211,10 @@ container.register([
         {
           name: 'idGenerator',
           internal: IdGenerator.name,
+        },
+        {
+          name: 'storageServices',
+          internal: StorageServices.name,
         },
       ],
     },

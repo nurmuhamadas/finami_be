@@ -173,7 +173,7 @@ class CategoryRepositoryPostgres extends CategoryRepository {
     const query = {
       text: `SELECT c.*, u.username AS user_name, u.fullname AS user_fullname
             FROM categories c JOIN users u ON c.user_id = u.id
-            WHERE id = $1 AND deleted_at IS NULL`,
+            WHERE c.id = $1 AND c.deleted_at IS NULL`,
       values: [id],
     }
 

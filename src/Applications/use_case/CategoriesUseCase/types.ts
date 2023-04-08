@@ -5,11 +5,13 @@ import {
   TransactionTypesType,
 } from '../../../Commons/types'
 import CategoryRepository from '../../../Domains/categories/CategoryRepository'
+import StorageServices from '../../../Applications/storage/StorageManager'
 
 export type CategoriesUseCaseType = {
   idGenerator: IdGenerator
   categoryRepository: CategoryRepository
   userRepository: UserRepository
+  storageServices: StorageServices
 }
 
 export type GetCategoriesPayload = {
@@ -26,7 +28,16 @@ export type GetCategoryByIdPayload = {
 export type AddCategoryPayload = {
   name: string
   transaction_type: TransactionTypesType
-  icon_url: string
+  icon: {
+    _data: Buffer
+    hapi: {
+      filename: string
+      headers: {
+        'content-disposition': 'form-data; name="icon"; filename="flower.jpg"'
+        'content-type': 'image/jpeg'
+      }
+    }
+  }
   user_id: string
   group: CategoryGroupsType
 }

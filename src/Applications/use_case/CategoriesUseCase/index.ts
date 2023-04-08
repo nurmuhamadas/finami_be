@@ -14,20 +14,24 @@ import UpdateDataCategory from '../../../Domains/categories/entities/UpdateDataC
 import { CategoryDataRespType } from '../../../Domains/categories/entities/types'
 import CategoriesData from '../../../Domains/categories/entities/CategoriesData'
 import UserRepository from '../../../Domains/users/UserRepository'
+import StorageServices from '../../../Applications/storage/StorageManager'
 
 class CategoriesUseCase {
-  _categoryRepository: CategoryRepository
-  _userRepository: UserRepository
-  _idGenerator: IdGenerator
+  private _categoryRepository: CategoryRepository
+  private _userRepository: UserRepository
+  private _idGenerator: IdGenerator
+  private _storageServices: StorageServices
 
   constructor({
     categoryRepository,
     userRepository,
     idGenerator,
+    storageServices,
   }: CategoriesUseCaseType) {
     this._categoryRepository = categoryRepository
     this._userRepository = userRepository
     this._idGenerator = idGenerator
+    this._storageServices = storageServices
   }
 
   async getCategories({
@@ -72,15 +76,20 @@ class CategoriesUseCase {
     name,
     transaction_type,
     user_id,
-    icon_url,
+    icon,
     group,
   }: AddCategoryPayload): Promise<{ id: string }> {
+    const filename = `${+new Date()}-${icon.hapi.filename}`
+    const iconUrl = `${process.env.BE_URL}/uploads/${filename}`
+
+    await this._storageServices.uploadImage(icon._data, filename)
+
     const registerCategory = new RegisterCategory({
       id: this._idGenerator.generate('category'),
       name,
       transaction_type,
       user_id,
-      icon_url,
+      icon_url: iconUrl,
       group,
     })
 

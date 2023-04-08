@@ -60,14 +60,14 @@ class CategoriesHandlers {
     )
 
     const { id: userId } = request.auth.credentials
-    const { name, group, transaction_type, icon_url } = request.payload as any
+    const { name, group, transaction_type, icon } = request.payload as any
 
     const data = await categoryUseCase.addCategory({
       user_id: userId as string,
       name,
       group,
       transaction_type,
-      icon_url,
+      icon,
     })
 
     const response = h.response({

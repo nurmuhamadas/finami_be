@@ -43,12 +43,14 @@ class RegisterCategory {
     if (!user_id.startsWith('user-') || user_id.length !== 20)
       throw new Error('REGISTER_CATEGORY.INVALID_USER_ID')
 
+    if (!categoryGroup.includes(group))
+      throw new Error('REGISTER_CATEGORY.INVALID_GROUP')
+
     if (
-      !categoryGroup.includes(group) ||
       (transaction_type === 'in' && group !== 'Income') ||
       (transaction_type === 'out' && group === 'Income')
     )
-      throw new Error('REGISTER_CATEGORY.INVALID_GROUP')
+      throw new Error('REGISTER_CATEGORY.INVALID_TRANSACTION_TYPE')
   }
 }
 

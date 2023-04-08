@@ -1,3 +1,4 @@
+import { ServerRoute } from '@hapi/hapi'
 import CategoriesHandlers from './handler'
 import {
   getCategoriesSchema,
@@ -5,7 +6,9 @@ import {
   putCategorySchema,
 } from './schema'
 
-const routes = (handler: CategoriesHandlers) => [
+const routes: (handler: CategoriesHandlers) => ServerRoute[] = (
+  handler: CategoriesHandlers,
+) => [
   {
     method: 'GET',
     path: '/categories',
@@ -31,6 +34,13 @@ const routes = (handler: CategoriesHandlers) => [
     handler: handler.postCategoryHandler,
     options: {
       auth: 'finami_jwt',
+      payload: {
+        allow: 'multipart/form-data',
+        multipart: {
+          output: 'stream',
+        },
+        maxBytes: 1024 * 1024 * 2,
+      },
       validate: {
         payload: postCategorySchema,
       },
