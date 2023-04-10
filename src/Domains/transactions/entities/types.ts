@@ -70,6 +70,7 @@ export type TransactionDataRespType = {
   user_fullname: string
   category_id: string
   category_name: string
+  category_icon: string
   wallet_id: string
   wallet_name: string
   is_owner: boolean
