@@ -24,7 +24,7 @@ exports.up = (pgm) => {
     group: {
       type: 'VARCHAR(50)',
       notNull: true,
-      // check: `group = 'Required Expense' OR group = 'Irregular Expense' OR group = 'Invensting and Debt Payment' OR group = 'Fun and Relax' OR group = 'Income'`,
+      // check: `group = 'Required Expense' OR group = 'Irregular Expense' OR group = 'Investing and Debt Payment' OR group = 'Fun and Relax' OR group = 'Income'`,
     },
     created_at: {
       type: 'timestamp',

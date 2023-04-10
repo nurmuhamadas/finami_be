@@ -1,5 +1,8 @@
+import { cwd } from 'process'
+
 import * as bcrypt from 'bcrypt'
 import * as Jwt from '@hapi/jwt'
+import * as sharp from 'sharp'
 
 import { createContainer } from 'instances-container'
 import CryptoRandomIdGenerator from './common/CryptoRandomIdGenerator'
@@ -31,6 +34,10 @@ import SettingsUseCase from '../Applications/use_case/SettingsUseCase'
 import UsersUseCase from '../Applications/use_case/UsersUseCase'
 import TransactionsUseCase from '../Applications/use_case/TransactionsUseCase'
 import WalletsUseCase from '../Applications/use_case/WalletsUseCase'
+import LocalStorageService from './storage/LocalStorageService'
+import StorageServices from '../Applications/storage/StorageManager'
+import ImageProcessor from '../Applications/storage/ImageProcessor'
+import SharpImageProcessor from './storage/SharpImageProcessor'
 
 // creating container
 const container = createContainer()
@@ -67,6 +74,30 @@ container.register([
       dependencies: [
         {
           concrete: Jwt.token,
+        },
+      ],
+    },
+  },
+  {
+    key: StorageServices.name,
+    Class: LocalStorageService,
+    parameter: {
+      dependencies: [
+        {
+          concrete: {
+            path: `${cwd()}/public`,
+          },
+        },
+      ],
+    },
+  },
+  {
+    key: ImageProcessor.name,
+    Class: SharpImageProcessor,
+    parameter: {
+      dependencies: [
+        {
+          concrete: sharp,
         },
       ],
     },
@@ -195,6 +226,14 @@ container.register([
           name: 'idGenerator',
           internal: IdGenerator.name,
         },
+        {
+          name: 'storageServices',
+          internal: StorageServices.name,
+        },
+        {
+          name: 'imageProcessor',
+          internal: ImageProcessor.name,
+        },
       ],
     },
   },
@@ -286,6 +325,14 @@ container.register([
         {
           name: 'idGenerator',
           internal: IdGenerator.name,
+        },
+        {
+          name: 'storageServices',
+          internal: StorageServices.name,
+        },
+        {
+          name: 'imageProcessor',
+          internal: ImageProcessor.name,
         },
       ],
     },

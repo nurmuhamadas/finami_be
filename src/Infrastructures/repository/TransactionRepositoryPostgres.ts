@@ -232,7 +232,8 @@ class TransactionRepositoryPostgres extends TransactionRepository {
     const { filter: _filter, values } = this._generateFilter(userId, filter)
     const query = {
       text: `SELECT t.*, u.username AS user_name, u.fullname AS user_fullname,
-            w.name AS wallet_name, c.name AS category_name FROM transactions t
+            w.name AS wallet_name, c.name AS category_name,
+            c.icon_url AS category_icon FROM transactions t
             JOIN users u ON t.user_id = u.id
             JOIN wallets w ON t.wallet_id = w.id
             JOIN categories c ON t.category_id = c.id
@@ -248,7 +249,8 @@ class TransactionRepositoryPostgres extends TransactionRepository {
   async getTransactionById(id: string): Promise<TransactionDataRepoType> {
     const query = {
       text: `SELECT t.*, u.username AS user_name, u.fullname AS user_fullname,
-            w.name AS wallet_name, c.name AS category_name FROM transactions t
+            w.name AS wallet_name, c.name AS category_name,
+            c.icon_url AS category_icon FROM transactions t
             JOIN users u ON t.user_id = u.id
             JOIN wallets w ON t.wallet_id = w.id
             JOIN categories c ON t.category_id = c.id

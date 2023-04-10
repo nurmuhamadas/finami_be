@@ -1,3 +1,4 @@
+import { ServerRoute } from '@hapi/hapi'
 import UsersHandler from './handler'
 import {
   postUserSchema,
@@ -7,7 +8,9 @@ import {
   putMemberSchema,
 } from './schema'
 
-const routes = (handler: UsersHandler) => [
+const routes: (handler: UsersHandler) => ServerRoute[] = (
+  handler: UsersHandler,
+) => [
   {
     method: 'GET',
     path: '/users/members',
@@ -43,6 +46,13 @@ const routes = (handler: UsersHandler) => [
     handler: handler.putUserHandler,
     options: {
       auth: 'finami_jwt',
+      payload: {
+        allow: 'multipart/form-data',
+        multipart: {
+          output: 'stream',
+        },
+        maxBytes: 1024 * 1024 * 5,
+      },
       validate: {
         payload: putUserSchema,
       },

@@ -29,13 +29,13 @@ class RegisterCategory {
 
     if (name.length > 30) throw new Error('REGISTER_CATEGORY.NAME_LIMIT_CHAR')
 
-    if (
-      icon_url &&
-      !/[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gi.test(
-        icon_url,
-      )
-    )
-      throw new Error('REGISTER_CATEGORY.INVALID_ICON_URL')
+    // if (
+    //   icon_url &&
+    //   !/[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gi.test(
+    //     icon_url,
+    //   )
+    // )
+    //   throw new Error('REGISTER_CATEGORY.INVALID_ICON_URL')
 
     if (!['in', 'out'].includes(transaction_type))
       throw new Error('REGISTER_CATEGORY.INVALID_TRANSACTION_TYPE')
@@ -43,12 +43,14 @@ class RegisterCategory {
     if (!user_id.startsWith('user-') || user_id.length !== 20)
       throw new Error('REGISTER_CATEGORY.INVALID_USER_ID')
 
+    if (!categoryGroup.includes(group))
+      throw new Error('REGISTER_CATEGORY.INVALID_GROUP')
+
     if (
-      !categoryGroup.includes(group) ||
       (transaction_type === 'in' && group !== 'Income') ||
       (transaction_type === 'out' && group === 'Income')
     )
-      throw new Error('REGISTER_CATEGORY.INVALID_GROUP')
+      throw new Error('REGISTER_CATEGORY.INVALID_TRANSACTION_TYPE')
   }
 }
 

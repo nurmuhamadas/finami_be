@@ -2,12 +2,16 @@ import EncryptionHelper from '../../../Applications/security/EncryptionHelper'
 import IdGenerator from '../../../Applications/common/IdGenerator'
 import SettingRepository from '../../../Domains/settings/SettingRepository'
 import UserRepository from '../../../Domains/users/UserRepository'
+import ImageProcessor from '../../../Applications/storage/ImageProcessor'
+import StorageServices from '../../../Applications/storage/StorageManager'
 
 export type UsersUseCaseType = {
   idGenerator: IdGenerator
   userRepository: UserRepository
   settingRepository: SettingRepository
   encryptionHelper: EncryptionHelper
+  storageServices: StorageServices
+  imageProcessor: ImageProcessor
 }
 
 export type GetUsersByUserIdPayload = {
@@ -28,12 +32,23 @@ export type AddUserPayload = {
   image_url: string
 }
 
+type ImageType = {
+  _data: Buffer
+  hapi: {
+    filename: string
+    headers: {
+      'content-disposition': string
+      'content-type': string
+    }
+  }
+}
+
 export type UpdateUserPayload = {
   id: string
   user_id: string
   username: string
   fullname: string
-  image_url?: string
+  image?: ImageType | 'delete'
 }
 
 export type DeleteUserPayload = {

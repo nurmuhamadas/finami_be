@@ -16,23 +16,33 @@ import RegisterUser from '../../../Domains/users/entities/RegisterUser'
 import UpdateDataUser from '../../../Domains/users/entities/UpdateDataUser'
 import EncryptionHelper from '../../../Applications/security/EncryptionHelper'
 import { UserDataRespType } from '../../../Domains/users/entities/types'
+import ImageProcessor from '../../../Applications/storage/ImageProcessor'
+import StorageServices from '../../../Applications/storage/StorageManager'
 
 class UsersUseCase {
-  _settingRepository: SettingRepository
-  _userRepository: UserRepository
-  _idGenerator: IdGenerator
-  _encryptionHelper: EncryptionHelper
+  private _settingRepository: SettingRepository
+  private _userRepository: UserRepository
+  private _idGenerator: IdGenerator
+  private _encryptionHelper: EncryptionHelper
+  private _storageServices: StorageServices
+  private _imageProcessor: ImageProcessor
+
+  private _imageSize = 300
 
   constructor({
     settingRepository,
     userRepository,
     encryptionHelper,
     idGenerator,
+    imageProcessor,
+    storageServices,
   }: UsersUseCaseType) {
     this._settingRepository = settingRepository
     this._userRepository = userRepository
     this._idGenerator = idGenerator
     this._encryptionHelper = encryptionHelper
+    this._storageServices = storageServices
+    this._imageProcessor = imageProcessor
   }
 
   async getUsersByUserId({
@@ -101,19 +111,47 @@ class UsersUseCase {
     id,
     username,
     fullname,
-    image_url,
+    image,
     user_id,
-  }: UpdateUserPayload): Promise<{ id: string }> {
+  }: UpdateUserPayload): Promise<UserDataRespType> {
+    let _imageUrl
+    if (image && image !== 'delete') {
+      const { fileName, path } = await this._storageServices.imagePathGenerator(
+        image?.hapi.filename || '',
+      )
+      _imageUrl = path
+
+      const resizedImage = await this._imageProcessor.resizeImage({
+        image: image._data,
+        height: this._imageSize,
+        width: this._imageSize,
+      })
+
+      await this._storageServices.uploadImage(resizedImage, fileName)
+    }
+
+    const currentUser = await this._userRepository.getUserById(id)
+
     const updateDataUser = new UpdateDataUser({
       username,
       fullname,
-      image_url,
+      image_url: image ? _imageUrl : currentUser?.image_url,
     })
 
     //  verify access
     await this._userRepository.verifyUserAccess(id, user_id)
 
     const result = await this._userRepository.updateUser(id, updateDataUser)
+
+    // Delete last photo profile if updated or deleted
+    if (currentUser?.image_url && image) {
+      try {
+        await this._storageServices.deleteImage(currentUser?.image_url)
+      } catch (err) {
+        console.error((err as Error).message)
+      }
+    }
+
     return result
   }
 

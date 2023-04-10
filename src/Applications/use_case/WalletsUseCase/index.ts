@@ -15,7 +15,7 @@ import UserRepository from '../../../Domains/users/UserRepository'
 import TransactionRepository from '../../../Domains/transactions/TransactionRepository'
 import { WalletsDataRespType } from '../../../Domains/wallets/entities/types'
 import WalletsData from '../../../Domains/wallets/entities/WalletsData'
-import PlanningRepository from 'Domains/plannings/PlanningRepository'
+import PlanningRepository from '../../../Domains/plannings/PlanningRepository'
 
 class WalletsUseCase {
   _walletRepository: WalletRepository

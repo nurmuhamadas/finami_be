@@ -21,13 +21,13 @@ class UpdateDataUser {
     if (fullname.length > 50)
       throw new Error('UPDATE_DATA_USER.FULLNAME_LIMIT_CHAR')
 
-    if (
-      image_url &&
-      !/[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gi.test(
-        image_url,
-      )
-    )
-      throw new Error('UPDATE_DATA_USER.INVALID_IMAGE_URL')
+    // if (
+    //   image_url &&
+    //   !/[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gi.test(
+    //     image_url,
+    //   )
+    // )
+    //   throw new Error('UPDATE_DATA_USER.INVALID_IMAGE_URL')
   }
 }
 
