@@ -117,30 +117,34 @@ class CategoriesUseCase {
     icon,
     group,
   }: UpdateCategoryPayload): Promise<{ id: string }> {
-    const { fileName, path } = await this._storageServices.imagePathGenerator(
-      icon.hapi.filename,
-    )
+    let iconUrl
+    if (icon) {
+      const { fileName, path } = await this._storageServices.imagePathGenerator(
+        icon?.hapi.filename,
+      )
 
-    const resizedImage = await this._imageProcessor.resizeImage({
-      image: icon._data,
-      height: this._iconSize,
-      width: this._iconSize,
-    })
+      iconUrl = path
+      const resizedImage = await this._imageProcessor.resizeImage({
+        image: icon._data,
+        height: this._iconSize,
+        width: this._iconSize,
+      })
 
-    await this._storageServices.uploadImage(resizedImage, fileName)
+      await this._storageServices.uploadImage(resizedImage, fileName)
+    }
 
+    const currentCategory = await this._categoryRepository.getCategoryById(id)
     const updateDataCategory = new UpdateDataCategory({
       name,
       transaction_type,
       user_id,
-      icon_url: path,
+      icon_url: icon ? iconUrl : currentCategory.icon_url,
       group,
     })
 
     //  verify access
     await this._categoryRepository.verifyCategoryOwner(id, user_id)
 
-    const currentCategory = await this._categoryRepository.getCategoryById(id)
     const result = await this._categoryRepository.updateCategory(
       id,
       updateDataCategory,

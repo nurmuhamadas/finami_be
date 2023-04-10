@@ -50,7 +50,7 @@ export type UpdateCategoryPayload = {
   id: string
   name: string
   transaction_type: TransactionTypesType
-  icon: IconType
+  icon?: IconType
   user_id: string
   group: CategoryGroupsType
 }

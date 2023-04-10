@@ -44,9 +44,7 @@ export const putCategorySchema = Joi.object({
     _data: Joi.binary()
       .max(1024 * 1024 * 2)
       .required(),
-  })
-    .required()
-    .options({ stripUnknown: true }),
+  }).options({ stripUnknown: true }),
   transaction_type: Joi.string().required(),
   group: Joi.string().required(),
 })
