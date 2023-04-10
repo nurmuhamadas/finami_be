@@ -48,7 +48,7 @@ export type UpdateUserPayload = {
   user_id: string
   username: string
   fullname: string
-  image?: ImageType
+  image?: ImageType | 'delete'
 }
 
 export type DeleteUserPayload = {

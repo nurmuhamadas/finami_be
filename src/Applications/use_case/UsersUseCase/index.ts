@@ -113,9 +113,9 @@ class UsersUseCase {
     fullname,
     image,
     user_id,
-  }: UpdateUserPayload): Promise<{ id: string }> {
+  }: UpdateUserPayload): Promise<UserDataRespType> {
     let _imageUrl
-    if (image) {
+    if (image && image !== 'delete') {
       const { fileName, path } = await this._storageServices.imagePathGenerator(
         image?.hapi.filename || '',
       )
@@ -131,6 +131,7 @@ class UsersUseCase {
     }
 
     const currentUser = await this._userRepository.getUserById(id)
+
     const updateDataUser = new UpdateDataUser({
       username,
       fullname,
@@ -142,7 +143,7 @@ class UsersUseCase {
 
     const result = await this._userRepository.updateUser(id, updateDataUser)
 
-    // Delete last photo profile
+    // Delete last photo profile if updated or deleted
     if (currentUser?.image_url && image) {
       try {
         await this._storageServices.deleteImage(currentUser?.image_url)

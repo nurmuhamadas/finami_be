@@ -10,7 +10,7 @@ class UserRepository {
   async updateUser(
     id: string,
     updateUser: UpdateDataUser,
-  ): Promise<{ id: string }> {
+  ): Promise<GetUserRepoResult> {
     throw new Error('USER_REPOSITORY.METHOD_NOT_IMPLEMENTED')
   }
 

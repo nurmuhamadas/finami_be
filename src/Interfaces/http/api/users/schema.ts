@@ -28,7 +28,9 @@ export const putUserSchema = Joi.object({
     _data: Joi.binary()
       .max(1024 * 1024 * 5)
       .required(),
-  }).options({ stripUnknown: true }),
+  })
+    .options({ stripUnknown: true })
+    .allow('delete'),
 })
 
 export const postMemberSchema = Joi.object({

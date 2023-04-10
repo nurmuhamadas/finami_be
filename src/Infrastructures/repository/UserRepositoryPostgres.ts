@@ -58,11 +58,11 @@ class UserRepositoryPostgres extends UserRepository {
   async updateUser(
     id: string,
     updateUser: UpdateDataUser,
-  ): Promise<{ id: string }> {
+  ): Promise<GetUserRepoResult> {
     const { username, fullname, image_url, updated_at } = updateUser.values
     const query = {
       text: `UPDATE users SET username = $1, fullname = $2, image_url = $3,
-            updated_at = $4 WHERE id = $5 AND deleted_at IS NULL RETURNING id`,
+            updated_at = $4 WHERE id = $5 AND deleted_at IS NULL RETURNING *`,
       values: [username, fullname, image_url, updated_at, id],
     }
 
@@ -71,10 +71,9 @@ class UserRepositoryPostgres extends UserRepository {
     if (!result.rowCount) {
       throw new InvariantError('Failed to update user')
     }
+    delete result.rows?.[0].password
 
-    return {
-      id: result.rows?.[0]?.id,
-    }
+    return result.rows?.[0]
   }
 
   async softDeleteUserById(id: string): Promise<{ id: string }> {
@@ -185,6 +184,7 @@ class UserRepositoryPostgres extends UserRepository {
     if (!result.rowCount) {
       throw new NotFoundError('User not found')
     }
+    delete result.rows?.[0].password
 
     return {
       ...result.rows?.[0],
