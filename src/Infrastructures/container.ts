@@ -85,7 +85,7 @@ container.register([
       dependencies: [
         {
           concrete: {
-            path: `${cwd()}/public`,
+            path: `${cwd()}/public/images`,
           },
         },
       ],
