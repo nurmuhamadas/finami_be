@@ -14,7 +14,7 @@ class LocalStorageService extends StorageServices {
   }
 
   async uploadImage(image: Buffer, filename: string): Promise<{ url: string }> {
-    await writeFile(`${this._path}/images/${filename}`, image, {
+    await writeFile(`${this._path}/${filename}`, image, {
       encoding: 'utf8',
     })
 
